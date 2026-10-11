@@ -28,3 +28,8 @@ Ovaj paket sadrži radnu verziju web-stranice na hrvatskom jeziku, pripremljenu 
 - Inovy Mini: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-mini/
 - Inovy & Milk: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-milk/
 - Inovy Compact: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-compact/
+
+
+## Fotografije proizvoda
+
+U `assets/` se nalaze lokalne fotografije modela Inovy Compact i Inovy & Milk koje je korisnik dostavio. Fotografija Inovy Mini namjerno nije uključena; na njezinu mjestu prikazan je privremeni natpis. Prije javne objave provjeriti dopuštenje za promotivno korištenje fotografija i potvrditi tehničke/komercijalne podatke s dobavljačem.
