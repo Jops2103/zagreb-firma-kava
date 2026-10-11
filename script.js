@@ -1,4 +1,4 @@
-const ORDER_EMAIL = ""; // Dodati poslovni e-mail prije aktiviranja stvarnog slanja obrasca.
+const ORDER_EMAIL = "zagrebfirmakava@proton.me"; // Otvara se korisnikova e-mail aplikacija; slanje nije automatsko.
 const form = document.getElementById('order-form');
 const status = document.getElementById('status');
 const menu = document.querySelector('.menu');
