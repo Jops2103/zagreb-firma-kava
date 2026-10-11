@@ -123,3 +123,18 @@ button:disabled{cursor:not-allowed;opacity:.65}
 .image-lightbox-close{position:absolute;top:16px;right:18px;width:46px;height:46px;border:1px solid #ffffff88;border-radius:50%;background:#202020;color:#fff;font-size:28px;line-height:1;cursor:pointer}
 .image-lightbox-caption{position:absolute;bottom:12px;left:20px;right:20px;color:#fff;text-align:center;font-size:12px}
 body.lightbox-open{overflow:hidden}
+
+/* Lavazza Firma capsule selection */
+.capsule-heading{max-width:1120px;margin:0 auto 28px}
+.capsule-heading h2{margin:0 0 12px;font-size:clamp(34px,4vw,49px);font-weight:800;letter-spacing:-2px;line-height:1.07}
+.capsule-heading h2 span{color:var(--brown)}
+.capsule-heading>p:not(.eyebrow){font-size:14px;line-height:1.8;color:#55534e;max-width:640px}
+.capsule-gallery{max-width:1120px;margin:32px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.capsule-card{min-width:0;padding:18px;background:#f8f8f6;border:1px solid #d7d5d0;border-radius:4px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.capsule-card img{display:block;width:100%;height:190px;object-fit:contain;background:#fff;border-radius:3px;cursor:zoom-in}
+.capsule-card img:focus-visible{outline:3px solid #4b535c;outline-offset:3px}
+.capsule-card h3{font-size:15px;line-height:1.35;margin:16px 0 4px;letter-spacing:-.2px}
+.capsule-card p{font-size:12px!important;margin:0;color:#66645f!important}
+.capsule-cta{max-width:1120px;margin:28px auto 0}
+@media(max-width:760px){.capsule-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.capsule-card{padding:10px}.capsule-card img{height:150px}.capsule-card h3{font-size:13px}}
+@media(max-width:420px){.capsule-gallery{grid-template-columns:1fr 1fr}.capsule-card img{height:125px}}
