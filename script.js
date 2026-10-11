@@ -75,3 +75,61 @@ form.addEventListener('submit', event => {
     status.textContent = 'Obrazac još nije povezan sa sustavom za zaprimanje upita, pa poruka nije poslana. Prije javne objave dodajte poslovni e-mail ili povežite servis za obrasce.';
   }
 });
+
+
+// Enlarge product and hero photos on click; close with Escape or backdrop.
+(function setupImageLightbox(){
+  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image'));
+  if (!images.length) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'image-lightbox';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', 'Uvećana fotografija aparata');
+  const enlarged = document.createElement('img');
+  const close = document.createElement('button');
+  close.className = 'image-lightbox-close';
+  close.type = 'button';
+  close.setAttribute('aria-label', 'Zatvori uvećanu fotografiju');
+  close.textContent = '×';
+  const caption = document.createElement('p');
+  caption.className = 'image-lightbox-caption';
+  overlay.append(enlarged, close, caption);
+  document.body.append(overlay);
+  let previousFocus = null;
+
+  function openImage(image) {
+    previousFocus = document.activeElement;
+    enlarged.src = image.currentSrc || image.src;
+    enlarged.alt = image.alt || 'Uvećana fotografija aparata';
+    caption.textContent = image.alt || '';
+    overlay.classList.add('open');
+    document.body.classList.add('lightbox-open');
+    close.focus();
+  }
+  function closeImage() {
+    overlay.classList.remove('open');
+    document.body.classList.remove('lightbox-open');
+    enlarged.removeAttribute('src');
+    if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+  }
+  images.forEach(image => {
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', (image.alt || 'Fotografija aparata') + ' — kliknite za uvećanje');
+    image.addEventListener('click', () => openImage(image));
+    image.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openImage(image);
+      }
+    });
+  });
+  close.addEventListener('click', closeImage);
+  overlay.addEventListener('click', event => {
+    if (event.target === overlay) closeImage();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && overlay.classList.contains('open')) closeImage();
+  });
+})();
