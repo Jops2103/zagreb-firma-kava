@@ -11,8 +11,8 @@
              linear-gradient(135deg,#666a70 0%,#f7f8f9 18%,#aeb3b9 34%,#ffffff 48%,#7b8086 66%,#dfe2e5 82%,#62676d 100%) border-box;
   color:#090909;
   font-weight:900;
-  font-size:14px;
-  letter-spacing:-1.15px;
+  font-size:18px;
+  letter-spacing:-1.2px;
   box-shadow:0 1px 3px #00000022,inset 0 0 0 1px #ffffff;
 }
 .brand-name{letter-spacing:1.5px}
@@ -21,7 +21,7 @@
 .model-select:hover{background:#e3e5e7}
 .steps article{border-top-color:#777b80}
 .price-panel{border-left-color:#777b80}
-@media(max-width:700px){.mark{font-size:13px}}
+@media(max-width:700px){.mark{font-size:16px;letter-spacing:-1.1px}}
 /* Dodatci za tehničke kartice aparata */
 .model-grid-specs{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:22px}
 .model-grid-specs .model-art{height:280px;background:#fff;padding:18px}
