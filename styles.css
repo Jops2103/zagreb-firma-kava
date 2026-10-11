@@ -22,3 +22,19 @@
 .steps article{border-top-color:#777b80}
 .price-panel{border-left-color:#777b80}
 @media(max-width:700px){.mark{font-size:13px}}
+/* Dodatci za tehničke kartice aparata */
+.model-grid-specs{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:22px}
+.model-grid-specs .model-art{height:280px;background:#fff;padding:18px}
+.model-grid-specs .model-art:before{display:none}
+.model-grid-specs .model-art img{display:block;position:relative;z-index:1;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.model-grid-specs .model-body{padding:22px}
+.spec-columns{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:4px 0 18px}
+.spec-columns section{min-width:0;background:#f1f1ef;border:1px solid #dededb;padding:14px}
+.spec-columns h4{margin:0 0 10px;font-size:12px;line-height:1.4;letter-spacing:.2px}
+.spec-columns p,.spec-columns li{font-size:11px;line-height:1.7;color:#555550}
+.spec-columns p{margin:0 0 9px}
+.spec-columns ul{margin:0;padding-left:16px}
+.spec-columns li{margin:0 0 4px}
+.model-grid-specs .model-desc{min-height:0}
+@media(max-width:700px){.model-grid-specs{grid-template-columns:1fr}.model-grid-specs .model-card{display:flex}.model-grid-specs .model-art{height:245px;min-height:245px}.model-grid-specs .model-body{padding:18px}.spec-columns{grid-template-columns:1fr 1fr;gap:10px}.spec-columns section{padding:11px 9px}.spec-columns p,.spec-columns li{font-size:10px}}
+@media(max-width:420px){.spec-columns{grid-template-columns:1fr}.spec-columns section{padding:14px}}

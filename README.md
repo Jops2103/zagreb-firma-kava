@@ -1,20 +1,30 @@
-# ZFK — Zagreb Firma Kava — web-stranica
+# ZFK — Zagreb Firma Kava (privatna radna verzija)
 
-Responzivna statička web-stranica na hrvatskom jeziku za GitHub Pages.
+Ovaj paket sadrži radnu verziju web-stranice na hrvatskom jeziku, pripremljenu za spremanje u privatni GitHub repozitorij prije dobivanja odobrenja.
 
 ## Datoteke
-- `index.html` — sadržaj i struktura stranice
-- `styles.css` — vizualni dizajn i prilagodba mobitelima
-- `script.js` — mobilni izbornik, odabir modela i obrazac
+- `index.html` — sadržaj stranice i četiri kartice aparata s opisima i tehničkim specifikacijama
+- `styles.css` — vizualni izgled i prilagodba mobilnim uređajima
+- `script.js` — izbornik, odabir modela i demonstracijski obrazac
 
-## Objavljivanje ažuriranja
-U GitHub repozitoriju `zagreb-firma-kava` zamijenite postojeće tri datoteke (`index.html`, `styles.css`, `script.js`) novima i napravite **Commit changes**. GitHub Pages će zatim automatski objaviti promjene.
+## Sigurno spremanje u GitHub — bez objave stranice
+1. U postavkama repozitorija `jops2103/zagreb-firma-kava` postavite vidljivost na **Private**.
+2. Učitajte ove datoteke u korijen privatnog repozitorija.
+3. Prije učitavanja provjerite da je GitHub Pages isključen: **Settings → Pages**. Nemojte odabrati izvor objave.
+4. Datoteke spremite kao promjene (commit) u privatni repozitorij.
+5. Ne objavljujte stranicu dok ne dobijete potrebno odobrenje i ne potvrdite uvjete s dobavljačem.
 
-## Prije primanja stvarnih upita
-U `script.js` upišite poslovnu adresu e-pošte u `ORDER_EMAIL` ili povežite obrazac s pouzdanim servisom za obrasce/backendom. U sadašnjem stanju obrazac provjerava obavezna polja, ali NE pohranjuje i NE šalje podatke. Nemojte oglašavati obrazac kao aktivan dok to nije testirano.
+**Važno:** privatni repozitorij i javno dostupna web-stranica nisu isto. Nemojte pretpostaviti da je stranica privatna samo zato što je repozitorij Private. Za sada držite GitHub Pages isključen.
 
-## Napomena o ponudi
-- Cijena kapsule od 0,50 € zadana je prema uputi vlasnika projekta.
-- Nazivi modela i mjesečne količine (LF 1050: 2 pakiranja; Inovy Mini: 1 pakiranje; Inovy & Milk: 4 pakiranja; Inovy Compact: 4 pakiranja) prikazani su prema referentnoj stranici: https://www.la-firma.hr/lavazza/lavazza-aparati-za-espresso-kavu-na-kapsule/ . Potrebno je potvrditi da uvjeti vrijede za ovaj poslovni dogovor.
-- Fotografije proizvoda nisu uključene; prikaz aparata trenutačno su CSS ilustracije. Zamijenite ih fotografijama za koje imate pravo korištenja ako želite stvarne fotografije modela.
-- Stranica ne tvrdi da je službena Lavazza stranica ili da postoji službeno partnerstvo.
+## Napomene prije buduće objave
+- Četiri fotografije učitavaju se s vanjskih web-adresa i nisu pohranjene lokalno u ovom paketu. Dostupnost tih adresa može se promijeniti. Prije javne objave pribavite ili potvrdite dopuštenje za korištenje fotografija i brenda.
+- Tehničke dimenzije i mase prikazane su prema dostupnim opisima i tehničkim nacrtima: LF 1050 (16 × 41 × 30 cm, 5,5 kg); Inovy Mini (13,5 × 34 × 26 cm, 3,5 kg); Inovy & Milk (20 × 41 × 35 cm, 6,1 kg); Inovy Compact (16,5 × 37 × 29,5 cm, 4,1 kg). Redoslijed dimenzija je širina × dubina × visina. Potvrdite specifikacije s dobavljačem prije konačne objave.
+- Mjesečne količine kapsula i cijena kapsule prikazane su kao radne pretpostavke, a ne kao potvrđeni uvjeti ugovora.
+- Obrazac trenutačno ne šalje niti pohranjuje podatke. Prije buduće objave potrebno ga je povezati s uslugom za slanje upita i testirati.
+- Stranica ne tvrdi da je službena Lavazzina stranica niti da je partnerstvo odobreno.
+
+## Izvori korišteni za tehničke podatke
+- LF 1050: https://www.expresso-caffe.com/prodotto/lavazza-lf-1050/
+- Inovy Mini: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-mini/
+- Inovy & Milk: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-milk/
+- Inovy Compact: https://lavazzafirma.pl/produkt/ekspres-lavazza-firma-inovy-compact/
