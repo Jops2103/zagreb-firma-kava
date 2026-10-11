@@ -79,13 +79,13 @@ form.addEventListener('submit', event => {
 
 // Enlarge product and hero photos on click; close with Escape or backdrop.
 (function setupImageLightbox(){
-  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image'));
+  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image, .capsule-gallery img'));
   if (!images.length) return;
   const overlay = document.createElement('div');
   overlay.className = 'image-lightbox';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
-  overlay.setAttribute('aria-label', 'Uvećana fotografija aparata');
+  overlay.setAttribute('aria-label', 'Uvećana fotografija proizvoda');
   const enlarged = document.createElement('img');
   const close = document.createElement('button');
   close.className = 'image-lightbox-close';
@@ -101,7 +101,7 @@ form.addEventListener('submit', event => {
   function openImage(image) {
     previousFocus = document.activeElement;
     enlarged.src = image.currentSrc || image.src;
-    enlarged.alt = image.alt || 'Uvećana fotografija aparata';
+    enlarged.alt = image.alt || 'Uvećana fotografija proizvoda';
     caption.textContent = image.alt || '';
     overlay.classList.add('open');
     document.body.classList.add('lightbox-open');
@@ -116,7 +116,7 @@ form.addEventListener('submit', event => {
   images.forEach(image => {
     image.tabIndex = 0;
     image.setAttribute('role', 'button');
-    image.setAttribute('aria-label', (image.alt || 'Fotografija aparata') + ' — kliknite za uvećanje');
+    image.setAttribute('aria-label', (image.alt || 'Fotografija proizvoda') + ' — kliknite za uvećanje');
     image.addEventListener('click', () => openImage(image));
     image.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') {
