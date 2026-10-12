@@ -101,6 +101,13 @@ button:disabled{cursor:not-allowed;opacity:.65}
   background:var(--bg);
   border-color:var(--bg);
   mix-blend-mode:multiply;
+  isolation:auto;
+}
+.product-gallery:has(img.blend-bg){
+  background:var(--bg);
+}
+.product-gallery img.blend-bg{
+  -webkit-mix-blend-mode:multiply;
 }
 .product-gallery .gallery-main{grid-column:1/-1}
 @media(max-width:1000px){
