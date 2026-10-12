@@ -142,19 +142,29 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
 });
 
 
-// Selecting a capsule variety fills the enquiry form and identifies the request.
+// Record the selected capsule variety and reflect the selected machine's monthly quantity.
+const capsuleField = document.getElementById('capsules');
+const capsuleModelField = document.getElementById('model');
+
+function updateSelectedCapsuleField() {
+  if (!capsuleField || !capsuleField.dataset.selectedCapsule) return;
+  const selectedCapsule = capsuleField.dataset.selectedCapsule;
+  const selectedModel = capsuleModelField ? capsuleModelField.value : '';
+  let quantity = 'količina prema odabranom aparatu — potvrda slijedi';
+  if (/Inovy & Milk|Inovy Compact/i.test(selectedModel)) quantity = '4 kutije mjesečno prema odabranom aparatu';
+  else if (/Inovy Mini/i.test(selectedModel)) quantity = '1 kutija mjesečno prema odabranom aparatu';
+  capsuleField.value = selectedCapsule + ' — ' + quantity;
+}
+
 document.querySelectorAll('.capsule-select').forEach(button => {
   button.addEventListener('click', () => {
-    const capsules = document.getElementById('capsules');
+    capsuleField.dataset.selectedCapsule = button.dataset.capsule;
+    updateSelectedCapsuleField();
     const topic = document.getElementById('topic');
-    const message = document.getElementById('message');
-    capsules.value = button.dataset.capsule;
-    topic.value = 'Želim naručiti kapsule';
-    const line = 'Željena vrsta kapsula: ' + button.dataset.capsule;
-    if (message && !message.value.includes(line)) {
-      message.value = message.value.trim() ? message.value.trim() + '\\n' + line : line;
-    }
+    if (topic) topic.value = 'Želim naručiti kapsule';
     document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
-    capsules.focus({ preventScroll: true });
+    capsuleField.focus({ preventScroll: true });
   });
 });
+
+if (capsuleModelField) capsuleModelField.addEventListener('change', updateSelectedCapsuleField);
