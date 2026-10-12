@@ -175,3 +175,9 @@ body.lightbox-open{overflow:hidden}
 .email-order-hint{margin:12px 0 0;color:#5d5b56;font-size:13px;line-height:1.65}
 .email-copy-status{margin:8px 0 0;color:#245d36;font-size:13px;font-weight:700}
 @media(max-width:520px){.email-order-note{padding:18px 16px}.email-copy-row{align-items:flex-start;flex-direction:column}}
+
+
+/* Gumbi za odabir modela u Lavazza plavoj boji. */
+.model-grid-specs .model-select{background:#003da5;border-color:#003da5;color:#fff}
+.model-grid-specs .model-select:hover{background:#002f80;border-color:#002f80;color:#fff}
+.model-grid-specs .model-select:focus-visible{outline-color:#003da5}
