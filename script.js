@@ -149,7 +149,7 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
 });
 
 
-// Track capsule varieties and quantities. Appliance minimum is included; gallery clicks add extra boxes.
+// Link capsule choices to the selected appliance. Choices first fill the included minimum; only boxes above it are extras.
 const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
@@ -178,18 +178,19 @@ function wantsAdditionalCapsules() {
 
 function updateSelectedCapsuleField() {
   if (!capsuleField) return;
-  const selectedExtraBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+  const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const included = !isCapsuleOnlyOrder() ? capsulePackageLimit() : 0;
-  const total = isCapsuleOnlyOrder() ? selectedExtraBoxes : included + selectedExtraBoxes;
+  const extraBoxes = isCapsuleOnlyOrder() ? 0 : Math.max(0, selectedBoxes - included);
+  const total = isCapsuleOnlyOrder() ? selectedBoxes : Math.max(included, selectedBoxes);
   capsuleField.value = `${total} kutija`;
   if (additionalCapsulesField) {
-    const boxWord = selectedExtraBoxes === 1 ? 'dodatna kutija' : (selectedExtraBoxes >= 2 && selectedExtraBoxes <= 4 ? 'dodatne kutije' : 'dodatnih kutija');
-    additionalCapsulesField.value = `${selectedExtraBoxes} ${boxWord}`;
+    const boxWord = extraBoxes === 1 ? 'dodatna kutija' : (extraBoxes >= 2 && extraBoxes <= 4 ? 'dodatne kutije' : 'dodatnih kutija');
+    additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
   }
   if (capsuleVarietiesField) {
     capsuleVarietiesField.value = selectedCapsules.size
       ? Array.from(selectedCapsules, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
-      : (isCapsuleOnlyOrder() ? 'Nijedna vrsta još nije odabrana' : 'Nijedna dodatna vrsta još nije odabrana');
+      : 'Nijedna vrsta još nije odabrana';
   }
   if (additionalCapsulesWrap) {
     additionalCapsulesWrap.hidden = isCapsuleOnlyOrder() || !capsulePackageLimit();
@@ -207,7 +208,6 @@ document.querySelectorAll('.model-select').forEach(button => {
 
 additionalCapsulesChoices.forEach(choice => {
   choice.addEventListener('change', () => {
-    if (choice.value === 'Ne' && choice.checked) selectedCapsules.clear();
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
   });
@@ -221,8 +221,10 @@ document.querySelectorAll('.capsule-select').forEach(button => {
       if (status) status.textContent = 'Najprije odaberite aparat ili vrstu upita u obrascu.';
       return;
     }
-    if (!isCapsuleOnlyOrder() && !wantsAdditionalCapsules()) {
-      if (status) status.textContent = 'Za dodatne kapsule odaberite DA u kontaktnoj formi.';
+    const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+    const includedBoxes = isCapsuleOnlyOrder() ? 0 : capsulePackageLimit();
+    if (!isCapsuleOnlyOrder() && selectedBoxes >= includedBoxes && !wantsAdditionalCapsules()) {
+      if (status) status.textContent = 'Odabrali ste uključenu količinu kapsula. Za dodatne kutije odaberite DA u kontaktnoj formi.';
       return;
     }
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
