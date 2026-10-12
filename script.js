@@ -4,7 +4,15 @@ const status = document.getElementById('status');
 // Keep a clearly named copy of the sender's email in the submitted message body.
 // The required email field is validated by the browser before this submit handler runs.
 if (form) {
-  form.addEventListener('submit', () => {
+  form.addEventListener('submit', (event) => {
+    // Final safeguard: do not send unless every required field is valid.
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      form.reportValidity();
+      if (status) status.textContent = 'Ispunite sva obavezna polja označena zvjezdicom (*) i potvrdite suglasnost.';
+      return;
+    }
+
     const emailInput = document.getElementById('email');
     const emailCopy = document.getElementById('sender-email-copy');
     if (emailInput && emailCopy) emailCopy.value = emailInput.value.trim();
