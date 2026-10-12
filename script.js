@@ -336,6 +336,12 @@ if (extraCapsulesDoneButton) {
 
 if (topicField) {
   topicField.addEventListener('change', () => {
+    if (isCapsuleOnlyOrder() && capsuleModelField) {
+      // Do not include a previously selected appliance in a capsule-only enquiry.
+      capsuleModelField.selectedIndex = 0;
+      const noExtra = document.querySelector('input[name="additional_capsules_choice"][value="Ne"]');
+      if (noExtra) noExtra.checked = true;
+    }
     selectedCapsules.clear();
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
