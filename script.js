@@ -186,10 +186,8 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     }
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
-
-    updateSelectedCapsuleField();
-    document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
-    capsuleField.focus({ preventScroll: true });
+    // Keep the visitor in the capsule gallery while choosing varieties.
+    // They can move to the contact form themselves when ready.
   });
 });
 
