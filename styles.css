@@ -138,3 +138,8 @@ body.lightbox-open{overflow:hidden}
 .capsule-cta{max-width:1120px;margin:28px auto 0}
 @media(max-width:760px){.capsule-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.capsule-card{padding:10px}.capsule-card img{height:150px}.capsule-card h3{font-size:13px}}
 @media(max-width:420px){.capsule-gallery{grid-template-columns:1fr 1fr}.capsule-card img{height:125px}}
+
+
+/* Confirmation shown after a successful form redirect */
+.success-message{max-width:900px;margin:-16px auto 24px;padding:15px 18px;border:1px solid #8a9b8b;border-left:4px solid #4e7955;background:#eef5ee;color:#234a2b;font-size:15px;font-weight:700;border-radius:3px}
+.success-message[hidden]{display:none}
