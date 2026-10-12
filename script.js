@@ -185,9 +185,11 @@ function wantsAdditionalCapsules() {
 }
 
 function resizeCapsuleVarietiesField() {
-  if (!capsuleVarietiesField || capsuleVarietiesField.tagName !== 'TEXTAREA') return;
-  capsuleVarietiesField.style.height = 'auto';
-  capsuleVarietiesField.style.height = `${Math.max(capsuleVarietiesField.scrollHeight, 72)}px`;
+  [capsuleVarietiesField, additionalCapsuleVarietiesField].forEach(field => {
+    if (!field || field.tagName !== 'TEXTAREA') return;
+    field.style.height = 'auto';
+    field.style.height = `${Math.max(field.scrollHeight, 72)}px`;
+  });
 }
 
 function updateSelectedCapsuleField() {
@@ -222,8 +224,6 @@ function updateSelectedCapsuleField() {
       ? Array.from(packageVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
       : 'Nijedna vrsta još nije odabrana';
   }
-  // Grow the summary field to fit all selected varieties and quantities, including on phones.
-  resizeCapsuleVarietiesField();
   const additionalVarietiesText = additionalVarieties.size
     ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
     : 'Nijedna dodatna vrsta još nije odabrana';
@@ -236,6 +236,8 @@ function updateSelectedCapsuleField() {
   if (additionalCapsuleVarietiesField) {
     additionalCapsuleVarietiesField.value = additionalVarietiesText;
   }
+  // Grow both capsule summary fields to fit all varieties and quantities.
+  resizeCapsuleVarietiesField();
 
   const note = document.getElementById('capsule-selection-note');
   if (note) {
