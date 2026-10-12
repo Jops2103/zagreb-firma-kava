@@ -187,7 +187,6 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
 
-    if (topicField) topicField.value = 'Želim naručiti kapsule';
     updateSelectedCapsuleField();
     document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
     capsuleField.focus({ preventScroll: true });
