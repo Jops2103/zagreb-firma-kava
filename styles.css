@@ -389,8 +389,9 @@ body.lightbox-open{overflow:hidden}
   .btn{transition:none!important}
 }
 
-/* The selected-capsule summary expands so every chosen variety and quantity remains visible. */
-#capsule-varieties{
+/* Both capsule summary fields expand so every chosen variety and quantity remains visible. */
+#capsule-varieties,
+#additional-capsule-varieties{
   display:block;
   width:100%;
   min-height:72px;
@@ -402,7 +403,9 @@ body.lightbox-open{overflow:hidden}
   line-height:1.55;
   padding:12px 13px;
 }
+#additional-capsule-varieties{background:#fff;border:1px solid #d2d0ca;border-radius:3px;color:var(--ink);font:12px 'DM Sans',sans-serif}
 @media(max-width:700px){
-  #capsule-varieties{min-height:78px;font-size:13px;line-height:1.6}
+  #capsule-varieties,
+  #additional-capsule-varieties{min-height:78px;font-size:13px;line-height:1.6}
 }
 
