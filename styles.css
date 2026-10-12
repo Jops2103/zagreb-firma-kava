@@ -220,3 +220,6 @@ body.lightbox-open{overflow:hidden}
 #additional-capsules-details>label{font-size:11px}
 #additional-capsules-details #additional-capsules{max-width:240px;background:#fff}
 @media(max-width:520px){.capsule-choice-fieldset{gap:8px}.capsule-choice-fieldset label{flex:1;min-width:0;padding:12px 15px}}
+
+/* The additional-capsule continuation button must respect its hidden state. */
+#extra-capsules-done[hidden]{display:none!important}
