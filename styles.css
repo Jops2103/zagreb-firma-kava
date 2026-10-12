@@ -241,3 +241,151 @@ body.lightbox-open{overflow:hidden}
 .hero .actions .btn.secondary{background-color:var(--brown);border-color:var(--brown);color:#fff}
 .hero .actions .btn.secondary:hover{background-color:var(--brown-dark);border-color:var(--brown-dark);color:#fff}
 .lavazza-blue{color:#003da5;font-weight:800;text-transform:uppercase;letter-spacing:.025em}
+
+/* Subtle, accessible interaction polish for product cards, photos and controls. */
+.model-grid-specs .model-card,
+.capsule-card{
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.product-gallery img,
+.capsule-card img,
+.hero-product-image{
+  transition:transform .26s ease,filter .26s ease;
+}
+.btn:active{
+  transform:translateY(1px) scale(.985);
+}
+.btn:focus-visible,
+.mobile-order-cta:focus-visible{
+  outline:3px solid #003da5;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  .model-grid-specs .model-card:hover,
+  .model-grid-specs .model-card:focus-within{
+    transform:translateY(-4px);
+    box-shadow:0 16px 34px #24282d20;
+    border-color:#737a82;
+  }
+  .capsule-card:hover,
+  .capsule-card:focus-within{
+    transform:translateY(-3px);
+    box-shadow:0 12px 24px #24282d16;
+    border-color:#a0a5aa;
+  }
+  .product-gallery img:hover,
+  .capsule-card img:hover,
+  .hero-product-image:hover{
+    transform:scale(1.025);
+    filter:contrast(1.025);
+  }
+}
+
+/* Fixed enquiry action for mobile; hidden whenever the enquiry section is on screen. */
+.mobile-order-cta{display:none}
+.mobile-order-cta.is-hidden{display:none!important}
+
+@media(max-width:700px){
+  body{padding-bottom:88px}
+  .mobile-order-cta{
+    position:fixed;
+    z-index:30;
+    left:14px;
+    right:14px;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    min-height:56px;
+    padding:13px 20px;
+    border:1px solid var(--brown);
+    border-radius:7px;
+    background:var(--brown);
+    color:#fff;
+    box-shadow:0 8px 24px #17171735;
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:.01em;
+    text-align:center;
+    transition:background .18s ease,transform .18s ease,box-shadow .18s ease;
+  }
+  .mobile-order-cta:active{transform:translateY(1px) scale(.99)}
+  .mobile-order-cta span{font-size:20px;line-height:1}
+  .capsule-select,
+  .model-select{min-height:48px}
+  .field input,
+  .field select{min-height:48px}
+  .field textarea{min-height:120px}
+  /* Machine photos become a swipeable carousel with a small preview of the next image. */
+  .model-grid-specs .model-card .model-art{overflow:hidden}
+  .product-gallery{
+    display:flex;
+    align-items:stretch;
+    gap:10px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:2px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#aeb3b9 transparent;
+    padding:22px 2px 8px;
+  }
+  .product-gallery img,
+  .product-gallery .gallery-main{
+    flex:0 0 86%;
+    width:86%;
+    min-width:86%;
+    height:100%;
+    grid-column:auto;
+    scroll-snap-align:center;
+    scroll-snap-stop:always;
+  }
+  .product-gallery img{padding:7px}
+  /* The capsule gallery is swipeable left/right instead of shrinking every card. */
+  .capsule-gallery{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:4px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#aeb3b9 transparent;
+    padding:3px 4px 14px;
+    margin:26px 0 0;
+  }
+  .capsule-card{
+    flex:0 0 min(82%,310px);
+    min-width:0;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    padding:14px;
+  }
+  .capsule-card img{height:170px}
+  .capsule-card .btn{width:100%;min-height:48px}
+}
+@media(max-width:420px){
+  .mobile-order-cta{left:10px;right:10px;min-height:54px;font-size:14px}
+  .product-gallery{gap:8px}
+  .product-gallery img,
+  .product-gallery .gallery-main{flex-basis:89%;width:89%;min-width:89%}
+  .capsule-card{flex-basis:84%;padding:12px}
+  .capsule-card img{height:155px}
+}
+
+/* Respect visitors who prefer reduced motion. */
+@media(prefers-reduced-motion:reduce){
+  .model-grid-specs .model-card,
+  .capsule-card,
+  .product-gallery img,
+  .capsule-card img,
+  .hero-product-image,
+  .mobile-order-cta,
+  .btn{transition:none!important}
+}
+
