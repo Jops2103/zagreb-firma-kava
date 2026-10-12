@@ -94,7 +94,7 @@ document.querySelectorAll('.model-select').forEach(button => {
     previousFocus = document.activeElement;
     enlarged.src = image.currentSrc || image.src;
     enlarged.alt = image.alt || 'Uvećana fotografija proizvoda';
-    caption.textContent = image.alt || '';
+    caption.textContent = image.classList.contains('hero-product-image') ? 'Lavazza Firma' : (image.alt || '');
     overlay.classList.add('open');
     document.body.classList.add('lightbox-open');
     close.focus();
