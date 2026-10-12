@@ -125,3 +125,18 @@ document.querySelectorAll('.model-select').forEach(button => {
     if (event.key === 'Escape' && overlay.classList.contains('open')) closeImage();
   });
 })();
+
+
+// Copy the direct email address for visitors who prefer ordering by email.
+document.querySelectorAll('[data-copy-email]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const email = button.getAttribute('data-copy-email');
+    const status = document.querySelector('.email-copy-status');
+    try {
+      await navigator.clipboard.writeText(email);
+      if (status) status.textContent = 'E-mail adresa kopirana. Zalijepite je u svoju poruku.';
+    } catch (error) {
+      if (status) status.textContent = 'Označite adresu e-pošte iznad i kopirajte je.';
+    }
+  });
+});
