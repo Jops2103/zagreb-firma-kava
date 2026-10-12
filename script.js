@@ -155,6 +155,8 @@ const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const topicField = document.getElementById('topic');
 const modelFieldWrap = capsuleModelField ? capsuleModelField.closest('.field') : null;
+const capsuleVarietiesWrap = capsuleVarietiesField ? capsuleVarietiesField.closest('.field') : null;
+const capsuleQuantityWrap = capsuleField ? capsuleField.closest('.field') : null;
 const additionalCapsulesField = document.getElementById('additional-capsules');
 const additionalCapsuleVarietiesField = document.getElementById('additional-capsule-varieties');
 const additionalCapsulesWrap = document.getElementById('additional-capsules-field');
@@ -171,6 +173,10 @@ function capsulePackageLimit() {
 
 function isCapsuleOnlyOrder() {
   return topicField && topicField.value === 'Želim naručiti kapsule';
+}
+
+function isOfferQuestion() {
+  return topicField && topicField.value === 'Imam pitanje o ponudi';
 }
 
 function wantsAdditionalCapsules() {
@@ -234,20 +240,33 @@ function updateSelectedCapsuleField() {
     }
   }
 
+  const offerQuestionOnly = isOfferQuestion();
+
   if (modelFieldWrap) {
-    modelFieldWrap.hidden = isCapsuleOnlyOrder();
+    modelFieldWrap.hidden = isCapsuleOnlyOrder() || offerQuestionOnly;
+  }
+  if (capsuleVarietiesWrap) {
+    capsuleVarietiesWrap.hidden = offerQuestionOnly;
+  }
+  if (capsuleQuantityWrap) {
+    capsuleQuantityWrap.hidden = offerQuestionOnly;
   }
 
   if (additionalCapsulesWrap) {
-    additionalCapsulesWrap.hidden = isCapsuleOnlyOrder() || !minimum;
+    additionalCapsulesWrap.hidden = offerQuestionOnly || isCapsuleOnlyOrder() || !minimum;
   }
   if (additionalCapsulesDetails) {
-    additionalCapsulesDetails.hidden = !wantsAdditionalCapsules() || isCapsuleOnlyOrder();
+    additionalCapsulesDetails.hidden = offerQuestionOnly || !wantsAdditionalCapsules() || isCapsuleOnlyOrder();
   }
+
+  // These details are not sent with a general question, because that request needs only the message.
+  [capsuleModelField, capsuleVarietiesField, capsuleField, additionalCapsulesField, additionalCapsuleVarietiesField, ...additionalCapsulesChoices]
+    .filter(Boolean)
+    .forEach(field => { field.disabled = offerQuestionOnly; });
 
   const extraDoneButton = document.getElementById('extra-capsules-done');
   if (extraDoneButton) {
-    extraDoneButton.hidden = isCapsuleOnlyOrder() ? selectedBoxes === 0 : !wantsAdditionalCapsules();
+    extraDoneButton.hidden = offerQuestionOnly || (isCapsuleOnlyOrder() ? selectedBoxes === 0 : !wantsAdditionalCapsules());
   }
 }
 
@@ -336,8 +355,8 @@ if (extraCapsulesDoneButton) {
 
 if (topicField) {
   topicField.addEventListener('change', () => {
-    if (isCapsuleOnlyOrder() && capsuleModelField) {
-      // Do not include a previously selected appliance in a capsule-only enquiry.
+    if ((isCapsuleOnlyOrder() || isOfferQuestion()) && capsuleModelField) {
+      // Do not include a previously selected appliance with a capsule-only order or a general question.
       capsuleModelField.selectedIndex = 0;
       const noExtra = document.querySelector('input[name="additional_capsules_choice"][value="Ne"]');
       if (noExtra) noExtra.checked = true;
