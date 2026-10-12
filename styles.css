@@ -155,3 +155,7 @@ body.lightbox-open{overflow:hidden}
 /* Confirmation shown after a successful form redirect */
 .success-message{max-width:900px;margin:-16px auto 24px;padding:15px 18px;border:1px solid #0b76b7;border-left:4px solid #0b76b7;background:#eef7fc;color:#005b96;font-size:15px;font-weight:800;border-radius:3px}
 .success-message[hidden]{display:none}
+
+
+/* Jednako tanak okvir na sva tri modela aparata. */
+.model-grid-specs .model-card{border:1px solid #92979d;box-shadow:0 10px 30px #4c505414}
