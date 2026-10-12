@@ -194,16 +194,9 @@ document.querySelectorAll('.capsule-select').forEach(button => {
 if (topicField) {
   topicField.addEventListener('change', () => {
     if (!isCapsuleOnlyOrder()) {
-      const limit = capsulePackageLimit();
-      let total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
-      while (total > limit) {
-        const last = Array.from(selectedCapsules.keys()).at(-1);
-        if (!last) break;
-        const qty = selectedCapsules.get(last);
-        if (qty <= 1) selectedCapsules.delete(last);
-        else selectedCapsules.set(last, qty - 1);
-        total--;
-      }
+      // Switching from capsule-only ordering to an appliance offer starts a fresh selection.
+      selectedCapsules.clear();
+      if (status) status.textContent = '';
     }
     updateSelectedCapsuleField();
   });
