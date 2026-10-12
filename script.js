@@ -293,6 +293,22 @@ document.querySelectorAll('.capsule-select').forEach(button => {
 
 additionalCapsulesChoices.forEach(choice => {
   choice.addEventListener('change', () => {
+    if (choice.value === 'Ne') {
+      // Switching back to NE cancels every capsule box selected as an extra.
+      const minimum = capsulePackageLimit();
+      let remainingPackageBoxes = minimum;
+      const packageSelections = new Map();
+
+      selectedCapsules.forEach((qty, name) => {
+        const keepQty = Math.min(qty, remainingPackageBoxes);
+        if (keepQty > 0) packageSelections.set(name, keepQty);
+        remainingPackageBoxes -= keepQty;
+      });
+
+      selectedCapsules.clear();
+      packageSelections.forEach((qty, name) => selectedCapsules.set(name, qty));
+    }
+
     updateSelectedCapsuleField();
     if (choice.value === 'Da') {
       const capsuleSection = document.getElementById('kapsule');
