@@ -162,7 +162,7 @@ body.lightbox-open{overflow:hidden}
 
 
 /* Red uppercase Lavazza Firma brand in the hero introduction. */
-.lavazza-firma-red{color:#003da5;font-weight:800;text-transform:uppercase;letter-spacing:.025em}
+.lavazza-firma-red{color:#c8102e;font-weight:800;text-transform:uppercase;letter-spacing:.025em}
 
 
 /* Direct email ordering option below the contact form. */
@@ -240,3 +240,4 @@ body.lightbox-open{overflow:hidden}
 /* Match the hero enquiry button to the grey top-right navigation button. */
 .hero .actions .btn.secondary{background-color:var(--brown);border-color:var(--brown);color:#fff}
 .hero .actions .btn.secondary:hover{background-color:var(--brown-dark);border-color:var(--brown-dark);color:#fff}
+.lavazza-blue{color:#003da5;font-weight:800;text-transform:uppercase;letter-spacing:.025em}
