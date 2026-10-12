@@ -171,7 +171,7 @@ const additionalCapsulesField = document.getElementById('additional-capsules');
 const additionalCapsuleVarietiesField = document.getElementById('additional-capsule-varieties');
 const additionalCapsulesWrap = document.getElementById('additional-capsules-field');
 const additionalCapsulesDetails = document.getElementById('additional-capsules-details');
-const additionalCapsulesChoices = document.querySelectorAll('input[name="additional_capsules_choice"]');
+const additionalCapsulesChoices = document.querySelectorAll('input[name="Dodatne kapsule"]');
 const selectedCapsules = new Map();
 
 function capsulePackageLimit() {
@@ -190,7 +190,7 @@ function isOfferQuestion() {
 }
 
 function wantsAdditionalCapsules() {
-  const selected = document.querySelector('input[name="additional_capsules_choice"]:checked');
+  const selected = document.querySelector('input[name="Dodatne kapsule"]:checked');
   return selected && selected.value === 'Da';
 }
 
@@ -300,7 +300,7 @@ document.querySelectorAll('.model-select').forEach(button => {
     if (option) model.value = option.value || option.textContent;
     topicField.value = 'Želim aparat uz mjesečnu kupnju kapsula';
     selectedCapsules.clear();
-    const noExtra = document.querySelector('input[name="additional_capsules_choice"][value="Ne"]');
+    const noExtra = document.querySelector('input[name="Dodatne kapsule"][value="Ne"]');
     if (noExtra) noExtra.checked = true;
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
@@ -378,7 +378,7 @@ if (topicField) {
     if ((isCapsuleOnlyOrder() || isOfferQuestion()) && capsuleModelField) {
       // Do not include a previously selected appliance with a capsule-only order or a general question.
       capsuleModelField.selectedIndex = 0;
-      const noExtra = document.querySelector('input[name="additional_capsules_choice"][value="Ne"]');
+      const noExtra = document.querySelector('input[name="Dodatne kapsule"][value="Ne"]');
       if (noExtra) noExtra.checked = true;
     }
     selectedCapsules.clear();
