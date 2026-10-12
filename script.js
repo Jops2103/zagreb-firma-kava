@@ -63,6 +63,12 @@ document.querySelectorAll('.model-select').forEach(button => {
 
     if (option) model.value = option.value || option.textContent;
     document.getElementById('topic').value = 'Želim aparat uz mjesečnu kupnju kapsula';
+
+    // An appliance card already includes its required monthly capsule quantity.
+    selectedCapsules.clear();
+    if (capsuleField) capsuleField.value = `${capsulePackageLimit()} kutija`;
+    if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste kapsula nisu odabrane';
+    if (status) status.textContent = '';
     document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('model').focus({ preventScroll: true });
   });
@@ -164,7 +170,7 @@ function updateSelectedCapsuleField() {
   if (!capsuleField) return;
   const total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const limit = capsulePackageLimit();
-  capsuleField.value = `${total} kutija`;
+  capsuleField.value = `${isCapsuleOnlyOrder() ? total : Math.max(total, limit)} kutija`;
   capsuleField.classList.toggle('capsule-limit-reached', !isCapsuleOnlyOrder() && total === limit);
   if (capsuleVarietiesField) {
     capsuleVarietiesField.value = selectedCapsules.size
@@ -202,4 +208,10 @@ if (topicField) {
   });
 }
 
-if (capsuleModelField) capsuleModelField.addEventListener('change', updateSelectedCapsuleField);
+if (capsuleModelField) capsuleModelField.addEventListener('change', () => {
+  if (!isCapsuleOnlyOrder()) {
+    selectedCapsules.clear();
+    if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste kapsula nisu odabrane';
+  }
+  updateSelectedCapsuleField();
+});
