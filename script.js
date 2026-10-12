@@ -176,7 +176,8 @@ function updateSelectedCapsuleField() {
   const total = isCapsuleOnlyOrder() ? selectedExtraBoxes : included + selectedExtraBoxes;
   capsuleField.value = `${total} kutija`;
   if (additionalCapsulesField) {
-    additionalCapsulesField.value = `${selectedExtraBoxes} dodatnih ${selectedExtraBoxes === 1 ? 'kutija' : 'kutija'}`;
+    const boxWord = selectedExtraBoxes === 1 ? 'kutija' : (selectedExtraBoxes >= 2 && selectedExtraBoxes <= 4 ? 'kutije' : 'kutija');
+    additionalCapsulesField.value = `${selectedExtraBoxes} dodatnih ${boxWord}`;
   }
   if (capsuleVarietiesField) {
     capsuleVarietiesField.value = selectedCapsules.size
