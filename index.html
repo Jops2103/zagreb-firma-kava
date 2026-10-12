@@ -203,7 +203,8 @@
       <div class="field full capsule-selection-field"><label for="capsules"><strong>Ukupna količina kapsula</strong></label><input id="capsules" name="Ukupna količina kapsula" value="0 kutija" placeholder="0 kutija" readonly aria-describedby="capsule-selection-note"><span id="capsule-selection-note" class="form-note">Odaberite točno minimalnu količinu kapsula za odabrani aparat u galeriji iznad.</span></div>
       
       <div class="field full"><label for="message">Poruka</label><textarea id="message" name="Poruka" rows="4" placeholder="Napišite dodatne informacije ili pitanje…"></textarea></div>
-      <label class="consent full"><input type="checkbox" required> Suglasan/na sam da se moji podaci koriste za odgovor na ovaj upit. *</label>
+      <p class="form-note full">Sva polja označena zvjezdicom (*) obavezna su. Upit se ne može poslati dok ih ne ispunite i ne potvrdite suglasnost.</p>
+      <label class="consent full"><input id="consent" type="checkbox" name="Suglasnost za odgovor na upit" value="Prihvaćeno" required> Suglasan/na sam da se moji podaci koriste za odgovor na ovaj upit. *</label>
       <p class="form-note full">Upit se šalje putem servisa za obrasce. Pri prvom korištenju možda će biti potrebno potvrditi adresu primatelja putem e-maila.</p>
       <div class="full form-actions"><button class="btn primary" type="submit">Pošalji upit <span>↗</span></button><p id="status" class="status" role="status"></p></div>
     </form>
@@ -216,6 +217,6 @@
   </section>
 </main>
 <footer id="kontakt"><div class="footer-main"><a class="brand footer-brand" href="#pocetna"><span class="mark">ZFK</span><span class="brand-name">ZAGREB FIRMA KAVA</span></a><p>Lavazza Firma aparati i kapsule za dom i poslovne prostore.</p><a class="footer-top" href="#pocetna">Povratak na vrh ↑</a></div><p class="legal">RADNA VERZIJA — nije službena stranica Lavazze i ne tvrdi da postoji službeno partnerstvo. Objavljivanje je planirano tek nakon potrebnih odobrenja. Nazivi modela služe za identifikaciju proizvoda. Fotografije su učitane s vanjskih izvora i potrebno je potvrditi pravo njihova korištenja. Cijene, dostupnost i uvjeti nisu konačni.</p><p class="copyright">© <span id="year"></span> ZFK — Zagreb Firma Kava</p></footer>
-<script src="script.js?v=20261013-02"></script>
+<script src="script.js?v=20261013-03"></script>
 </body>
 </html>
