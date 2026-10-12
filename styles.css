@@ -97,16 +97,15 @@ button:disabled{cursor:not-allowed;opacity:.65}
   border-radius:3px;
   mix-blend-mode:normal;
 }
-.product-gallery img.blend-bg{
-  background:var(--bg);
-  border-color:var(--bg);
-  mix-blend-mode:multiply;
-  isolation:auto;
-}
+/* Blend only the two specified white-background product photos into the site gray. */
 .product-gallery:has(img.blend-bg){
   background:var(--bg);
+  isolation:isolate;
 }
 .product-gallery img.blend-bg{
+  background:transparent;
+  border-color:var(--bg);
+  mix-blend-mode:multiply;
   -webkit-mix-blend-mode:multiply;
 }
 .product-gallery .gallery-main{grid-column:1/-1}
