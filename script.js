@@ -5,12 +5,19 @@ const nav = document.querySelector('.header nav');
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Show a confirmation after FormSubmit redirects back to the site.
+// FormSubmit redirects here after accepting a submission.
 const successMessage = document.getElementById('success-message');
 const params = new URLSearchParams(window.location.search);
 if (params.get('upit') === 'poslan' && successMessage) {
   successMessage.hidden = false;
   if (status) status.textContent = 'Poruka uspješno proslijeđena!';
+
+  window.setTimeout(() => {
+    successMessage.hidden = true;
+    if (status && status.textContent === 'Poruka uspješno proslijeđena!') {
+      status.textContent = '';
+    }
+  }, 30000);
 }
 
 function closeMenu({ returnFocus = false } = {}) {
