@@ -251,6 +251,16 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
     if (status) status.textContent = '';
+
+    const newlySelectedBoxes = selectedBoxes + 1;
+    if (!isCapsuleOnlyOrder() && minimum > 0 && newlySelectedBoxes === minimum) {
+      const formArea = document.getElementById('order-form') || document.getElementById('narudzba');
+      if (formArea) {
+        window.setTimeout(() => {
+          formArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 250);
+      }
+    }
   });
 });
 
