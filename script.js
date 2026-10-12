@@ -164,7 +164,7 @@ function updateSelectedCapsuleField() {
   if (!capsuleField) return;
   const total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const limit = capsulePackageLimit();
-  capsuleField.value = isCapsuleOnlyOrder() ? `${total} kutija kave ukupno` : `${total}/${limit}`;
+  capsuleField.value = `${total} kutija`;
   capsuleField.classList.toggle('capsule-limit-reached', !isCapsuleOnlyOrder() && total === limit);
   if (capsuleVarietiesField) {
     capsuleVarietiesField.value = selectedCapsules.size
