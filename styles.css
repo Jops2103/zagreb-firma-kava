@@ -193,3 +193,6 @@ body.lightbox-open{overflow:hidden}
 
 /* Kompaktnije polje broja odabranih paketa kapsula. */
 #capsules{width:112px;max-width:112px}
+
+/* Crvena boja označava konačan odabir kapsula (npr. 4/4). */
+#capsules.capsule-limit-reached{color:#c62828;border-color:#c62828;background:#fff2f2;font-weight:800}
