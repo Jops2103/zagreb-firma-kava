@@ -196,3 +196,9 @@ body.lightbox-open{overflow:hidden}
 
 /* Crvena boja označava konačan odabir kapsula (npr. 4/4). */
 #capsules.capsule-limit-reached{color:#c62828;border-color:#c62828;background:#fff2f2;font-weight:800}
+
+
+/* Količina je ispod odabranih vrsta; podebljani nazivi i malo šire polje broja kutija. */
+.capsule-selection-field>label{display:block;margin-top:12px;font-weight:800}
+.capsule-selection-field>label:first-child{margin-top:0}
+#capsules{width:150px;max-width:150px}
