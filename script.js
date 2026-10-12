@@ -387,3 +387,156 @@ if (capsuleModelField) {
 
 updateSelectedCapsuleField();
 
+/* Interactive appliance finder. The final choice reuses the existing model-selection flow. */
+(function setupApplianceFinder(){
+  const finder = document.getElementById('appliance-finder');
+  if (!finder) return;
+
+  const steps = Array.from(finder.querySelectorAll('[data-finder-step]'));
+  const result = document.getElementById('finder-result');
+  const progressLabel = document.getElementById('finder-progress-label');
+  const progressFill = document.getElementById('finder-progress-fill');
+  const statusMessage = document.getElementById('finder-status');
+  const resultTitle = document.getElementById('finder-result-title');
+  const resultCopy = document.getElementById('finder-result-copy');
+  const resultTag = document.getElementById('finder-result-tag');
+  const resultFacts = document.getElementById('finder-result-facts');
+  const resultButton = finder.querySelector('.finder-result-button');
+  let activeStep = 1;
+
+  const useLabels = {
+    home: 'za dom',
+    apartment: 'za apartman',
+    office: 'za ured ili poslovni prostor'
+  };
+
+  const models = {
+    mini: {
+      name: 'Inovy Mini',
+      modelValue: 'Lavazza Firma Inovy Mini',
+      quantity: 'Min. količina: 1 kutija',
+      tag: 'Najkompaktniji izbor',
+      facts: ['2 izbora napitaka', 'Spremnik vode 0,7 l', 'Ladica do 6 kapsula']
+    },
+    compact: {
+      name: 'Inovy Compact',
+      modelValue: 'Lavazza Firma Inovy Compact',
+      quantity: 'Min. količina: 4 kutije',
+      tag: 'Uravnotežen izbor',
+      facts: ['3 izbora napitaka', 'Spremnik vode 0,9 l', 'Ladica do 10 kapsula']
+    },
+    milk: {
+      name: 'Inovy & Milk',
+      modelValue: 'Lavazza Firma Inovy & Milk',
+      quantity: 'Min. količina: 4 kutije',
+      tag: 'Za napitke s mlijekom',
+      facts: ['6 izbora napitaka', 'Spremnik vode 1,8 l', 'Ladica do 19 kapsula']
+    }
+  };
+
+  function answer(name) {
+    const chosen = finder.querySelector(`input[name="${name}"]:checked`);
+    return chosen ? chosen.value : '';
+  }
+
+  function showStep(step) {
+    activeStep = step;
+    steps.forEach(item => {
+      item.hidden = Number(item.dataset.finderStep) !== step;
+    });
+    result.hidden = true;
+    statusMessage.textContent = '';
+    progressLabel.textContent = `Korak ${step} od ${steps.length}`;
+    progressFill.style.width = `${(step / steps.length) * 100}%`;
+    const fieldset = steps.find(item => Number(item.dataset.finderStep) === step)?.querySelector('fieldset');
+    if (fieldset) fieldset.focus({ preventScroll: true });
+  }
+
+  function getRecommendation() {
+    const drinks = answer('finder-drinks');
+    const priority = answer('finder-priority');
+
+    if (drinks === 'milk') return 'milk';
+    if (priority === 'compact') return 'mini';
+    if (drinks === 'black') return 'compact';
+    if (priority === 'variety') return 'milk';
+    return 'compact';
+  }
+
+  function getReason(key, use) {
+    if (key === 'mini') {
+      return `Budući da vam je najvažniji manji format, Inovy Mini dobar je kandidat ${use}. Od tri modela na ovoj stranici zauzima najmanje prostora.`;
+    }
+    if (key === 'milk' && answer('finder-drinks') === 'milk') {
+      return `Budući da želite napitke s mlijekom, Inovy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
+    }
+    if (key === 'milk') {
+      return `Ako želite širi izbor napitaka, Inovy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
+    }
+    if (answer('finder-drinks') === 'black') {
+      return `Za vaš odabir crne kave, Inovy Compact nudi kompaktan format i tri izbora napitaka ${use}, uz veći spremnik i ladicu od modela Mini.`;
+    }
+    return `Ako još istražujete mogućnosti, Inovy Compact praktičan je početni izbor ${use}: kompaktan je, a nudi tri izbora napitaka.`;
+  }
+
+  function showRecommendation() {
+    const use = answer('finder-use');
+    const drinks = answer('finder-drinks');
+    const priority = answer('finder-priority');
+    if (!use || !drinks || !priority) {
+      statusMessage.textContent = 'Odaberite jednu opciju prije nego što prikažemo preporuku.';
+      return;
+    }
+
+    const key = getRecommendation();
+    const model = models[key];
+    resultTag.textContent = model.tag;
+    resultTitle.textContent = model.name;
+    resultCopy.textContent = getReason(key, useLabels[use] || 'za vaš prostor');
+    resultFacts.replaceChildren();
+    model.facts.forEach(fact => {
+      const item = document.createElement('li');
+      item.textContent = fact;
+      resultFacts.append(item);
+    });
+
+    resultButton.dataset.model = model.modelValue;
+    resultButton.dataset.quantity = model.quantity;
+    resultButton.setAttribute('aria-label', `Odaberi aparat ${model.name}`);
+    steps.forEach(item => { item.hidden = true; });
+    result.hidden = false;
+    statusMessage.textContent = '';
+    progressLabel.textContent = 'Preporuka je spremna';
+    progressFill.style.width = '100%';
+    resultTitle.focus({ preventScroll: true });
+  }
+
+  finder.querySelectorAll('[data-finder-next]').forEach(button => {
+    button.addEventListener('click', () => {
+      const current = steps.find(item => Number(item.dataset.finderStep) === activeStep);
+      if (!current || !current.querySelector('input[type="radio"]:checked')) {
+        statusMessage.textContent = 'Odaberite jednu opciju za nastavak.';
+        return;
+      }
+      showStep(Number(button.dataset.finderNext));
+    });
+  });
+
+  finder.querySelectorAll('[data-finder-prev]').forEach(button => {
+    button.addEventListener('click', () => showStep(Number(button.dataset.finderPrev)));
+  });
+
+  const showResultButton = document.getElementById('finder-show-result');
+  if (showResultButton) showResultButton.addEventListener('click', showRecommendation);
+
+  const restartButton = document.getElementById('finder-restart');
+  if (restartButton) {
+    restartButton.addEventListener('click', () => {
+      finder.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+      showStep(1);
+    });
+  }
+
+  showStep(1);
+})();
+
