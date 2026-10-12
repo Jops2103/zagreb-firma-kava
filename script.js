@@ -149,7 +149,7 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
 });
 
 
-// Track capsule varieties and quantities. Appliance packages include a minimum; visitors can add more.
+// Track capsule varieties and quantities. Appliance minimum is included; gallery clicks add extra boxes.
 const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
@@ -171,18 +171,17 @@ function isCapsuleOnlyOrder() {
 
 function updateSelectedCapsuleField() {
   if (!capsuleField) return;
-  const selectedVarietyBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+  const selectedExtraBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const included = !isCapsuleOnlyOrder() ? capsulePackageLimit() : 0;
-  const additional = !isCapsuleOnlyOrder() && additionalCapsulesField
-    ? Math.max(0, Number.parseInt(additionalCapsulesField.value, 10) || 0)
-    : 0;
-  const total = isCapsuleOnlyOrder() ? selectedVarietyBoxes : included + additional;
+  const total = isCapsuleOnlyOrder() ? selectedExtraBoxes : included + selectedExtraBoxes;
   capsuleField.value = `${total} kutija`;
-  capsuleField.classList.remove('capsule-limit-reached');
+  if (additionalCapsulesField) {
+    additionalCapsulesField.value = `${selectedExtraBoxes} dodatnih ${selectedExtraBoxes === 1 ? 'kutija' : 'kutija'}`;
+  }
   if (capsuleVarietiesField) {
     capsuleVarietiesField.value = selectedCapsules.size
       ? Array.from(selectedCapsules, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
-      : (isCapsuleOnlyOrder() ? 'Nijedna vrsta još nije odabrana' : 'Vrste dodatnih kapsula nisu odabrane');
+      : (isCapsuleOnlyOrder() ? 'Nijedna vrsta još nije odabrana' : 'Nijedna dodatna vrsta još nije odabrana');
   }
   if (additionalCapsulesWrap) {
     additionalCapsulesWrap.hidden = isCapsuleOnlyOrder() || !capsulePackageLimit();
@@ -190,9 +189,7 @@ function updateSelectedCapsuleField() {
 }
 
 document.querySelectorAll('.model-select').forEach(button => {
-  // The machine cards scroll to the form; update the included quantity and reset extras.
   button.addEventListener('click', () => {
-    if (additionalCapsulesField) additionalCapsulesField.value = '0';
     updateSelectedCapsuleField();
   });
 });
@@ -201,36 +198,20 @@ document.querySelectorAll('.capsule-select').forEach(button => {
   button.addEventListener('click', () => {
     if (!capsuleField) return;
     const variety = button.dataset.capsule;
-    if (!isCapsuleOnlyOrder()) {
-      if (!capsulePackageLimit()) {
-        if (status) status.textContent = 'Najprije odaberite aparat ili vrstu upita u obrascu.';
-        return;
-      }
-      selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
-      if (additionalCapsulesField) {
-        const current = Math.max(0, Number.parseInt(additionalCapsulesField.value, 10) || 0);
-        additionalCapsulesField.value = String(current + 1);
-      }
-    } else {
-      selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
+    if (!isCapsuleOnlyOrder() && !capsulePackageLimit()) {
+      if (status) status.textContent = 'Najprije odaberite aparat ili vrstu upita u obrascu.';
+      return;
     }
+    selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
-    // Keep visitors in the capsule gallery while they choose varieties.
+    if (status) status.textContent = '';
+    // Keep visitors in the gallery; each click adds one box of the selected variety.
   });
 });
-
-if (additionalCapsulesField) {
-  additionalCapsulesField.addEventListener('input', () => {
-    const value = Math.max(0, Number.parseInt(additionalCapsulesField.value, 10) || 0);
-    additionalCapsulesField.value = String(value);
-    updateSelectedCapsuleField();
-  });
-}
 
 if (topicField) {
   topicField.addEventListener('change', () => {
     selectedCapsules.clear();
-    if (additionalCapsulesField) additionalCapsulesField.value = '0';
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
   });
@@ -238,7 +219,6 @@ if (topicField) {
 
 if (capsuleModelField) capsuleModelField.addEventListener('change', () => {
   selectedCapsules.clear();
-  if (additionalCapsulesField) additionalCapsulesField.value = '0';
   if (status) status.textContent = '';
   updateSelectedCapsuleField();
 });
