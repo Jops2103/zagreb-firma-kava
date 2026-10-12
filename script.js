@@ -155,6 +155,7 @@ const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const topicField = document.getElementById('topic');
 const additionalCapsulesField = document.getElementById('additional-capsules');
+const additionalCapsuleVarietiesField = document.getElementById('additional-capsule-varieties');
 const additionalCapsulesWrap = document.getElementById('additional-capsules-field');
 const additionalCapsulesDetails = document.getElementById('additional-capsules-details');
 const additionalCapsulesChoices = document.querySelectorAll('input[name="additional_capsules_choice"]');
@@ -188,10 +189,29 @@ function updateSelectedCapsuleField() {
     additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
   }
 
+  const packageBoxes = Math.min(selectedBoxes, isCapsuleOnlyOrder() ? 0 : minimum);
+  const additionalBoxCount = Math.max(0, selectedBoxes - packageBoxes);
+  const packageVarieties = new Map();
+  const additionalVarieties = new Map();
+  let remainingPackageBoxes = packageBoxes;
+
+  selectedCapsules.forEach((qty, name) => {
+    const inPackage = Math.min(qty, remainingPackageBoxes);
+    if (inPackage > 0) packageVarieties.set(name, inPackage);
+    remainingPackageBoxes -= inPackage;
+    const extraQty = qty - inPackage;
+    if (extraQty > 0) additionalVarieties.set(name, extraQty);
+  });
+
   if (capsuleVarietiesField) {
-    capsuleVarietiesField.value = selectedCapsules.size
-      ? Array.from(selectedCapsules, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
+    capsuleVarietiesField.value = packageVarieties.size
+      ? Array.from(packageVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
       : 'Nijedna vrsta još nije odabrana';
+  }
+  if (additionalCapsuleVarietiesField) {
+    additionalCapsuleVarietiesField.value = additionalVarieties.size
+      ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
+      : 'Nijedna dodatna vrsta još nije odabrana';
   }
 
   const note = document.getElementById('capsule-selection-note');
