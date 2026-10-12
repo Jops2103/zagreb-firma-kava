@@ -212,11 +212,11 @@ function updateSelectedCapsuleField() {
     ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
     : 'Nijedna dodatna vrsta još nije odabrana';
 
-  // Show extra capsule names and quantities directly in the "Dodatne kutije kapsula" field.
+  // Keep the quantity field numeric-only; variety names stay in the separate field.
   if (additionalCapsulesField) {
-    additionalCapsulesField.value = additionalVarieties.size
-      ? `${additionalBoxCount} dodatno: ${additionalVarietiesText}`
-      : '0 dodatnih kutija';
+    const extraBoxes = additionalBoxCount;
+    const boxWord = extraBoxes === 1 ? 'kutija' : (extraBoxes >= 2 && extraBoxes <= 4 ? 'kutije' : 'kutija');
+    additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
   }
   if (additionalCapsuleVarietiesField) {
     additionalCapsuleVarietiesField.value = additionalVarietiesText;
