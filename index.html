@@ -107,7 +107,7 @@
   <section class="section how-section" id="kako-radi"><div class="section-heading"><h2>Naručite aparat ili kapsule <span>u 3 koraka</span></h2></div><div class="steps"><article><b>01</b><h3>Odaberite aparat</h3><p>Usporedite tri modela i navedene mjesečne količine.</p></article><article><b>02</b><h3>Ispunite obrazac</h3><p>Ostavite kontakt i napišite je li ponuda za dom ili poslovni prostor.</p></article><article><b>03</b><h3>Potvrdimo uvjete</h3><p>Prije dogovora potvrđujemo dostupnost, količinu kapsula i uvjete korištenja.</p></article></div></section>
 
   <section class="section order-section" id="narudzba"><div class="section-heading"><p class="eyebrow">KONTAKT I UPIT</p><h2>Pošaljite <span>upit</span></h2><p>Ispunite obrazac kako bismo vas mogli kontaktirati i potvrditi detalje ponude.</p></div>
-    <form id="order-form">
+    <form id="order-form">\n      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" style="position:absolute;left:-5000px" >
       <div class="field"><label for="name">Ime i prezime *</label><input id="name" name="name" required autocomplete="name" placeholder="Vaše ime"></div>
       <div class="field"><label for="phone">Broj telefona *</label><input id="phone" name="phone" required type="tel" autocomplete="tel" placeholder="+385 …"></div>
       <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="ime@primjer.hr"></div>
@@ -117,8 +117,8 @@
       <div class="field"><label for="topic">Vrsta upita *</label><select id="topic" name="topic" required><option value="">Odaberite</option><option>Želim aparat uz mjesečnu kupnju kapsula</option><option>Želim naručiti kapsule</option><option>Imam pitanje o ponudi</option></select></div>
       <div class="field full"><label for="message">Poruka</label><textarea id="message" name="message" rows="4" placeholder="Napišite dodatne informacije ili pitanje…"></textarea></div>
       <label class="consent full"><input type="checkbox" required> Suglasan/na sam da se moji podaci koriste za odgovor na ovaj upit. *</label>
-      <p class="form-note full">Slanje obrasca bit će aktivirano nakon povezivanja s adresom e-pošte ili servisom za obrasce.</p>
-      <div class="full form-actions"><button class="btn primary" type="submit">Pripremi upit <span>↗</span></button><p id="status" class="status" role="status"></p></div>
+      <p class="form-note full">Upit se šalje putem sigurnosno zaštićenog servisa za obrasce na zagrebfirmakava@proton.me. Prvi put može biti potrebno potvrditi adresu putem e-maila servisa.</p>
+      <div class="full form-actions"><button class="btn primary" type="submit">Pošalji upit <span>↗</span></button><p id="status" class="status" role="status"></p></div>
     </form>
   </section>
 </main>
