@@ -140,3 +140,21 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
     }
   });
 });
+
+
+// Selecting a capsule variety fills the enquiry form and identifies the request.
+document.querySelectorAll('.capsule-select').forEach(button => {
+  button.addEventListener('click', () => {
+    const capsules = document.getElementById('capsules');
+    const topic = document.getElementById('topic');
+    const message = document.getElementById('message');
+    capsules.value = button.dataset.capsule;
+    topic.value = 'Želim naručiti kapsule';
+    const line = 'Željena vrsta kapsula: ' + button.dataset.capsule;
+    if (message && !message.value.includes(line)) {
+      message.value = message.value.trim() ? message.value.trim() + '\\n' + line : line;
+    }
+    document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
+    capsules.focus({ preventScroll: true });
+  });
+});
