@@ -159,6 +159,7 @@ function updateSelectedCapsuleField() {
   if (!capsuleField) return;
   const limit = capsulePackageLimit();
   capsuleField.value = `${selectedCapsules.size}/${limit}`;
+  capsuleField.classList.toggle('capsule-limit-reached', selectedCapsules.size === limit);
   if (capsuleVarietiesField) capsuleVarietiesField.value = Array.from(selectedCapsules).join(', ');
 }
 
