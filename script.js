@@ -254,10 +254,10 @@ document.querySelectorAll('.capsule-select').forEach(button => {
 
     const newlySelectedBoxes = selectedBoxes + 1;
     if (!isCapsuleOnlyOrder() && minimum > 0 && newlySelectedBoxes === minimum) {
-      const formArea = document.getElementById('order-form') || document.getElementById('narudzba');
-      if (formArea) {
+      const enquirySection = document.getElementById('narudzba');
+      if (enquirySection) {
         window.setTimeout(() => {
-          formArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 250);
       }
     }
