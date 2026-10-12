@@ -64,11 +64,12 @@ document.querySelectorAll('.model-select').forEach(button => {
     if (option) model.value = option.value || option.textContent;
     document.getElementById('topic').value = 'Želim aparat uz mjesečnu kupnju kapsula';
 
-    // An appliance card already includes its required monthly capsule quantity.
+    // The minimum is included; any extra quantity can be added in the form.
     selectedCapsules.clear();
-    if (capsuleField) capsuleField.value = `${capsulePackageLimit()} kutija`;
-    if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste kapsula nisu odabrane';
+    if (additionalCapsulesField) additionalCapsulesField.value = '0';
+    if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste dodatnih kapsula nisu odabrane';
     if (status) status.textContent = '';
+    updateSelectedCapsuleField();
     document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('model').focus({ preventScroll: true });
   });
