@@ -206,3 +206,17 @@ body.lightbox-open{overflow:hidden}
 
 /* Keep optional extra-capsule field hidden until an appliance is selected. */
 #additional-capsules-field[hidden]{display:none!important}
+
+
+/* Elegant yes/no choice for optional extra capsules. */
+.capsule-choice-fieldset{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;margin:0 0 14px;padding:0;border:0}
+.capsule-choice-fieldset legend{width:100%;margin:0 0 10px;padding:0;color:var(--ink);font-size:12px}
+.capsule-choice-fieldset label{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:104px;padding:12px 22px;border:1px solid #c4c8cd;border-radius:999px;background:#fff;color:#34373b;font-size:12px;font-weight:800;letter-spacing:.08em;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease}
+.capsule-choice-fieldset label:has(input:checked){background:#003da5;border-color:#003da5;color:#fff;box-shadow:0 4px 12px #003da526}
+.capsule-choice-fieldset label:has(input:focus-visible){outline:3px solid #4b535c;outline-offset:3px}
+.capsule-choice-fieldset input{width:15px;height:15px;margin:0;accent-color:#fff}
+#additional-capsules-details{display:flex;flex-direction:column;gap:8px;padding:15px;background:#f1f3f6;border:1px solid #d9dde3;border-radius:6px}
+#additional-capsules-details[hidden]{display:none!important}
+#additional-capsules-details>label{font-size:11px}
+#additional-capsules-details #additional-capsules{max-width:240px;background:#fff}
+@media(max-width:520px){.capsule-choice-fieldset{gap:8px}.capsule-choice-fieldset label{flex:1;min-width:0;padding:12px 15px}}
