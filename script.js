@@ -184,6 +184,12 @@ function wantsAdditionalCapsules() {
   return selected && selected.value === 'Da';
 }
 
+function resizeCapsuleVarietiesField() {
+  if (!capsuleVarietiesField || capsuleVarietiesField.tagName !== 'TEXTAREA') return;
+  capsuleVarietiesField.style.height = 'auto';
+  capsuleVarietiesField.style.height = `${Math.max(capsuleVarietiesField.scrollHeight, 72)}px`;
+}
+
 function updateSelectedCapsuleField() {
   if (!capsuleField) return;
   const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
@@ -216,6 +222,8 @@ function updateSelectedCapsuleField() {
       ? Array.from(packageVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
       : 'Nijedna vrsta još nije odabrana';
   }
+  // Grow the summary field to fit all selected varieties and quantities, including on phones.
+  resizeCapsuleVarietiesField();
   const additionalVarietiesText = additionalVarieties.size
     ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
     : 'Nijedna dodatna vrsta još nije odabrana';
