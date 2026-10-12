@@ -141,5 +141,5 @@ body.lightbox-open{overflow:hidden}
 
 
 /* Confirmation shown after a successful form redirect */
-.success-message{max-width:900px;margin:-16px auto 24px;padding:15px 18px;border:1px solid #8a9b8b;border-left:4px solid #4e7955;background:#eef5ee;color:#234a2b;font-size:15px;font-weight:700;border-radius:3px}
+.success-message{max-width:900px;margin:-16px auto 24px;padding:15px 18px;border:1px solid #0b76b7;border-left:4px solid #0b76b7;background:#eef7fc;color:#005b96;font-size:15px;font-weight:800;border-radius:3px}
 .success-message[hidden]{display:none}
