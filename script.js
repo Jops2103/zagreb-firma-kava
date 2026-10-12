@@ -70,13 +70,17 @@ form.addEventListener('submit', async event => {
       body: JSON.stringify(payload)
     });
     const result = await response.json();
-    if (!response.ok || result.success !== 'true') {
-      throw new Error(result.message || 'Slanje nije potvrđeno.');
+    if (!response.ok || !(result.success === true || result.success === 'true')) {
+      const serviceMessage = String(result.message || '');
+      if (/activation|activate form/i.test(serviceMessage)) {
+        throw new Error('FormSubmit još nije aktiviran. Provjerite pristiglu poštu i neželjenu poštu na zagrebfirmakava@proton.me te kliknite poveznicu za aktivaciju koju šalje FormSubmit.');
+      }
+      throw new Error(serviceMessage || 'Servis nije potvrdio slanje upita.');
     }
     status.textContent = 'Hvala! Upit je poslan. Javit ćemo vam se čim prije.';
     form.reset();
   } catch (error) {
-    status.textContent = 'Upit trenutačno nije moguće poslati. Pokušajte ponovno malo kasnije ili nam pišite na zagrebfirmakava@proton.me.';
+    status.textContent = error.message || 'Upit trenutačno nije moguće poslati. Pokušajte ponovno ili nam pišite na zagrebfirmakava@proton.me.';
   } finally {
     submitButton.disabled = false;
     submitButton.innerHTML = originalButtonText;
