@@ -202,3 +202,7 @@ body.lightbox-open{overflow:hidden}
 .capsule-selection-field>label{display:block;margin-top:12px;font-weight:800}
 .capsule-selection-field>label:first-child{margin-top:0}
 #capsules{width:150px;max-width:150px}
+
+
+/* Keep optional extra-capsule field hidden until an appliance is selected. */
+#additional-capsules-field[hidden]{display:none!important}
