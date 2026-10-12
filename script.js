@@ -142,11 +142,12 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
 });
 
 
-// Keep the visible field limited to a count; send selected variety names separately with the enquiry.
+// Track capsule boxes. Capsule-only enquiries allow any quantity; machine offers follow the machine package limit.
 const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
-const selectedCapsules = new Set();
+const topicField = document.getElementById('topic');
+const selectedCapsules = new Map();
 
 function capsulePackageLimit() {
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
@@ -155,38 +156,60 @@ function capsulePackageLimit() {
   return 4;
 }
 
+function isCapsuleOnlyOrder() {
+  return topicField && topicField.value === 'Želim naručiti kapsule';
+}
+
 function updateSelectedCapsuleField() {
   if (!capsuleField) return;
+  const total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const limit = capsulePackageLimit();
-  capsuleField.value = `${selectedCapsules.size}/${limit}`;
-  capsuleField.classList.toggle('capsule-limit-reached', selectedCapsules.size === limit);
-  if (capsuleVarietiesField) capsuleVarietiesField.value = Array.from(selectedCapsules).join(', ');
+  capsuleField.value = isCapsuleOnlyOrder() ? `${total} kutija kave ukupno` : `${total}/${limit}`;
+  capsuleField.classList.toggle('capsule-limit-reached', !isCapsuleOnlyOrder() && total === limit);
+  if (capsuleVarietiesField) {
+    capsuleVarietiesField.value = selectedCapsules.size
+      ? Array.from(selectedCapsules, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
+      : 'Nijedna vrsta još nije odabrana';
+  }
 }
 
 document.querySelectorAll('.capsule-select').forEach(button => {
   button.addEventListener('click', () => {
     if (!capsuleField) return;
     const variety = button.dataset.capsule;
+    const total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
     const limit = capsulePackageLimit();
 
-    if (!selectedCapsules.has(variety) && selectedCapsules.size >= limit) {
-      if (status) status.textContent = `Za odabrani aparat možete izabrati najviše ${limit} vrsta kapsula.`;
+    if (!isCapsuleOnlyOrder() && total >= limit) {
+      if (status) status.textContent = `Za odabrani aparat možete izabrati najviše ${limit} paketa kapsula.`;
       return;
     }
-    selectedCapsules.add(variety);
+    selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
 
-    const topic = document.getElementById('topic');
-    if (topic) topic.value = 'Želim naručiti kapsule';
+    if (topicField) topicField.value = 'Želim naručiti kapsule';
+    updateSelectedCapsuleField();
     document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
     capsuleField.focus({ preventScroll: true });
   });
 });
 
-if (capsuleModelField) {
-  capsuleModelField.addEventListener('change', () => {
-    const limit = capsulePackageLimit();
-    while (selectedCapsules.size > limit) selectedCapsules.delete(Array.from(selectedCapsules).at(-1));
+if (topicField) {
+  topicField.addEventListener('change', () => {
+    if (!isCapsuleOnlyOrder()) {
+      const limit = capsulePackageLimit();
+      let total = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+      while (total > limit) {
+        const last = Array.from(selectedCapsules.keys()).at(-1);
+        if (!last) break;
+        const qty = selectedCapsules.get(last);
+        if (qty <= 1) selectedCapsules.delete(last);
+        else selectedCapsules.set(last, qty - 1);
+        total--;
+      }
+    }
     updateSelectedCapsuleField();
   });
 }
+
+if (capsuleModelField) capsuleModelField.addEventListener('change', updateSelectedCapsuleField);
