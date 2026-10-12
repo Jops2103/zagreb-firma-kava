@@ -389,3 +389,20 @@ body.lightbox-open{overflow:hidden}
   .btn{transition:none!important}
 }
 
+/* The selected-capsule summary expands so every chosen variety and quantity remains visible. */
+#capsule-varieties{
+  display:block;
+  width:100%;
+  min-height:72px;
+  height:auto;
+  overflow:hidden;
+  resize:none;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.55;
+  padding:12px 13px;
+}
+@media(max-width:700px){
+  #capsule-varieties{min-height:78px;font-size:13px;line-height:1.6}
+}
+
