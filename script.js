@@ -244,7 +244,7 @@ function updateSelectedCapsuleField() {
     if (isCapsuleOnlyOrder()) {
       note.textContent = 'Svaki klik na „Odaberi ove kapsule” dodaje jednu kutiju.';
     } else if (minimum > 0) {
-      note.textContent = `Odaberite ${minimum} ${minimum === 1 ? 'kutiju' : 'kutije'} kapsula u galeriji iznad. Trenutno odabrano: ${selectedBoxes} od ${minimum}.`;
+      note.textContent = '';
     } else {
       note.textContent = 'Najprije odaberite aparat ili vrstu upita, a zatim izaberite kapsule.';
     }
