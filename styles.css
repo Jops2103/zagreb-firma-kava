@@ -71,6 +71,7 @@ button:disabled{cursor:not-allowed;opacity:.65}
   padding: 12px;
   display: block;
   overflow: hidden;
+  background: var(--bg);
 }
 .model-grid-specs .model-card .model-art:before{display:none}
 .product-gallery{
@@ -95,6 +96,11 @@ button:disabled{cursor:not-allowed;opacity:.65}
   border:1px solid #e4e3df;
   border-radius:3px;
   mix-blend-mode:normal;
+}
+.product-gallery img.blend-bg{
+  background:var(--bg);
+  border-color:var(--bg);
+  mix-blend-mode:multiply;
 }
 .product-gallery .gallery-main{grid-column:1/-1}
 @media(max-width:1000px){
