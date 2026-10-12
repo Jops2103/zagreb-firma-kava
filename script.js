@@ -208,10 +208,18 @@ function updateSelectedCapsuleField() {
       ? Array.from(packageVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
       : 'Nijedna vrsta još nije odabrana';
   }
+  const additionalVarietiesText = additionalVarieties.size
+    ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
+    : 'Nijedna dodatna vrsta još nije odabrana';
+
+  // Show extra capsule names and quantities directly in the "Dodatne kutije kapsula" field.
+  if (additionalCapsulesField) {
+    additionalCapsulesField.value = additionalVarieties.size
+      ? `${additionalBoxCount} dodatno: ${additionalVarietiesText}`
+      : '0 dodatnih kutija';
+  }
   if (additionalCapsuleVarietiesField) {
-    additionalCapsuleVarietiesField.value = additionalVarieties.size
-      ? Array.from(additionalVarieties, ([name, qty]) => qty > 1 ? `${name} × ${qty}` : name).join(', ')
-      : 'Nijedna dodatna vrsta još nije odabrana';
+    additionalCapsuleVarietiesField.value = additionalVarietiesText;
   }
 
   const note = document.getElementById('capsule-selection-note');
