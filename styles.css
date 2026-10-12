@@ -190,3 +190,6 @@ body.lightbox-open{overflow:hidden}
 
 /* Prikaz količine kapsula u zasebnom širokom polju. */
 #capsules{font-variant-numeric:tabular-nums;letter-spacing:.04em;max-width:100%}
+
+/* Kompaktnije polje broja odabranih paketa kapsula. */
+#capsules{width:112px;max-width:112px}
