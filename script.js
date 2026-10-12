@@ -47,46 +47,6 @@ document.querySelectorAll('.model-select').forEach(button => {
   });
 });
 
-form.addEventListener('submit', async event => {
-  event.preventDefault();
-  if (!form.reportValidity()) return;
-
-  const submitButton = form.querySelector('button[type="submit"]');
-  const originalButtonText = submitButton.innerHTML;
-  submitButton.disabled = true;
-  submitButton.textContent = 'Šaljem upit…';
-  status.textContent = 'Upit se šalje. Molimo pričekajte.';
-
-  const data = new FormData(form);
-  const payload = Object.fromEntries(data.entries());
-  payload._subject = 'Novi upit — Zagreb Firma Kava';
-  payload._template = 'table';
-  payload._honey = '';
-
-  try {
-    const response = await fetch('https://formsubmit.co/ajax/zagrebfirmakava@proton.me', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const result = await response.json();
-    if (!response.ok || !(result.success === true || result.success === 'true')) {
-      const serviceMessage = String(result.message || '');
-      if (/activation|activate form/i.test(serviceMessage)) {
-        throw new Error('FormSubmit još nije aktiviran. Provjerite pristiglu poštu i neželjenu poštu na zagrebfirmakava@proton.me te kliknite poveznicu za aktivaciju koju šalje FormSubmit.');
-      }
-      throw new Error(serviceMessage || 'Servis nije potvrdio slanje upita.');
-    }
-    status.textContent = 'Hvala! Upit je poslan. Javit ćemo vam se čim prije.';
-    form.reset();
-  } catch (error) {
-    status.textContent = error.message || 'Upit trenutačno nije moguće poslati. Pokušajte ponovno ili nam pišite na zagrebfirmakava@proton.me.';
-  } finally {
-    submitButton.disabled = false;
-    submitButton.innerHTML = originalButtonText;
-  }
-});
-
 
 // Enlarge product and hero photos on click; close with Escape or backdrop.
 (function setupImageLightbox(){
