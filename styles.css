@@ -229,3 +229,6 @@ body.lightbox-open{overflow:hidden}
 
 /* Ensure hidden form rows stay hidden despite the .field display rule. */
 .field[hidden]{display:none!important}
+
+/* Red Lavazza Firma label above the capsule selection heading. */
+.capsule-heading > .eyebrow{color:#c8102e}
