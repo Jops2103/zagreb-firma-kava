@@ -232,3 +232,7 @@ body.lightbox-open{overflow:hidden}
 
 /* Red Lavazza Firma label above the capsule selection heading. */
 .capsule-heading > .eyebrow{color:#c8102e}
+
+/* Lavazza blue for the main hero call-to-action only. */
+.hero .actions .btn.primary{background:#003da5;border-color:#003da5;color:#fff}
+.hero .actions .btn.primary:hover{background:#002f80;border-color:#002f80}
