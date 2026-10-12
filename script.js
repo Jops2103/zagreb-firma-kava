@@ -142,8 +142,9 @@ document.querySelectorAll('[data-copy-email]').forEach(button => {
 });
 
 
-// Collect distinct capsule varieties up to the monthly package count of the selected machine.
+// Keep the visible field limited to a count; send selected variety names separately with the enquiry.
 const capsuleField = document.getElementById('capsules');
+const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const selectedCapsules = new Set();
 
@@ -151,18 +152,14 @@ function capsulePackageLimit() {
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
   if (/Inovy Mini/i.test(selectedModel)) return 1;
   if (/Inovy & Milk|Inovy Compact/i.test(selectedModel)) return 4;
-  return 0;
+  return 4;
 }
 
 function updateSelectedCapsuleField() {
-  if (!capsuleField || selectedCapsules.size === 0) return;
-  const selectedModel = capsuleModelField ? capsuleModelField.value : '';
+  if (!capsuleField) return;
   const limit = capsulePackageLimit();
-  const varieties = Array.from(selectedCapsules);
-  const quantityNote = limit
-    ? `${varieties.length} od ${limit} paketa mjesečno prema odabranom aparatu`
-    : 'mjesečna količina potvrđuje se nakon odabira aparata';
-  capsuleField.value = varieties.join(', ') + ' — ' + quantityNote;
+  capsuleField.value = `${selectedCapsules.size}/${limit}`;
+  if (capsuleVarietiesField) capsuleVarietiesField.value = Array.from(selectedCapsules).join(', ');
 }
 
 document.querySelectorAll('.capsule-select').forEach(button => {
@@ -171,16 +168,12 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     const variety = button.dataset.capsule;
     const limit = capsulePackageLimit();
 
-    if (selectedCapsules.has(variety)) {
-      // Clicking an already-selected variety does not add a duplicate.
-      updateSelectedCapsuleField();
-    } else if (limit && selectedCapsules.size >= limit) {
-      if (status) status.textContent = `Za odabrani aparat možete izabrati najviše ${limit} vrsta/paketa kapsula.`;
+    if (!selectedCapsules.has(variety) && selectedCapsules.size >= limit) {
+      if (status) status.textContent = `Za odabrani aparat možete izabrati najviše ${limit} vrsta kapsula.`;
       return;
-    } else {
-      selectedCapsules.add(variety);
-      updateSelectedCapsuleField();
     }
+    selectedCapsules.add(variety);
+    updateSelectedCapsuleField();
 
     const topic = document.getElementById('topic');
     if (topic) topic.value = 'Želim naručiti kapsule';
@@ -192,9 +185,7 @@ document.querySelectorAll('.capsule-select').forEach(button => {
 if (capsuleModelField) {
   capsuleModelField.addEventListener('change', () => {
     const limit = capsulePackageLimit();
-    while (limit && selectedCapsules.size > limit) {
-      selectedCapsules.delete(Array.from(selectedCapsules).at(-1));
-    }
+    while (selectedCapsules.size > limit) selectedCapsules.delete(Array.from(selectedCapsules).at(-1));
     updateSelectedCapsuleField();
   });
 }
