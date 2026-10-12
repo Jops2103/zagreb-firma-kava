@@ -183,8 +183,9 @@ function updateSelectedCapsuleField() {
   capsuleField.value = `${selectedBoxes} kutija`;
 
   if (additionalCapsulesField) {
-    const boxWord = selectedBoxes === 1 ? 'kutija' : (selectedBoxes >= 2 && selectedBoxes <= 4 ? 'kutije' : 'kutija');
-    additionalCapsulesField.value = `${selectedBoxes} ${boxWord}`;
+    const extraBoxes = Math.max(0, selectedBoxes - (isCapsuleOnlyOrder() ? 0 : minimum));
+    const boxWord = extraBoxes === 1 ? 'kutija' : (extraBoxes >= 2 && extraBoxes <= 4 ? 'kutije' : 'kutija');
+    additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
   }
 
   if (capsuleVarietiesField) {
@@ -208,8 +209,12 @@ function updateSelectedCapsuleField() {
     additionalCapsulesWrap.hidden = isCapsuleOnlyOrder() || !minimum;
   }
   if (additionalCapsulesDetails) {
-    // Additional-capsule behaviour will be implemented separately after the first step is approved.
-    additionalCapsulesDetails.hidden = true;
+    additionalCapsulesDetails.hidden = !wantsAdditionalCapsules() || isCapsuleOnlyOrder();
+  }
+
+  const extraDoneButton = document.getElementById('extra-capsules-done');
+  if (extraDoneButton) {
+    extraDoneButton.hidden = isCapsuleOnlyOrder() || !wantsAdditionalCapsules();
   }
 }
 
@@ -238,12 +243,13 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     const variety = button.dataset.capsule;
     const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
     const minimum = isCapsuleOnlyOrder() ? 0 : capsulePackageLimit();
+    const addingExtras = !isCapsuleOnlyOrder() && wantsAdditionalCapsules() && selectedBoxes >= minimum;
 
     if (!isCapsuleOnlyOrder() && !minimum) {
       if (status) status.textContent = 'Najprije odaberite aparat, a zatim odaberite kapsule.';
       return;
     }
-    if (!isCapsuleOnlyOrder() && selectedBoxes >= minimum) {
+    if (!isCapsuleOnlyOrder() && selectedBoxes >= minimum && !addingExtras) {
       if (status) status.textContent = `Za ovaj aparat odaberite ukupno ${minimum} ${minimum === 1 ? 'kutiju' : 'kutije'}. Već ste odabrali tu količinu.`;
       return;
     }
@@ -251,18 +257,33 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
     updateSelectedCapsuleField();
     if (status) status.textContent = '';
-
-    const newlySelectedBoxes = selectedBoxes + 1;
-    if (!isCapsuleOnlyOrder() && minimum > 0 && newlySelectedBoxes === minimum) {
+    if (!isCapsuleOnlyOrder() && minimum > 0 && selectedBoxes + 1 === minimum) {
       const enquirySection = document.getElementById('narudzba');
-      if (enquirySection) {
-        window.setTimeout(() => {
-          enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 250);
-      }
+      if (enquirySection) window.setTimeout(() => enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
     }
   });
 });
+
+additionalCapsulesChoices.forEach(choice => {
+  choice.addEventListener('change', () => {
+    updateSelectedCapsuleField();
+    if (choice.value === 'Da') {
+      const capsuleSection = document.getElementById('kapsule');
+      if (capsuleSection) capsuleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      const enquirySection = document.getElementById('narudzba');
+      if (enquirySection) enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+const extraCapsulesDoneButton = document.getElementById('extra-capsules-done');
+if (extraCapsulesDoneButton) {
+  extraCapsulesDoneButton.addEventListener('click', () => {
+    const enquirySection = document.getElementById('narudzba');
+    if (enquirySection) enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
 
 if (topicField) {
   topicField.addEventListener('change', () => {
