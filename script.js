@@ -215,8 +215,7 @@ function updateSelectedCapsuleField() {
   // Keep the quantity field numeric-only; variety names stay in the separate field.
   if (additionalCapsulesField) {
     const extraBoxes = additionalBoxCount;
-    const boxWord = extraBoxes === 1 ? 'kutija' : (extraBoxes >= 2 && extraBoxes <= 4 ? 'kutije' : 'kutija');
-    additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
+    additionalCapsulesField.value = `${extraBoxes} komada`;
   }
   if (additionalCapsuleVarietiesField) {
     additionalCapsuleVarietiesField.value = additionalVarietiesText;
