@@ -387,16 +387,3 @@ if (capsuleModelField) {
 
 updateSelectedCapsuleField();
 
-/* Mobile floating enquiry button: keep it out of the way while the form is in view. */
-(function setupMobileOrderCta(){
-  const cta = document.querySelector('.mobile-order-cta');
-  const orderSection = document.getElementById('narudzba');
-  if (!cta || !orderSection || !('IntersectionObserver' in window)) return;
-
-  const observer = new IntersectionObserver(entries => {
-    const formIsVisible = entries.some(entry => entry.isIntersecting);
-    cta.classList.toggle('is-hidden', formIsVisible);
-  }, { root: null, threshold: 0.05 });
-
-  observer.observe(orderSection);
-})();
