@@ -154,6 +154,7 @@ const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const topicField = document.getElementById('topic');
+const modelFieldWrap = capsuleModelField ? capsuleModelField.closest('.field') : null;
 const additionalCapsulesField = document.getElementById('additional-capsules');
 const additionalCapsuleVarietiesField = document.getElementById('additional-capsule-varieties');
 const additionalCapsulesWrap = document.getElementById('additional-capsules-field');
@@ -189,7 +190,8 @@ function updateSelectedCapsuleField() {
     additionalCapsulesField.value = `${extraBoxes} ${boxWord}`;
   }
 
-  const packageBoxes = Math.min(selectedBoxes, isCapsuleOnlyOrder() ? 0 : minimum);
+  // For capsule-only orders, every selected box belongs in the main capsule summary.
+  const packageBoxes = isCapsuleOnlyOrder() ? selectedBoxes : Math.min(selectedBoxes, minimum);
   const additionalBoxCount = Math.max(0, selectedBoxes - packageBoxes);
   const packageVarieties = new Map();
   const additionalVarieties = new Map();
@@ -230,6 +232,10 @@ function updateSelectedCapsuleField() {
     } else {
       note.textContent = 'Najprije odaberite aparat ili vrstu upita, a zatim izaberite kapsule.';
     }
+  }
+
+  if (modelFieldWrap) {
+    modelFieldWrap.hidden = isCapsuleOnlyOrder();
   }
 
   if (additionalCapsulesWrap) {
