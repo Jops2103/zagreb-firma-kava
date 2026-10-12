@@ -226,3 +226,6 @@ body.lightbox-open{overflow:hidden}
 .capsule-cta #extra-capsules-done:hover{background:#a50d25;border-color:#a50d25;box-shadow:0 7px 18px #c8102e40}
 .capsule-cta #extra-capsules-done:focus-visible{outline:3px solid #171717;outline-offset:3px}
 #extra-capsules-done[hidden]{display:none!important}
+
+/* Ensure hidden form rows stay hidden despite the .field display rule. */
+.field[hidden]{display:none!important}
