@@ -1,5 +1,15 @@
 const form = document.getElementById('order-form');
 const status = document.getElementById('status');
+
+// Keep a clearly named copy of the sender's email in the submitted message body.
+// The required email field is validated by the browser before this submit handler runs.
+if (form) {
+  form.addEventListener('submit', () => {
+    const emailInput = document.getElementById('email');
+    const emailCopy = document.getElementById('sender-email-copy');
+    if (emailInput && emailCopy) emailCopy.value = emailInput.value.trim();
+  });
+}
 const menu = document.querySelector('.menu');
 const nav = document.querySelector('.header nav');
 
