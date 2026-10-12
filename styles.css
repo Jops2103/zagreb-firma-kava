@@ -236,3 +236,7 @@ body.lightbox-open{overflow:hidden}
 /* Lavazza blue for the main hero call-to-action only. */
 .hero .actions a.btn.primary[href="#ponuda"]{background-color:#003da5!important;border-color:#003da5!important;color:#fff!important}
 .hero .actions a.btn.primary[href="#ponuda"]:hover{background-color:#002f80!important;border-color:#002f80!important;color:#fff!important}
+
+/* Match the hero enquiry button to the grey top-right navigation button. */
+.hero .actions .btn.secondary{background-color:var(--brown);border-color:var(--brown);color:#fff}
+.hero .actions .btn.secondary:hover{background-color:var(--brown-dark);border-color:var(--brown-dark);color:#fff}
