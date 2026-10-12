@@ -247,7 +247,7 @@ function updateSelectedCapsuleField() {
 
   const extraDoneButton = document.getElementById('extra-capsules-done');
   if (extraDoneButton) {
-    extraDoneButton.hidden = isCapsuleOnlyOrder() || !wantsAdditionalCapsules();
+    extraDoneButton.hidden = isCapsuleOnlyOrder() ? selectedBoxes === 0 : !wantsAdditionalCapsules();
   }
 }
 
