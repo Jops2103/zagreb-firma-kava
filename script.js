@@ -401,7 +401,7 @@ updateSelectedCapsuleField();
   const resultCopy = document.getElementById('finder-result-copy');
   const resultTag = document.getElementById('finder-result-tag');
   const resultFacts = document.getElementById('finder-result-facts');
-  const resultButton = finder.querySelector('.finder-result-button');
+  const resultButton = result.querySelector('.finder-result-button');
   let activeStep = 1;
 
   const useLabels = {
