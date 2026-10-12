@@ -434,4 +434,4 @@ body.lightbox-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .finder-progress-track span,.finder-option{transition:none!important}
 }
-
+.finder-result h3:focus{outline:2px solid #003da5;outline-offset:4px}
