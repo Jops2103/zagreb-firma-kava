@@ -181,3 +181,9 @@ body.lightbox-open{overflow:hidden}
 .model-grid-specs .model-select{background:#003da5;border-color:#003da5;color:#fff}
 .model-grid-specs .model-select:hover{background:#002f80;border-color:#002f80;color:#fff}
 .model-grid-specs .model-select:focus-visible{outline-color:#003da5}
+
+
+/* Plavi gumbi za odabir kapsula, usklađeni s gumbima aparata. */
+.capsule-select{width:100%;margin-top:16px;background:#003da5;border-color:#003da5;color:#fff;font-size:10px;padding:12px 9px;justify-content:space-between}
+.capsule-select:hover{background:#002f80;border-color:#002f80;color:#fff}
+.capsule-select:focus-visible{outline-color:#003da5}
