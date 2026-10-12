@@ -1,4 +1,3 @@
-const ORDER_EMAIL = ""; // Dodati poslovni e-mail prije aktiviranja stvarnog slanja obrasca.
 const form = document.getElementById('order-form');
 const status = document.getElementById('status');
 const menu = document.querySelector('.menu');
@@ -48,31 +47,39 @@ document.querySelectorAll('.model-select').forEach(button => {
   });
 });
 
-function orderText() {
-  const data = new FormData(form);
-  return [
-    'Upit — Zagreb Firma Kava', '',
-    `Ime i prezime: ${data.get('name')}`,
-    `Telefon: ${data.get('phone')}`,
-    `E-mail: ${data.get('email')}`,
-    `Ponuda za: ${data.get('customerType')}`,
-    `Odabrani aparat: ${data.get('model')}`,
-    `Željena količina: ${data.get('capsules') || 'Nije navedena'}`,
-    `Vrsta upita: ${data.get('topic')}`,
-    `Poruka: ${data.get('message') || 'Nema dodatne poruke'}`
-  ].join('\n');
-}
-
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
   if (!form.reportValidity()) return;
 
-  const body = orderText();
-  if (ORDER_EMAIL) {
-    window.location.href = `mailto:${encodeURIComponent(ORDER_EMAIL)}?subject=${encodeURIComponent('Upit — Zagreb Firma Kava')}&body=${encodeURIComponent(body)}`;
-    status.textContent = 'Otvara se vaša e-mail aplikacija s pripremljenim upitom. Provjerite poruku i pritisnite Pošalji.';
-  } else {
-    status.textContent = 'Obrazac još nije povezan sa sustavom za zaprimanje upita, pa poruka nije poslana. Prije javne objave dodajte poslovni e-mail ili povežite servis za obrasce.';
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalButtonText = submitButton.innerHTML;
+  submitButton.disabled = true;
+  submitButton.textContent = 'Šaljem upit…';
+  status.textContent = 'Upit se šalje. Molimo pričekajte.';
+
+  const data = new FormData(form);
+  const payload = Object.fromEntries(data.entries());
+  payload._subject = 'Novi upit — Zagreb Firma Kava';
+  payload._template = 'table';
+  payload._honey = '';
+
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/zagrebfirmakava@proton.me', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const result = await response.json();
+    if (!response.ok || result.success !== 'true') {
+      throw new Error(result.message || 'Slanje nije potvrđeno.');
+    }
+    status.textContent = 'Hvala! Upit je poslan. Javit ćemo vam se čim prije.';
+    form.reset();
+  } catch (error) {
+    status.textContent = 'Upit trenutačno nije moguće poslati. Pokušajte ponovno malo kasnije ili nam pišite na zagrebfirmakava@proton.me.';
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalButtonText;
   }
 });
 
