@@ -582,21 +582,24 @@ footer{
   font-size:10px;font-weight:800;letter-spacing:2px;color:#fff;text-shadow:0 1px 8px #0007;
 }
 .film-banner-play{
-  position:absolute;z-index:2;left:50%;top:50%;width:76px;height:76px;display:grid;place-items:center;
-  border:1px solid #ffffffd9;border-radius:50%;background:#f8f8f622;backdrop-filter:blur(6px);
-  transform:translate(-50%,-50%);transition:background .3s,transform .3s,border-color .3s;
+  position:absolute;z-index:2;left:clamp(18px,5vw,74px);bottom:20px;min-height:38px;padding:8px 13px;display:flex;align-items:center;gap:8px;
+  border:1px solid #ffffffd9;border-radius:22px;background:#1119;color:#fff;backdrop-filter:blur(6px);
+  font:700 12px 'DM Sans',sans-serif;cursor:pointer;transition:background .3s,border-color .3s;
 }
-.film-banner-play span{font-size:23px;line-height:1;margin-left:5px;color:#fff}
+.film-banner-play span{font-size:14px;line-height:1;color:#fff}
+.film-control-label{font-size:12px!important;margin:0!important}
 .film-banner-copy{
   position:absolute;z-index:2;right:clamp(18px,5vw,74px);bottom:20px;display:flex;
   flex-direction:column;align-items:flex-end;gap:4px;text-align:right;text-shadow:0 1px 8px #0008;
+  color:#fff;text-decoration:none;
 }
+.film-banner-copy:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.film-banner-play:hover{background:#003da5e8;border-color:#fff}
 .film-banner-copy strong{font-size:clamp(15px,2vw,22px);font-weight:800;letter-spacing:-.3px}
 .film-banner-copy small{font-size:11px;color:#f1f1ee}
 .film-banner::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;border-block:1px solid #ffffff1b}
 @media(hover:hover) and (pointer:fine){
-  .film-banner:hover .film-banner-image{transform:scale(1.04);filter:saturate(1.06)}
-  .film-banner:hover .film-banner-play{background:#003da5e8;border-color:#fff;transform:translate(-50%,-50%) scale(1.06)}
+  .film-banner-play:hover{background:#003da5e8;border-color:#fff}
 }
 @media(max-width:700px){
   .hero-photo .hero-slide{object-fit:contain;padding:12px 4px}
@@ -604,8 +607,9 @@ footer{
   .hero-slideshow-toggle{top:10px;right:10px;width:36px;height:36px}
   .film-section{min-height:122vh;scroll-margin-top:68px}
   .film-sticky{top:68px;height:calc(100vh - 68px);min-height:210px;padding:10px 0}
-  .film-banner{height:clamp(130px,22vh,205px);max-height:205px}
-  .film-banner-image{object-position:center}
+  .film-banner{height:clamp(200px,24vh,225px);max-height:225px}
+  .film-banner-play{left:16px;bottom:15px;padding:7px 10px}
+  .film-banner-copy{right:16px;bottom:15px}
   .film-banner-eyebrow{left:16px;top:16px;font-size:8px;letter-spacing:1.3px}
   .film-banner-play{width:58px;height:58px}
   .film-banner-play span{font-size:18px}
