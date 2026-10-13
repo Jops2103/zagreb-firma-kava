@@ -439,7 +439,7 @@ body.lightbox-open{overflow:hidden}
 
 /* Experimental navigation feel: scroll snapping between major sections, without forcing every wheel movement. */
 html{
-  scroll-snap-type:y proximity;
+  scroll-snap-type:y mandatory;
   scroll-padding-top:82px;
 }
 .hero,
@@ -451,7 +451,7 @@ html{
 footer{
   scroll-snap-align:start;
   scroll-margin-top:78px;
-  scroll-snap-stop:normal;
+  scroll-snap-stop:always;
 }
 @media(max-width:700px){
   html{scroll-padding-top:70px}
