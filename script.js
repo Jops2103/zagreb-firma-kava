@@ -774,12 +774,23 @@ updateSelectedCapsuleField();
     }
     const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
     const sectionProgress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
-    const fade = Math.min(1, Math.max(0, (sectionProgress - 0.04) / 0.92));
+
+    // Keep the video clear for longer, then fade it away gradually instead of making it vanish too early.
+    const rawFade = Math.min(1, Math.max(0, (sectionProgress - 0.12) / 0.82));
+    const fade = rawFade * rawFade * (3 - 2 * rawFade); // smoothstep easing
     banner.style.opacity = String(1 - fade);
-    banner.style.transform = 'translate3d(0,' + (-fade * 18).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.035).toFixed(4) + ')';
-    banner.style.pointerEvents = fade > 0.94 ? 'none' : 'auto';
-    if (fade > 0.96 && !paused && !scrollPaused){ sendPlayerCommand('pauseVideo'); scrollPaused = true; }
-    else if (fade < 0.5 && !paused && scrollPaused && playerLoaded){ sendPlayerCommand('mute'); sendPlayerCommand('playVideo'); scrollPaused = false; }
+    banner.style.transform = 'translate3d(0,' + (-fade * 8).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.015).toFixed(4) + ')';
+    banner.style.pointerEvents = fade > 0.985 ? 'none' : 'auto';
+
+    // Pause only when the video is effectively gone; resume if the visitor scrolls back to it.
+    if (fade > 0.985 && !paused && !scrollPaused && playerLoaded) {
+      sendPlayerCommand('pauseVideo');
+      scrollPaused = true;
+    } else if (fade < 0.35 && !paused && scrollPaused && playerLoaded) {
+      sendPlayerCommand('mute');
+      sendPlayerCommand('playVideo');
+      scrollPaused = false;
+    }
   }
   function scheduleUpdate(){
     if (framePending) return;
