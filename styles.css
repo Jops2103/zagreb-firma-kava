@@ -611,9 +611,6 @@ footer{
   .film-banner-play{left:16px;bottom:15px;padding:7px 10px}
   .film-banner-copy{right:16px;bottom:15px}
   .film-banner-eyebrow{left:16px;top:16px;font-size:8px;letter-spacing:1.3px}
-  .film-banner-play{width:58px;height:58px}
-  .film-banner-play span{font-size:18px}
-  .film-banner-copy{right:16px;bottom:15px}
   .film-banner-copy strong{font-size:16px}
   .film-banner-copy small{font-size:10px}
 }
