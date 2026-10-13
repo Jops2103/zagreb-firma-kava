@@ -782,3 +782,101 @@ updateSelectedCapsuleField();
   if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', scheduleUpdate);
   updateFilm();
 })();
+
+
+/* Desktop wheel scrolling advances one chapter at a measured, smooth pace. */
+(function setupGentleWheelScroll(){
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (motionQuery.matches || !finePointer.matches) return;
+
+  const root = document.documentElement;
+  const sectionSelector = '.hero, .film-snap-point, .how-section, .finder-section, #ponuda, #kapsule, .order-section, footer';
+  let busy = false;
+  let unlockTimer = null;
+  let animationFrame = 0;
+
+  function getStops(){
+    const padding = parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+    return Array.from(document.querySelectorAll(sectionSelector))
+      .map(element => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        const margin = parseFloat(style.scrollMarginTop) || 0;
+        return {element, top: Math.max(0, rect.top + window.scrollY - padding - margin)};
+      })
+      .sort((a,b) => a.top - b.top)
+      .filter((stop,index,all) => index === 0 || Math.abs(stop.top - all[index-1].top) > 90);
+  }
+
+  function animateTo(target){
+    const start = window.scrollY;
+    const distance = target - start;
+    if (Math.abs(distance) < 24) return;
+    const duration = 880;
+    const startTime = performance.now();
+    const oldSnap = root.style.scrollSnapType;
+    const oldBehavior = root.style.scrollBehavior;
+    root.style.scrollSnapType = 'none';
+    root.style.scrollBehavior = 'auto';
+
+    function step(now){
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+      window.scrollTo(0, start + distance * eased);
+      if (t < 1){
+        animationFrame = window.requestAnimationFrame(step);
+      } else {
+        animationFrame = 0;
+        window.scrollTo(0, target);
+        root.style.scrollSnapType = oldSnap;
+        root.style.scrollBehavior = oldBehavior;
+        busy = false;
+      }
+    }
+    animationFrame = window.requestAnimationFrame(step);
+  }
+
+  window.addEventListener('wheel', event => {
+    if (motionQuery.matches || !finePointer.matches) return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+    if (Math.abs(event.deltaY) < 8) return;
+    if (event.target instanceof Element && event.target.closest('textarea, select, input, [contenteditable="true"]')) return;
+
+    const stops = getStops();
+    if (stops.length < 2) return;
+    event.preventDefault();
+    if (busy) return;
+
+    const current = window.scrollY;
+    const direction = Math.sign(event.deltaY);
+    let targetStop;
+    if (direction > 0){
+      targetStop = stops.find(stop => stop.top > current + 100);
+      if (!targetStop) return;
+    } else {
+      for (let index = stops.length - 1; index >= 0; index--){
+        if (stops[index].top < current - 100){
+          targetStop = stops[index];
+          break;
+        }
+      }
+      if (!targetStop) return;
+    }
+
+    busy = true;
+    if (unlockTimer) window.clearTimeout(unlockTimer);
+    animateTo(Math.min(Math.max(0, targetStop.top), root.scrollHeight - window.innerHeight));
+    unlockTimer = window.setTimeout(() => { busy = false; }, 1250);
+  }, {passive:false});
+
+  motionQuery.addEventListener?.('change', event => {
+    if (event.matches && animationFrame){
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      root.style.scrollSnapType = '';
+      root.style.scrollBehavior = '';
+      busy = false;
+    }
+  });
+})();
