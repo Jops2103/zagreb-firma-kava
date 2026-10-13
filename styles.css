@@ -1125,3 +1125,94 @@ body{
   #lavazza-film .film-banner .film-banner-play,
   #lavazza-film .film-banner .film-banner-play:hover{width:36px !important;height:36px !important;min-width:36px !important;min-height:36px !important}
 }
+
+
+/* Mobile-first consistency pass: keep the desktop design language while making every section comfortable on phones. */
+@media (max-width:700px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .header{width:100%;gap:10px;padding:0 14px}
+  .brand{min-width:0;gap:8px}
+  .brand-name{font-size:10px;letter-spacing:1px;white-space:normal;line-height:1.25}
+  .menu{flex:0 0 44px}
+  .hero{width:100%;min-width:0;padding:32px 18px 10px;gap:0}
+  .hero-copy{width:100%;min-width:0}
+  .hero h1{font-size:clamp(31px,8.8vw,38px);line-height:1.06;overflow-wrap:anywhere}
+  .hero .lead{font-size:14px;line-height:1.7}
+  .hero .fine{font-size:13px;line-height:1.65}
+  .hero .actions{display:grid;grid-template-columns:1fr;gap:10px}
+  .hero .actions .btn{width:100%;min-height:48px;justify-content:center}
+  .hero-image-wrap{
+    width:100%;max-width:100%;height:auto;min-height:0;max-height:none;
+    margin:12px auto 0;padding:0;aspect-ratio:1200/611;
+    display:grid;place-items:center;overflow:hidden
+  }
+  .hero-image-wrap .hero-product-image{
+    width:100%;height:100%;max-width:100%;object-fit:contain;
+    object-position:center center;padding:0;margin:0
+  }
+  /* Keep the capsule/video banner compact and centered below the three-machine image. */
+  #lavazza-film.film-section{width:100%;height:auto;min-height:0;margin:8px 0 20px;padding:0;overflow:visible}
+  #lavazza-film .film-sticky{position:relative;top:auto;width:100%;height:auto;min-height:0;padding:0}
+  #lavazza-film .film-banner{width:100%;height:auto;min-height:0;max-height:150px;aspect-ratio:16/5;margin:0;overflow:visible;background:var(--bg)}
+  #lavazza-film .film-banner-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 52%;padding:0;margin:0;opacity:1;transform:none}
+  #lavazza-film .film-banner-shade{background:linear-gradient(0deg,rgba(16,17,18,.12),transparent 45%)}
+  #lavazza-film .film-banner-play{top:-11px!important;left:50%!important;transform:translateX(-50%)!important}
+  #lavazza-film .film-banner-play:hover{transform:translateX(-50%)!important}
+  .section{padding:44px 17px}
+  .section-heading{margin-bottom:22px}
+  .section h2,.capsule-heading h2{font-size:clamp(28px,7.5vw,36px);letter-spacing:-1px;line-height:1.12}
+  .model-grid-specs{grid-template-columns:minmax(0,1fr);gap:18px}
+  .model-grid-specs .model-card{display:flex;flex-direction:column;min-width:0;width:100%}
+  .model-grid-specs .model-card .model-art{width:100%;height:280px;min-height:280px;padding:10px;overflow:hidden}
+  .product-gallery{display:flex;align-items:stretch;gap:10px;width:100%;height:100%;padding:22px 2px 8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  .product-gallery img,.product-gallery .gallery-main{flex:0 0 86%;width:86%;min-width:86%;height:100%;grid-column:auto;scroll-snap-align:center;scroll-snap-stop:always;object-fit:contain}
+  .model-grid-specs .model-body{padding:17px}
+  .model-body h3{font-size:22px}
+  .spec-columns{grid-template-columns:minmax(0,1fr);gap:10px}
+  .spec-columns section{padding:14px}
+  .spec-columns p,.spec-columns li{font-size:13px;line-height:1.65}
+  .spec-columns h4{font-size:13px}
+  .monthly{font-size:13px}
+  .model-grid-specs .model-select{width:100%;min-height:48px;font-size:13px;justify-content:center}
+  /* Capsule cards remain a visible two-column catalogue, rather than a sideways-only slider. */
+  .capsule-section{padding:42px 16px}
+  .capsule-heading{margin-bottom:18px}
+  .capsule-heading>p:not(.eyebrow){font-size:13px;line-height:1.65}
+  .capsule-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;max-width:100%;margin:20px 0 0;padding:0;overflow:visible}
+  .capsule-card{display:flex;flex-direction:column;align-items:stretch;min-width:0;width:100%;height:100%;padding:10px;scroll-snap-align:none}
+  .capsule-card img{width:100%;height:clamp(112px,34vw,165px);object-fit:contain;object-position:center;background:#fff}
+  .capsule-card h3{font-size:clamp(12px,3.5vw,14px);line-height:1.35;min-height:2.7em;margin:12px 0 5px;overflow-wrap:anywhere}
+  .capsule-card p{font-size:12px!important}
+  .capsule-card .btn{width:100%;min-height:46px;margin-top:auto;padding:10px 7px;font-size:10px;justify-content:center}
+  .steps{grid-template-columns:minmax(0,1fr);gap:10px}
+  .finder-panel{padding:18px 14px}
+  .finder-option-grid{grid-template-columns:minmax(0,1fr)}
+  .finder-actions,.finder-actions-split{gap:10px}
+  .finder-actions .btn,.finder-actions-split .btn{min-height:46px}
+  .order-section{padding:42px 14px}
+  #order-form{display:grid;grid-template-columns:minmax(0,1fr);gap:13px;padding:16px}
+  #order-form .field,#order-form .full{grid-column:1/-1;min-width:0;width:100%}
+  #order-form input,#order-form select,#order-form textarea{width:100%;max-width:100%;min-width:0;font-size:16px}
+  #order-form .consent{align-items:flex-start;line-height:1.55}
+  #order-form .form-actions{display:flex;flex-direction:column;align-items:stretch}
+  #order-form .form-actions .btn{width:100%;min-height:48px}
+  .email-order-note{margin-top:20px;padding:17px 14px}
+  .email-copy-row{align-items:flex-start;flex-direction:column;gap:10px}
+  .email-copy-row>a{font-size:16px;overflow-wrap:anywhere}
+  footer{padding-left:17px;padding-right:17px}
+  .footer-main{display:flex;flex-wrap:wrap;align-items:flex-start}
+  .footer-brand{max-width:100%}
+  .legal{font-size:11px;line-height:1.65}
+}
+@media (max-width:390px){
+  .brand-name{font-size:9px;letter-spacing:.7px}
+  .hero{padding-left:15px;padding-right:15px}
+  .hero h1{font-size:clamp(29px,8.5vw,34px)}
+  .model-grid-specs .model-card .model-art{height:255px;min-height:255px}
+  .capsule-section{padding-left:12px;padding-right:12px}
+  .capsule-gallery{gap:8px}
+  .capsule-card{padding:8px}
+  .capsule-card img{height:clamp(105px,32vw,128px)}
+  .capsule-card .btn{font-size:9px}
+  #order-form{padding:13px}
+}
