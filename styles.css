@@ -556,15 +556,15 @@ footer{
 
 /* The film occupies little vertical space, stretches edge-to-edge, then fades away during scroll. */
 .film-section{
-  position:relative;min-height:145vh;background:#171819;color:#f7f7f5;overflow:clip;
+  position:relative;min-height:130vh;background:var(--bg);color:#f7f7f5;overflow:clip;
   scroll-snap-align:start;scroll-margin-top:78px;scroll-snap-stop:always;
 }
 .film-sticky{
-  position:sticky;top:78px;height:calc(100vh - 78px);min-height:310px;width:100%;
-  display:flex;align-items:center;justify-content:center;padding:20px 0;
+  position:sticky;top:78px;height:calc(100vh - 78px);min-height:250px;width:100%;
+  display:flex;align-items:center;justify-content:center;padding:12px 0;
 }
 .film-banner{
-  display:block;position:relative;width:100%;height:clamp(210px,34vh,380px);overflow:hidden;
+  display:block;position:relative;width:100%;height:clamp(160px,23vh,280px);max-height:280px;overflow:hidden;
   background:#111;isolation:isolate;color:#fff;text-decoration:none;outline-offset:-5px;
 }
 .film-banner:focus-visible{outline:3px solid #fff}
@@ -593,6 +593,7 @@ footer{
 }
 .film-banner-copy strong{font-size:clamp(15px,2vw,22px);font-weight:800;letter-spacing:-.3px}
 .film-banner-copy small{font-size:11px;color:#f1f1ee}
+.film-banner::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;border-block:1px solid #ffffff1b}
 @media(hover:hover) and (pointer:fine){
   .film-banner:hover .film-banner-image{transform:scale(1.04);filter:saturate(1.06)}
   .film-banner:hover .film-banner-play{background:#003da5e8;border-color:#fff;transform:translate(-50%,-50%) scale(1.06)}
@@ -601,9 +602,9 @@ footer{
   .hero-photo .hero-slide{object-fit:contain;padding:12px 4px}
   .hero-slide-overlay{left:10px;right:10px;bottom:12px;font-size:8px;letter-spacing:1.2px}
   .hero-slideshow-toggle{top:10px;right:10px;width:36px;height:36px}
-  .film-section{min-height:125vh;scroll-margin-top:68px}
-  .film-sticky{top:68px;height:calc(100vh - 68px);min-height:240px;padding:15px 0}
-  .film-banner{height:clamp(210px,31vh,300px)}
+  .film-section{min-height:122vh;scroll-margin-top:68px}
+  .film-sticky{top:68px;height:calc(100vh - 68px);min-height:210px;padding:10px 0}
+  .film-banner{height:clamp(130px,22vh,205px);max-height:205px}
   .film-banner-image{object-position:center}
   .film-banner-eyebrow{left:16px;top:16px;font-size:8px;letter-spacing:1.3px}
   .film-banner-play{width:58px;height:58px}
