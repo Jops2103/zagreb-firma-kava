@@ -479,7 +479,7 @@ body.lightbox-open{overflow:hidden}
 .film-banner:focus-within{outline:3px solid #fff}
 .film-banner-image{
   position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;
-  transform:translate3d(0,var(--film-image-shift,0px),0) scale(1.12);
+  transform:translate3d(0,var(--film-image-shift,0px),0) scale(1.0);
   will-change:transform;
 }
 .film-banner-shade{
