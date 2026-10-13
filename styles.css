@@ -534,43 +534,45 @@ body.lightbox-open{overflow:hidden}
 }
 
 
-/* Modern satin-aluminium page finish: cool silver, soft highlights and very fine brushed texture. */
+/* Satin-aluminium background matched to the silver brushed surface behind the capsule image. */
 :root{
-  --bg:#dfe2e5;
-  --paper:#f7f8f9;
-  --soft:#e7e9eb;
-  --line:#cbd0d5;
-  --muted:#62686e;
-  --brown:#747b83;
-  --brown-dark:#414951;
-  --brown-light:#b9c0c7;
+  --bg:#c9cdd1;
+  --paper:#f5f6f7;
+  --soft:#e2e5e8;
+  --line:#b9bfc5;
+  --muted:#5f666d;
+  --brown:#707982;
+  --brown-dark:#3e464e;
+  --brown-light:#b8bec4;
 }
+html{background-color:#c9cdd1}
 body{
-  background-color:#dfe2e5;
+  background-color:#c9cdd1;
   background-image:
-    radial-gradient(ellipse at 16% 4%,rgba(255,255,255,.72) 0,rgba(255,255,255,0) 38%),
-    linear-gradient(118deg,rgba(255,255,255,.22) 0%,rgba(157,165,173,.10) 42%,rgba(255,255,255,.24) 68%,rgba(151,159,167,.08) 100%),
-    repeating-linear-gradient(90deg,rgba(76,85,94,.035) 0,rgba(76,85,94,.035) 1px,rgba(255,255,255,.12) 1px,rgba(255,255,255,.12) 3px,transparent 3px,transparent 6px);
+    radial-gradient(ellipse at 18% 10%,rgba(255,255,255,.78) 0%,rgba(255,255,255,.30) 19%,rgba(255,255,255,0) 48%),
+    radial-gradient(ellipse at 78% 72%,rgba(255,255,255,.24) 0%,rgba(255,255,255,0) 44%),
+    linear-gradient(132deg,#b9bec3 0%,#e5e7e9 23%,#c6cbd0 47%,#eef0f1 67%,#c2c7cc 100%),
+    repeating-linear-gradient(132deg,rgba(70,78,86,.075) 0,rgba(70,78,86,.075) 1px,rgba(255,255,255,.18) 1px,rgba(255,255,255,.18) 2px,rgba(255,255,255,0) 2px,rgba(255,255,255,0) 4px);
   background-attachment:fixed;
+  background-blend-mode:normal,normal,normal,soft-light;
 }
 .header{
-  background:rgba(229,232,235,.86);
-  border-bottom-color:rgba(167,174,181,.7);
+  background:rgba(220,224,228,.86);
+  border-bottom-color:rgba(153,160,167,.75);
 }
 .hero,.capsule-section,.order-section,footer,.finder-section{
   background-color:transparent;
 }
-.info-strip{background:rgba(239,241,243,.78)}
-.how-section{background:rgba(247,248,249,.82)}
+.info-strip{background:rgba(239,241,243,.72)}
+.how-section{background:rgba(247,248,249,.68)}
 .model-art,.art-1050,.art-mini,.art-milk,.art-compact{
-  background-color:#e5e8eb;
+  background-color:#d9dde1;
 }
-.model-art:before{background:#d5d9dd}
+.model-art:before{background:#cbd1d6}
 .capsule-card,.finder-panel,.model-card,#order-form{
-  box-shadow:0 12px 34px rgba(39,47,55,.045);
+  box-shadow:0 12px 34px rgba(39,47,55,.07);
 }
 @media(max-width:700px){
   body{background-attachment:scroll}
-  .header{background:rgba(229,232,235,.96)}
+  .header{background:rgba(220,224,228,.94)}
 }
-
