@@ -675,3 +675,43 @@ body{
   }
   #lavazza-film .film-control-label{font-size:9px}
 }
+
+
+/* Mobile polish: a tiny PLAY control and a clearer overlapping capsule-section transition. */
+@media(max-width:700px){
+  #lavazza-film.film-section{
+    position:relative;
+    z-index:3;
+    height:clamp(205px,58vw,285px);
+    margin-top:-34px;
+    margin-bottom:-66px;
+    overflow:visible;
+  }
+  #lavazza-film .film-sticky{
+    height:clamp(175px,50vw,235px);
+    min-height:0;
+    padding:0 8px;
+  }
+  #lavazza-film .film-banner-play,
+  #lavazza-film .film-banner-play:hover{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    min-height:32px;
+    padding:0;
+    border:1px solid rgba(255,255,255,.95);
+    border-radius:50%;
+    gap:0;
+    box-shadow:0 2px 9px rgba(0,0,0,.28);
+    transform:translate(-50%,-50%);
+  }
+  #lavazza-film .film-banner-play span[aria-hidden="true"]{font-size:12px;line-height:1}
+  #lavazza-film .film-control-label{display:none}
+  #kapsule.capsule-section{
+    position:relative;
+    z-index:4;
+    margin-top:0;
+    padding-top:36px;
+    background:linear-gradient(180deg,rgba(201,205,209,.38),rgba(201,205,209,.08) 70%,transparent);
+  }
+}
