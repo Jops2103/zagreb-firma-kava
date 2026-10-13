@@ -705,3 +705,8 @@ body{
 .hero-product-image{width:100%;height:100%;max-width:none;object-fit:cover;object-position:center right}
 @media(max-width:1000px){.hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-right:0;gap:18px}.hero-image-wrap{height:370px}}
 @media(max-width:700px){.hero{grid-template-columns:1fr;padding-right:22px;gap:0}.hero-image-wrap{width:calc(100% + 22px);margin-right:-22px;margin-left:0;height:auto;aspect-ratio:1200/611;overflow:hidden}.hero-product-image{object-fit:contain;object-position:center}}
+
+
+/* Tighten the hero gap so the image begins immediately beside the copy. */
+@media(min-width:1001px){.hero{grid-template-columns:minmax(0,0.88fr) minmax(0,1.12fr);gap:0;padding-right:0}.hero-copy{padding-right:22px}.hero-image-wrap{width:100%;margin-left:0}}
+@media(min-width:701px) and (max-width:1000px){.hero{grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:0;padding-right:0}.hero-copy{padding-right:14px}.hero-image-wrap{width:100%;margin-left:0}}
