@@ -558,3 +558,65 @@ updateSelectedCapsuleField();
   showStep(1);
 })();
 
+
+
+/* Experimental scroll-snap + scrollytelling. Progressive enhancement; content remains visible without JS. */
+(function setupScrollExperience(){
+  const progressFill = document.getElementById('scroll-progress-fill');
+  let progressFrame = 0;
+
+  function updateReadingProgress(){
+    progressFrame = 0;
+    if (!progressFill) return;
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    progressFill.style.transform = 'scaleX(' + progress + ')';
+  }
+
+  function scheduleProgressUpdate(){
+    if (!progressFrame) progressFrame = window.requestAnimationFrame(updateReadingProgress);
+  }
+
+  window.addEventListener('scroll', scheduleProgressUpdate, {passive:true});
+  window.addEventListener('resize', scheduleProgressUpdate, {passive:true});
+  window.addEventListener('load', scheduleProgressUpdate, {once:true});
+  updateReadingProgress();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+  const selectors = [
+    '.hero-copy > *',
+    '.hero-visual',
+    '.info-strip > div',
+    '.section-heading',
+    '.steps article',
+    '.finder-panel',
+    '.model-card',
+    '.capsule-inner > *',
+    '.capsule-card',
+    '#order-form',
+    '.email-order-note',
+    '.footer-main',
+    'footer .legal'
+  ];
+  const targets = Array.from(new Set(selectors.flatMap(selector => Array.from(document.querySelectorAll(selector)))));
+  if (!targets.length) return;
+
+  targets.forEach((element,index)=>{
+    element.classList.add('reveal-on-scroll');
+    element.style.setProperty('--reveal-delay', (Math.min(index % 4,3) * 80) + 'ms');
+  });
+  document.documentElement.classList.add('motion-ready');
+
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-in-view');
+      observer.unobserve(entry.target);
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -5% 0px'});
+
+  targets.forEach(element=>observer.observe(element));
+})();
