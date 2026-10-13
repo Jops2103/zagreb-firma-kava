@@ -1020,3 +1020,23 @@ body{
     width:36px;height:36px;min-width:36px;min-height:36px;
   }
 }
+
+
+/* Mobile-only: show the PLAY icon without a blue circular button background. */
+@media(max-width:700px){
+  #lavazza-film .film-banner-play,
+  #lavazza-film .film-banner-play:hover,
+  #lavazza-film .film-banner-play:focus,
+  #lavazza-film .film-banner-play:active{
+    background:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    -webkit-box-shadow:none !important;
+    color:#fff;
+  }
+  #lavazza-film .film-banner-play span[aria-hidden="true"]{
+    color:#fff;
+    text-shadow:0 1px 3px rgba(0,0,0,.75);
+  }
+}
