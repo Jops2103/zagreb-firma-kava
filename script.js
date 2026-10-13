@@ -688,3 +688,24 @@ updateSelectedCapsuleField();
   window.addEventListener('resize', requestUpdate);
   updateImagePosition();
 })();
+
+
+/* On phones, move the same PLAY link onto the hero photo; restore it to the capsule banner on wider screens. */
+(function placeMobilePlayOnHeroImage(){
+  const play = document.querySelector('#lavazza-film .film-banner-play');
+  const banner = document.querySelector('#lavazza-film .film-banner');
+  const heroImage = document.querySelector('.hero-image-wrap');
+  if (!play || !banner || !heroImage) return;
+
+  const mobile = window.matchMedia('(max-width: 700px)');
+  function place(){
+    if (mobile.matches){
+      if (play.parentElement !== heroImage) heroImage.appendChild(play);
+    } else if (play.parentElement !== banner){
+      banner.appendChild(play);
+    }
+  }
+  place();
+  if (typeof mobile.addEventListener === 'function') mobile.addEventListener('change', place);
+  else if (typeof mobile.addListener === 'function') mobile.addListener(place);
+})();
