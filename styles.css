@@ -1080,3 +1080,48 @@ body{
     text-shadow:0 1px 3px rgba(0,0,0,.8);
   }
 }
+
+
+/* Mobile PLAY button: Lavazza-blue circle, white triangle, raised 0.5 cm. */
+@media(max-width:700px){
+  #lavazza-film .film-banner{overflow:visible}
+  #lavazza-film .film-banner .film-banner-play,
+  #lavazza-film .film-banner .film-banner-play:link,
+  #lavazza-film .film-banner .film-banner-play:visited,
+  #lavazza-film .film-banner .film-banner-play:hover,
+  #lavazza-film .film-banner .film-banner-play:focus,
+  #lavazza-film .film-banner .film-banner-play:focus-visible,
+  #lavazza-film .film-banner .film-banner-play:active{
+    top:-11px !important;
+    left:50% !important;
+    width:40px !important;
+    height:40px !important;
+    min-width:40px !important;
+    min-height:40px !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-direction:row !important;
+    background:#005ca9 !important;
+    background-color:#005ca9 !important;
+    border:0 !important;
+    border-radius:50% !important;
+    box-shadow:0 2px 6px rgba(0,0,0,.22) !important;
+    transform:translateX(-50%) !important;
+    overflow:visible !important;
+  }
+  #lavazza-film .film-banner .film-banner-play span[aria-hidden="true"]{
+    display:block !important;
+    color:#fff !important;
+    font-size:16px !important;
+    line-height:1 !important;
+    text-shadow:none !important;
+    margin-left:2px;
+  }
+  #lavazza-film .film-banner .film-control-label{display:none !important}
+}
+@media(max-width:390px){
+  #lavazza-film .film-banner .film-banner-play,
+  #lavazza-film .film-banner .film-banner-play:hover{width:36px !important;height:36px !important;min-width:36px !important;min-height:36px !important}
+}
