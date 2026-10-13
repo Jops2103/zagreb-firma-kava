@@ -1649,3 +1649,13 @@ body{
 #kako-radi .steps article{
   background:var(--bg)!important;
 }
+
+
+/* Let the complete three-step section show the site's actual main background, not a pale panel. */
+#kako-radi.how-section{
+  background:transparent!important;
+  background-color:transparent!important;
+}
+#kako-radi .steps article{
+  background:transparent!important;
+}
