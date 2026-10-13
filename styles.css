@@ -747,3 +747,7 @@ body{
   #lavazza-film .film-banner-play{opacity:1;visibility:visible}
   .btn:hover{transform:none}
 }
+
+
+/* High-contrast LAVAZZA FIRMA label at the start of the hero introduction. */
+.lavazza-black-banner{display:inline-block;background:#000;color:#fff;padding:.16em .42em;margin:0 .12em .18em 0;font-weight:800;letter-spacing:.035em;line-height:1.2;box-decoration-break:clone;-webkit-box-decoration-break:clone}
