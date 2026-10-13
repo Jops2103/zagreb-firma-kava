@@ -1635,3 +1635,17 @@ body{
     transform-origin:center center;
   }
 }
+
+
+/* Three-step order cards: black typography and page-matching fills, retaining the existing top rules. */
+#kako-radi .section-heading h2,
+#kako-radi .section-heading h2 span,
+#kako-radi .steps article,
+#kako-radi .steps article>b,
+#kako-radi .steps article h3,
+#kako-radi .steps article p{
+  color:#000!important;
+}
+#kako-radi .steps article{
+  background:var(--bg)!important;
+}
