@@ -1445,3 +1445,48 @@ body{
 @media (max-width:700px){
   #lavazza-film.film-section{display:none!important}
 }
+
+
+/* Phone landscape: keep the mobile layout even when the rotated viewport is wide. */
+@media (orientation:landscape) and (max-height:520px) and (max-width:950px){
+  html{scroll-padding-top:60px}
+  .header{height:58px;padding:0 16px}
+  .menu{display:grid;min-width:44px;min-height:44px;place-items:center}
+  .header nav{
+    display:none;position:absolute;top:57px;left:0;right:0;
+    background:var(--paper);padding:12px 18px 16px;flex-direction:column;
+    gap:8px;align-items:stretch;border-bottom:1px solid var(--line)
+  }
+  .header nav.open{display:flex}
+  .header nav a{min-height:44px;display:flex;align-items:center;padding:8px}
+  .navbtn{text-align:center}
+  .hero{grid-template-columns:1fr;padding:28px 22px 18px;gap:0;min-height:0}
+  .hero h1{font-size:clamp(32px,5vw,42px);letter-spacing:-1.3px}
+  .lead,.hero .hero-price-note{font-size:14px}
+  .hero-visual{height:clamp(210px,48vh,290px);margin-top:6px}
+  .visual-circle{width:min(42vw,235px);height:min(42vw,235px)}
+  .hero-photo{height:clamp(210px,48vh,290px);margin-top:6px}
+  .hero-product-image{padding:8px 22px;object-fit:contain}
+  .hero-photo .visual-label{right:10px;bottom:8px;padding:6px 8px}
+  .info-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:16px 20px}
+  .section{padding:42px 18px}
+  .section-heading{margin-bottom:24px}
+  .model-grid-specs{grid-template-columns:1fr}
+  .model-grid-specs .model-card{display:flex}
+  .model-grid-specs .model-card .model-art{height:300px;min-height:300px}
+  .product-gallery{grid-template-rows:minmax(0,1fr) 76px}
+  .model-grid-specs .model-body{padding:18px}
+  .spec-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .spec-columns section{padding:12px}
+  .capsule-section{padding:42px 20px}
+  .capsule-inner{grid-template-columns:1fr;gap:10px}
+  .capsule-stack{min-height:140px}
+  .steps{grid-template-columns:1fr;gap:12px}
+  #order-form{grid-template-columns:1fr;padding:20px;gap:14px}
+  #order-form .full{grid-column:auto}
+  .form-actions{align-items:stretch;flex-direction:column}
+  .form-actions .btn{width:100%}
+  .footer-main{gap:14px}
+  .footer-main>p{flex-basis:100%;margin:0}
+  #lavazza-film.film-section{display:none!important}
+}
