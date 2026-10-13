@@ -1524,7 +1524,7 @@ body{
 
 
 /* Keep the PLAY button in the portrait position when a phone is rotated to landscape. */
-@media (orientation:landscape) and (max-height:520px) and (max-width:950px){
+@media (orientation:landscape) and (max-height:520px){
   .hero-image-wrap{position:relative}
   .hero-image-wrap .film-banner-play,
   .hero-image-wrap .film-banner-play:hover,
@@ -1614,4 +1614,24 @@ body{
     margin-left:2px!important;
   }
   .hero-image-wrap .film-banner-play .film-control-label{display:none!important}
+}
+
+
+/* Enlarge the three-machine hero image in landscape: keep the full photo visible while reducing side gaps. */
+@media (orientation:landscape) and (max-height:520px){
+  .hero-photo{
+    height:clamp(300px,108svh,500px)!important;
+    min-height:300px!important;
+  }
+  .hero-image-wrap .hero-product-image{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    padding:0!important;
+    margin:0!important;
+    transform:scale(1.02);
+    transform-origin:center center;
+  }
 }
