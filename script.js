@@ -697,7 +697,7 @@ updateSelectedCapsuleField();
   const heroImage = document.querySelector('.hero-image-wrap');
   if (!play || !banner || !heroImage) return;
 
-  const mobile = window.matchMedia('(max-width: 700px), (orientation: landscape) and (max-height: 520px) and (max-width: 950px)');
+  const mobile = window.matchMedia('(max-width: 700px), (orientation: landscape) and (max-height: 520px)');
   function place(){
     if (mobile.matches){
       if (play.parentElement !== heroImage) heroImage.appendChild(play);
