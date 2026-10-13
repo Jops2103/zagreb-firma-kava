@@ -734,7 +734,7 @@ updateSelectedCapsuleField();
     if (loaded) return;
     loaded = true;
     const base = iframe.dataset.youtubeSrc.replace(/&amp;/g,'&');
-    const motionParams = reduceMotion.matches ? '&autoplay=0' : '&autoplay=1&mute=1&loop=1&playlist=QkOjfpLbA2o&enablejsapi=1';
+    const motionParams = reduceMotion.matches ? '&autoplay=0' : '&autoplay=1&mute=1&loop=1&playlist=AVZF3WYLkhI&enablejsapi=1';
     iframe.src = base + motionParams;
   }
   if ('IntersectionObserver' in window){
