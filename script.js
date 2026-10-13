@@ -791,7 +791,7 @@ updateSelectedCapsuleField();
   if (motionQuery.matches || !finePointer.matches) return;
 
   const root = document.documentElement;
-  const sectionSelector = '.hero, .film-snap-point, .how-section, .finder-section, #ponuda, #kapsule, .order-section, footer';
+  const sectionSelector = '.hero, .film-section, .film-snap-point, .how-section, .finder-section, #ponuda, #kapsule, .order-section, footer';
   let busy = false;
   let unlockTimer = null;
   let animationFrame = 0;
