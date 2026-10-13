@@ -718,20 +718,57 @@ updateSelectedCapsuleField();
   start();
 })();
 
-/* Scroll-linked film strip. Clicking its thumbnail opens the user's video in a new YouTube tab. */
+/* Load the muted, looping YouTube embed only near the viewport; provide a clear pause/resume control. */
 (function setupScrollFilm(){
   const section = document.getElementById('lavazza-film');
   const banner = section && section.querySelector('.film-banner');
-  if (!section || !banner) return;
+  const player = banner && banner.querySelector('.film-banner-player');
+  const toggle = banner && banner.querySelector('.film-banner-play');
+  if (!section || !banner || !player || !toggle) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let framePending = false;
+  let paused = false;
+  let playerLoaded = false;
+
+  function loadPlayer(){
+    if (playerLoaded) return;
+    playerLoaded = true;
+    player.src = player.dataset.src;
+  }
+  if ('IntersectionObserver' in window){
+    const playerObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)){
+        loadPlayer();
+        playerObserver.disconnect();
+      }
+    }, {rootMargin:'300px 0px'});
+    playerObserver.observe(section);
+  } else {
+    loadPlayer();
+  }
+
+  function sendPlayerCommand(command){
+    if (!player.contentWindow || !playerLoaded) return;
+    player.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}), 'https://www.youtube-nocookie.com');
+  }
+  toggle.addEventListener('click', () => {
+    loadPlayer();
+    paused = !paused;
+    sendPlayerCommand(paused ? 'pauseVideo' : 'playVideo');
+    toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    toggle.setAttribute('aria-label', paused ? 'Nastavi video' : 'Pauziraj video');
+    toggle.querySelector('span[aria-hidden="true"]').textContent = paused ? '▶' : 'Ⅱ';
+    toggle.querySelector('.film-control-label').textContent = paused ? 'Nastavi' : 'Pauziraj';
+    if (!paused) sendPlayerCommand('mute');
+  });
 
   function updateFilm(){
     framePending = false;
     if (reduceMotion.matches){
       banner.style.opacity = '1';
       banner.style.transform = 'none';
+      banner.style.pointerEvents = 'auto';
       return;
     }
     const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
@@ -740,6 +777,8 @@ updateSelectedCapsuleField();
     banner.style.opacity = String(1 - fade);
     banner.style.transform = 'translate3d(0,' + (-fade * 18).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.035).toFixed(4) + ')';
     banner.style.pointerEvents = fade > 0.94 ? 'none' : 'auto';
+    if (fade > 0.96 && !paused) sendPlayerCommand('pauseVideo');
+    else if (fade < 0.5 && !paused && playerLoaded) sendPlayerCommand('playVideo');
   }
   function scheduleUpdate(){
     if (framePending) return;
