@@ -560,66 +560,7 @@ updateSelectedCapsuleField();
 
 
 
-/* Experimental scroll-snap + scrollytelling. Progressive enhancement; content remains visible without JS. */
-(function setupScrollExperience(){
-  const progressFill = document.getElementById('scroll-progress-fill');
-  let progressFrame = 0;
-
-  function updateReadingProgress(){
-    progressFrame = 0;
-    if (!progressFill) return;
-    const doc = document.documentElement;
-    const scrollable = doc.scrollHeight - window.innerHeight;
-    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-    progressFill.style.transform = 'scaleX(' + progress + ')';
-  }
-
-  function scheduleProgressUpdate(){
-    if (!progressFrame) progressFrame = window.requestAnimationFrame(updateReadingProgress);
-  }
-
-  window.addEventListener('scroll', scheduleProgressUpdate, {passive:true});
-  window.addEventListener('resize', scheduleProgressUpdate, {passive:true});
-  window.addEventListener('load', scheduleProgressUpdate, {once:true});
-  updateReadingProgress();
-
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion || !('IntersectionObserver' in window)) return;
-
-  const selectors = [
-    '.hero-copy > *',
-    '.hero-visual',
-    '.info-strip > div',
-    '.section-heading',
-    '.steps article',
-    '.finder-panel',
-    '.model-card',
-    '.capsule-inner > *',
-    '.capsule-card',
-    '#order-form',
-    '.email-order-note',
-    '.footer-main',
-    'footer .legal'
-  ];
-  const targets = Array.from(new Set(selectors.flatMap(selector => Array.from(document.querySelectorAll(selector)))));
-  if (!targets.length) return;
-
-  targets.forEach((element,index)=>{
-    element.classList.add('reveal-on-scroll');
-    element.style.setProperty('--reveal-delay', (Math.min(index % 4,3) * 80) + 'ms');
-  });
-  document.documentElement.classList.add('motion-ready');
-
-  const observer = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-in-view');
-      observer.unobserve(entry.target);
-    });
-  }, {threshold:0.12, rootMargin:'0px 0px -5% 0px'});
-
-  targets.forEach(element=>observer.observe(element));
-})();
+/* Native page scrolling; only in-page actions use the browser's gentle smooth-scroll behavior. */
 
 
 /* Hero slideshow: slow crossfades, with a pause control and reduced-motion support. */
@@ -764,138 +705,19 @@ updateSelectedCapsuleField();
     if (!paused){ scrollPaused = false; sendPlayerCommand('mute'); }
   });
 
-  function updateFilm(){
-    framePending = false;
-    if (reduceMotion.matches){
-      banner.style.opacity = '1';
-      banner.style.transform = 'none';
-      banner.style.pointerEvents = 'auto';
-      return;
-    }
-    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
-    const sectionProgress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
-
-    // Keep the video clear for longer, then fade it away gradually instead of making it vanish too early.
-    const rawFade = Math.min(1, Math.max(0, (sectionProgress - 0.12) / 0.82));
-    const fade = rawFade * rawFade * (3 - 2 * rawFade); // smoothstep easing
-    banner.style.opacity = String(1 - fade);
-    banner.style.transform = 'translate3d(0,' + (-fade * 8).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.015).toFixed(4) + ')';
-    banner.style.pointerEvents = fade > 0.985 ? 'none' : 'auto';
-
-    // Pause only when the video is effectively gone; resume if the visitor scrolls back to it.
-    if (fade > 0.985 && !paused && !scrollPaused && playerLoaded) {
-      sendPlayerCommand('pauseVideo');
-      scrollPaused = true;
-    } else if (fade < 0.35 && !paused && scrollPaused && playerLoaded) {
-      sendPlayerCommand('mute');
-      sendPlayerCommand('playVideo');
-      scrollPaused = false;
-    }
-  }
-  function scheduleUpdate(){
-    if (framePending) return;
-    framePending = true;
-    window.requestAnimationFrame(updateFilm);
-  }
-  window.addEventListener('scroll', scheduleUpdate, {passive:true});
-  window.addEventListener('resize', scheduleUpdate, {passive:true});
-  if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', scheduleUpdate);
-  updateFilm();
-})();
-
-/* Desktop wheel scrolling advances one chapter at a measured, smooth pace. */
-(function setupGentleWheelScroll(){
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  if (motionQuery.matches || !finePointer.matches) return;
-
-  const root = document.documentElement;
-  const sectionSelector = '.hero, .film-section, .film-snap-point, .how-section, .finder-section, #ponuda, #kapsule, .order-section, footer';
-  let busy = false;
-  let unlockTimer = null;
-  let animationFrame = 0;
-
-  function getStops(){
-    const padding = parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
-    return Array.from(document.querySelectorAll(sectionSelector))
-      .map(element => {
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        const margin = parseFloat(style.scrollMarginTop) || 0;
-        return {element, top: Math.max(0, rect.top + window.scrollY - padding - margin)};
-      })
-      .sort((a,b) => a.top - b.top)
-      .filter((stop,index,all) => index === 0 || Math.abs(stop.top - all[index-1].top) > 90);
-  }
-
-  function animateTo(target){
-    const start = window.scrollY;
-    const distance = target - start;
-    if (Math.abs(distance) < 24) return;
-    const duration = 880;
-    const startTime = performance.now();
-    const oldSnap = root.style.scrollSnapType;
-    const oldBehavior = root.style.scrollBehavior;
-    root.style.scrollSnapType = 'none';
-    root.style.scrollBehavior = 'auto';
-
-    function step(now){
-      const t = Math.min(1, (now - startTime) / duration);
-      const eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
-      window.scrollTo(0, start + distance * eased);
-      if (t < 1){
-        animationFrame = window.requestAnimationFrame(step);
-      } else {
-        animationFrame = 0;
-        window.scrollTo(0, target);
-        root.style.scrollSnapType = oldSnap;
-        root.style.scrollBehavior = oldBehavior;
-        busy = false;
+  // Keep ordinary page scrolling in control; only pause playback when the video leaves view.
+  if ('IntersectionObserver' in window) {
+    const playbackObserver = new IntersectionObserver(entries => {
+      const visible = entries.some(entry => entry.isIntersecting && entry.intersectionRatio > 0.15);
+      if (!visible && !paused && playerLoaded && !scrollPaused) {
+        sendPlayerCommand('pauseVideo');
+        scrollPaused = true;
+      } else if (visible && !paused && playerLoaded && scrollPaused) {
+        sendPlayerCommand('mute');
+        sendPlayerCommand('playVideo');
+        scrollPaused = false;
       }
-    }
-    animationFrame = window.requestAnimationFrame(step);
+    }, {threshold:[0,0.15,0.5]});
+    playbackObserver.observe(section);
   }
-
-  window.addEventListener('wheel', event => {
-    if (motionQuery.matches || !finePointer.matches) return;
-    if (event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-    if (Math.abs(event.deltaY) < 8) return;
-    if (event.target instanceof Element && event.target.closest('textarea, select, input, [contenteditable="true"]')) return;
-
-    const stops = getStops();
-    if (stops.length < 2) return;
-    event.preventDefault();
-    if (busy) return;
-
-    const current = window.scrollY;
-    const direction = Math.sign(event.deltaY);
-    let targetStop;
-    if (direction > 0){
-      targetStop = stops.find(stop => stop.top > current + 100);
-      if (!targetStop) return;
-    } else {
-      for (let index = stops.length - 1; index >= 0; index--){
-        if (stops[index].top < current - 100){
-          targetStop = stops[index];
-          break;
-        }
-      }
-      if (!targetStop) return;
-    }
-
-    busy = true;
-    if (unlockTimer) window.clearTimeout(unlockTimer);
-    animateTo(Math.min(Math.max(0, targetStop.top), root.scrollHeight - window.innerHeight));
-    unlockTimer = window.setTimeout(() => { busy = false; }, 1250);
-  }, {passive:false});
-
-  motionQuery.addEventListener?.('change', event => {
-    if (event.matches && animationFrame){
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
-      root.style.scrollSnapType = '';
-      root.style.scrollBehavior = '';
-      busy = false;
-    }
-  });
 })();
