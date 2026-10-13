@@ -532,3 +532,44 @@ body.lightbox-open{overflow:hidden}
 @media(max-width:700px){
   .film-banner-play{left:50%;top:50%;right:auto;bottom:auto;padding:18px;min-width:68px;min-height:68px}
 }
+
+
+/* Modern satin-aluminium page finish: cool silver, soft highlights and very fine brushed texture. */
+:root{
+  --bg:#dfe2e5;
+  --paper:#f7f8f9;
+  --soft:#e7e9eb;
+  --line:#cbd0d5;
+  --muted:#62686e;
+  --brown:#747b83;
+  --brown-dark:#414951;
+  --brown-light:#b9c0c7;
+}
+body{
+  background-color:#dfe2e5;
+  background-image:
+    radial-gradient(ellipse at 16% 4%,rgba(255,255,255,.72) 0,rgba(255,255,255,0) 38%),
+    linear-gradient(118deg,rgba(255,255,255,.22) 0%,rgba(157,165,173,.10) 42%,rgba(255,255,255,.24) 68%,rgba(151,159,167,.08) 100%),
+    repeating-linear-gradient(90deg,rgba(76,85,94,.035) 0,rgba(76,85,94,.035) 1px,rgba(255,255,255,.12) 1px,rgba(255,255,255,.12) 3px,transparent 3px,transparent 6px);
+  background-attachment:fixed;
+}
+.header{
+  background:rgba(229,232,235,.86);
+  border-bottom-color:rgba(167,174,181,.7);
+}
+.hero,.capsule-section,.order-section,footer,.finder-section{
+  background-color:transparent;
+}
+.info-strip{background:rgba(239,241,243,.78)}
+.how-section{background:rgba(247,248,249,.82)}
+.model-art,.art-1050,.art-mini,.art-milk,.art-compact{
+  background-color:#e5e8eb;
+}
+.model-art:before{background:#d5d9dd}
+.capsule-card,.finder-panel,.model-card,#order-form{
+  box-shadow:0 12px 34px rgba(39,47,55,.045);
+}
+@media(max-width:700px){
+  body{background-attachment:scroll}
+  .header{background:rgba(229,232,235,.96)}
+}
