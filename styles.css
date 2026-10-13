@@ -1257,3 +1257,18 @@ body{
 @media (max-width:390px){
   .hero-image-wrap .film-banner-play{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}
 }
+
+
+/* Order steps: bold numbers in the site's main background color. */
+.steps article>b{
+  display:inline-block;
+  color:var(--bg);
+  font-size:clamp(28px,3.2vw,38px);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:1px;
+  margin-bottom:4px;
+}
+@media(max-width:700px){
+  .steps article>b{font-size:32px}
+}
