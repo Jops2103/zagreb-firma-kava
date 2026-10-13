@@ -1521,3 +1521,49 @@ body{
     object-position:center;
   }
 }
+
+
+/* Keep the PLAY button in the portrait position when a phone is rotated to landscape. */
+@media (orientation:landscape) and (max-height:520px) and (max-width:950px){
+  .hero-image-wrap{position:relative}
+  .hero-image-wrap .film-banner-play,
+  .hero-image-wrap .film-banner-play:hover,
+  .hero-image-wrap .film-banner-play:focus,
+  .hero-image-wrap .film-banner-play:focus-visible,
+  .hero-image-wrap .film-banner-play:active{
+    position:absolute!important;
+    top:8px!important;
+    right:8px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:10!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:38px!important;
+    height:38px!important;
+    min-width:38px!important;
+    min-height:38px!important;
+    padding:0!important;
+    margin:0!important;
+    background:#005ca9!important;
+    background-color:#005ca9!important;
+    color:#fff!important;
+    border:0!important;
+    border-radius:50%!important;
+    box-shadow:0 2px 7px rgba(0,0,0,.25)!important;
+    transform:none!important;
+    opacity:1!important;
+    visibility:visible!important;
+    overflow:visible!important;
+    touch-action:manipulation!important;
+  }
+  .hero-image-wrap .film-banner-play span[aria-hidden="true"]{
+    display:block!important;
+    color:#fff!important;
+    font-size:15px!important;
+    line-height:1!important;
+    margin-left:2px!important;
+  }
+  .hero-image-wrap .film-banner-play .film-control-label{display:none!important}
+}
