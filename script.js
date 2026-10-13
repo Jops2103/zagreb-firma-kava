@@ -718,59 +718,28 @@ updateSelectedCapsuleField();
   start();
 })();
 
-/* YouTube loads only near the film section. Its visible scene fades with scroll and pauses when gone. */
+/* Scroll-linked film strip. Clicking its thumbnail opens the user's video in a new YouTube tab. */
 (function setupScrollFilm(){
   const section = document.getElementById('lavazza-film');
-  const content = section && section.querySelector('.film-content');
-  const iframe = section && section.querySelector('iframe[data-youtube-src]');
-  if (!section || !content || !iframe) return;
+  const banner = section && section.querySelector('.film-banner');
+  if (!section || !banner) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let framePending = false;
-  let pausedAtEnd = false;
-  let loaded = false;
 
-  function loadVideo(){
-    if (loaded) return;
-    loaded = true;
-    const base = iframe.dataset.youtubeSrc.replace(/&amp;/g,'&');
-    const motionParams = reduceMotion.matches ? '&autoplay=0' : '&autoplay=1&mute=1&loop=1&playlist=AVZF3WYLkhI&enablejsapi=1';
-    iframe.src = base + motionParams;
-  }
-  if ('IntersectionObserver' in window){
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)){
-        loadVideo();
-        observer.disconnect();
-      }
-    }, {rootMargin:'280px 0px',threshold:0.01});
-    observer.observe(section);
-  } else {
-    loadVideo();
-  }
-
-  function pausePlayer(){
-    if (!loaded || !iframe.contentWindow) return;
-    iframe.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}), '*');
-  }
   function updateFilm(){
     framePending = false;
     if (reduceMotion.matches){
-      content.style.opacity = '1';
-      content.style.transform = 'none';
+      banner.style.opacity = '1';
+      banner.style.transform = 'none';
       return;
     }
     const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
-    const fade = Math.min(1, Math.max(0, (progress - 0.12) / 0.84));
-    content.style.opacity = String(1 - fade);
-    content.style.transform = 'scale(' + (1 - fade * 0.045).toFixed(4) + ')';
-    if (fade > 0.98 && !pausedAtEnd){
-      pausePlayer();
-      pausedAtEnd = true;
-    } else if (fade < 0.9){
-      pausedAtEnd = false;
-    }
+    const sectionProgress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
+    const fade = Math.min(1, Math.max(0, (sectionProgress - 0.04) / 0.92));
+    banner.style.opacity = String(1 - fade);
+    banner.style.transform = 'translate3d(0,' + (-fade * 18).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.035).toFixed(4) + ')';
+    banner.style.pointerEvents = fade > 0.94 ? 'none' : 'auto';
   }
   function scheduleUpdate(){
     if (framePending) return;
@@ -782,7 +751,6 @@ updateSelectedCapsuleField();
   if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', scheduleUpdate);
   updateFilm();
 })();
-
 
 /* Desktop wheel scrolling advances one chapter at a measured, smooth pace. */
 (function setupGentleWheelScroll(){
