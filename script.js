@@ -620,3 +620,165 @@ updateSelectedCapsuleField();
 
   targets.forEach(element=>observer.observe(element));
 })();
+
+
+/* Hero slideshow: slow crossfades, with a pause control and reduced-motion support. */
+(function setupHeroSlideshow(){
+  const gallery = document.querySelector('.hero-photo');
+  if (!gallery) return;
+  const slides = Array.from(gallery.querySelectorAll('[data-hero-slide]'));
+  const toggle = document.getElementById('hero-slideshow-toggle');
+  const counter = document.getElementById('hero-slide-count');
+  const progress = gallery.querySelector('.hero-slide-progress');
+  if (slides.length < 2) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let activeSlide = slides.find(slide => slide.classList.contains('is-active')) || slides[0];
+  let timer = null;
+  let paused = reduceMotion.matches;
+  const intervalMs = 6200;
+
+  function availableSlides(){
+    return slides.filter(slide => slide.dataset.failed !== 'true');
+  }
+  function renderCounter(){
+    const available = availableSlides();
+    const position = Math.max(0, available.indexOf(activeSlide)) + 1;
+    if (counter) counter.textContent = String(position).padStart(2,'0') + ' / ' + String(available.length).padStart(2,'0');
+  }
+  function activate(slide){
+    if (!slide || slide.dataset.failed === 'true') return;
+    activeSlide = slide;
+    slides.forEach(item => {
+      const active = item === slide;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-hidden', active ? 'false' : 'true');
+      item.tabIndex = active ? 0 : -1;
+    });
+    renderCounter();
+    gallery.classList.remove('hero-slideshow-running');
+    if (progress) progress.offsetWidth;
+    if (!paused && !reduceMotion.matches) requestAnimationFrame(() => gallery.classList.add('hero-slideshow-running'));
+  }
+  function advance(){
+    const available = availableSlides();
+    if (available.length < 2) return;
+    const current = available.indexOf(activeSlide);
+    activate(available[(current + 1 + available.length) % available.length]);
+  }
+  function stop(){
+    if (timer) window.clearInterval(timer);
+    timer = null;
+    gallery.classList.remove('hero-slideshow-running');
+  }
+  function start(){
+    stop();
+    if (paused || reduceMotion.matches || document.hidden || availableSlides().length < 2) return;
+    gallery.classList.add('hero-slideshow-running');
+    timer = window.setInterval(advance, intervalMs);
+  }
+
+  slides.forEach(slide => {
+    slide.addEventListener('error', () => {
+      const wasActive = slide === activeSlide;
+      slide.dataset.failed = 'true';
+      slide.style.display = 'none';
+      if (wasActive) {
+        const next = availableSlides()[0];
+        if (next) activate(next);
+      }
+      renderCounter();
+      start();
+    }, {once:true});
+    slide.tabIndex = slide === activeSlide ? 0 : -1;
+    slide.setAttribute('aria-hidden', slide === activeSlide ? 'false' : 'true');
+  });
+
+  if (toggle){
+    toggle.hidden = reduceMotion.matches;
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      toggle.setAttribute('aria-label', paused ? 'Nastavi izmjenu fotografija' : 'Pauziraj izmjenu fotografija');
+      toggle.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
+      if (paused) stop(); else start();
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else start();
+  });
+  if (typeof reduceMotion.addEventListener === 'function'){
+    reduceMotion.addEventListener('change', event => {
+      if (toggle) toggle.hidden = event.matches;
+      if (event.matches){ paused = true; stop(); }
+      else { paused = false; start(); }
+    });
+  }
+  renderCounter();
+  start();
+})();
+
+/* YouTube loads only near the film section. Its visible scene fades with scroll and pauses when gone. */
+(function setupScrollFilm(){
+  const section = document.getElementById('lavazza-film');
+  const content = section && section.querySelector('.film-content');
+  const iframe = section && section.querySelector('iframe[data-youtube-src]');
+  if (!section || !content || !iframe) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let framePending = false;
+  let pausedAtEnd = false;
+  let loaded = false;
+
+  function loadVideo(){
+    if (loaded) return;
+    loaded = true;
+    const base = iframe.dataset.youtubeSrc.replace(/&amp;/g,'&');
+    const motionParams = reduceMotion.matches ? '&autoplay=0' : '&autoplay=1&mute=1&loop=1&playlist=QkOjfpLbA2o&enablejsapi=1';
+    iframe.src = base + motionParams;
+  }
+  if ('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)){
+        loadVideo();
+        observer.disconnect();
+      }
+    }, {rootMargin:'280px 0px',threshold:0.01});
+    observer.observe(section);
+  } else {
+    loadVideo();
+  }
+
+  function pausePlayer(){
+    if (!loaded || !iframe.contentWindow) return;
+    iframe.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}), '*');
+  }
+  function updateFilm(){
+    framePending = false;
+    if (reduceMotion.matches){
+      content.style.opacity = '1';
+      content.style.transform = 'none';
+      return;
+    }
+    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
+    const fade = Math.min(1, Math.max(0, (progress - 0.12) / 0.84));
+    content.style.opacity = String(1 - fade);
+    content.style.transform = 'scale(' + (1 - fade * 0.045).toFixed(4) + ')';
+    if (fade > 0.98 && !pausedAtEnd){
+      pausePlayer();
+      pausedAtEnd = true;
+    } else if (fade < 0.9){
+      pausedAtEnd = false;
+    }
+  }
+  function scheduleUpdate(){
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(updateFilm);
+  }
+  window.addEventListener('scroll', scheduleUpdate, {passive:true});
+  window.addEventListener('resize', scheduleUpdate, {passive:true});
+  if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', scheduleUpdate);
+  updateFilm();
+})();
