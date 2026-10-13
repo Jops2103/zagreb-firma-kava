@@ -520,3 +520,8 @@ body.lightbox-open{overflow:hidden}
   .hero-slideshow-toggle{display:none}
   .film-banner-play{transition:none}
 }
+
+/* Keep the PLAY control centered on narrow screens too. */
+@media(max-width:700px){
+  .film-banner-play{left:50%;top:50%;right:auto;bottom:auto;padding:18px;min-width:68px;min-height:68px}
+}
