@@ -715,3 +715,17 @@ body{
     background:linear-gradient(180deg,rgba(201,205,209,.38),rgba(201,205,209,.08) 70%,transparent);
   }
 }
+
+
+/* Keep the former homepage slideshow area empty while preserving its layout space. */
+.hero-photo.hero-visual-empty,
+.hero-photo.hero-visual-empty:before{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  content:none;
+}
+.hero-photo.hero-visual-empty{display:block;visibility:visible;min-height:300px}
+@media(min-width:1001px){.hero-photo.hero-visual-empty{height:430px;min-height:430px}}
+@media(max-width:1000px){.hero-photo.hero-visual-empty{height:370px;min-height:370px}}
+@media(max-width:700px){.hero-photo.hero-visual-empty{height:300px;min-height:300px;margin-top:8px}}
