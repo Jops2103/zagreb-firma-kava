@@ -576,3 +576,56 @@ body{
   body{background-attachment:scroll}
   .header{background:rgba(220,224,228,.94)}
 }
+
+
+/* Extend the brushed-silver palette consistently across all page sections and content surfaces. */
+:root{
+  --paper:rgba(237,240,242,.88);
+  --soft:#dfe3e6;
+  --line:#b9c0c6;
+}
+.header,
+.info-strip,
+.how-section,
+.finder-section,
+.model-card,
+.capsule-card,
+.finder-panel,
+#order-form,
+.email-order-note,
+#additional-capsules-details,
+#additional-capsule-varieties,
+.capsule-choice-fieldset label,
+.finder-option,
+.finder-result-facts li{
+  background-color:rgba(211,216,221,.84);
+}
+.header{background-color:rgba(213,218,223,.9)}
+.info-strip{background-color:rgba(222,226,230,.76)}
+.how-section{background-color:rgba(230,233,236,.72)}
+.finder-section{background-color:transparent}
+.model-card,
+.capsule-card,
+.finder-panel,
+#order-form,
+.email-order-note{
+  border-color:rgba(160,168,176,.65);
+  box-shadow:0 12px 34px rgba(39,47,55,.075),inset 0 1px 0 rgba(255,255,255,.36);
+}
+.capsule-card img,
+#additional-capsules-details #additional-capsules,
+.image-lightbox img{background-color:#d9dde1}
+.capsule-choice-fieldset label:has(input:checked),
+.finder-option:has(input:checked){
+  background-color:rgba(190,204,219,.94);
+}
+#additional-capsules-details{background-color:rgba(201,207,213,.88)}
+#additional-capsule-varieties{background-color:rgba(213,218,223,.88)}
+.finder-option{background-color:rgba(224,228,232,.86)}
+.finder-option:has(input:checked){background-color:rgba(194,207,221,.94)}
+.finder-result-facts li{background-color:rgba(204,210,216,.78)}
+.success-message{background-color:#e3edf3}
+.copy-email-btn{background-color:rgba(239,242,244,.92)}
+@media(max-width:700px){
+  .header{background-color:rgba(213,218,223,.96)}
+}
