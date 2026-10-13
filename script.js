@@ -620,3 +620,271 @@ updateSelectedCapsuleField();
 
   targets.forEach(element=>observer.observe(element));
 })();
+
+
+/* Hero slideshow: slow crossfades, with a pause control and reduced-motion support. */
+(function setupHeroSlideshow(){
+  const gallery = document.querySelector('.hero-photo');
+  if (!gallery) return;
+  const slides = Array.from(gallery.querySelectorAll('[data-hero-slide]'));
+  const toggle = document.getElementById('hero-slideshow-toggle');
+  const counter = document.getElementById('hero-slide-count');
+  const progress = gallery.querySelector('.hero-slide-progress');
+  if (slides.length < 2) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let activeSlide = slides.find(slide => slide.classList.contains('is-active')) || slides[0];
+  let timer = null;
+  let paused = reduceMotion.matches;
+  const intervalMs = 6200;
+
+  function availableSlides(){
+    return slides.filter(slide => slide.dataset.failed !== 'true');
+  }
+  function renderCounter(){
+    const available = availableSlides();
+    const position = Math.max(0, available.indexOf(activeSlide)) + 1;
+    if (counter) counter.textContent = String(position).padStart(2,'0') + ' / ' + String(available.length).padStart(2,'0');
+  }
+  function activate(slide){
+    if (!slide || slide.dataset.failed === 'true') return;
+    activeSlide = slide;
+    slides.forEach(item => {
+      const active = item === slide;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-hidden', active ? 'false' : 'true');
+      item.tabIndex = active ? 0 : -1;
+    });
+    renderCounter();
+    gallery.classList.remove('hero-slideshow-running');
+    if (progress) progress.offsetWidth;
+    if (!paused && !reduceMotion.matches) requestAnimationFrame(() => gallery.classList.add('hero-slideshow-running'));
+  }
+  function advance(){
+    const available = availableSlides();
+    if (available.length < 2) return;
+    const current = available.indexOf(activeSlide);
+    activate(available[(current + 1 + available.length) % available.length]);
+  }
+  function stop(){
+    if (timer) window.clearInterval(timer);
+    timer = null;
+    gallery.classList.remove('hero-slideshow-running');
+  }
+  function start(){
+    stop();
+    if (paused || reduceMotion.matches || document.hidden || availableSlides().length < 2) return;
+    gallery.classList.add('hero-slideshow-running');
+    timer = window.setInterval(advance, intervalMs);
+  }
+
+  slides.forEach(slide => {
+    slide.addEventListener('error', () => {
+      const wasActive = slide === activeSlide;
+      slide.dataset.failed = 'true';
+      slide.style.display = 'none';
+      if (wasActive) {
+        const next = availableSlides()[0];
+        if (next) activate(next);
+      }
+      renderCounter();
+      start();
+    }, {once:true});
+    slide.tabIndex = slide === activeSlide ? 0 : -1;
+    slide.setAttribute('aria-hidden', slide === activeSlide ? 'false' : 'true');
+  });
+
+  if (toggle){
+    toggle.hidden = reduceMotion.matches;
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      toggle.setAttribute('aria-label', paused ? 'Nastavi izmjenu fotografija' : 'Pauziraj izmjenu fotografija');
+      toggle.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
+      if (paused) stop(); else start();
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else start();
+  });
+  if (typeof reduceMotion.addEventListener === 'function'){
+    reduceMotion.addEventListener('change', event => {
+      if (toggle) toggle.hidden = event.matches;
+      if (event.matches){ paused = true; stop(); }
+      else { paused = false; start(); }
+    });
+  }
+  renderCounter();
+  start();
+})();
+
+/* Load the muted, looping YouTube embed only near the viewport; provide a clear pause/resume control. */
+(function setupScrollFilm(){
+  const section = document.getElementById('lavazza-film');
+  const banner = section && section.querySelector('.film-banner');
+  const player = banner && banner.querySelector('.film-banner-player');
+  const toggle = banner && banner.querySelector('.film-banner-play');
+  if (!section || !banner || !player || !toggle) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let framePending = false;
+  let paused = false;
+  let scrollPaused = false;
+  let playerLoaded = false;
+
+  function loadPlayer(){
+    if (playerLoaded) return;
+    playerLoaded = true;
+    player.src = player.dataset.src;
+  }
+  if ('IntersectionObserver' in window){
+    const playerObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)){
+        loadPlayer();
+        playerObserver.disconnect();
+      }
+    }, {rootMargin:'300px 0px'});
+    playerObserver.observe(section);
+  } else {
+    loadPlayer();
+  }
+
+  function sendPlayerCommand(command){
+    if (!player.contentWindow || !playerLoaded) return;
+    player.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}), 'https://www.youtube-nocookie.com');
+  }
+  toggle.addEventListener('click', () => {
+    loadPlayer();
+    paused = !paused;
+    sendPlayerCommand(paused ? 'pauseVideo' : 'playVideo');
+    toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    toggle.setAttribute('aria-label', paused ? 'Nastavi video' : 'Pauziraj video');
+    toggle.querySelector('span[aria-hidden="true"]').textContent = paused ? '▶' : 'Ⅱ';
+    toggle.querySelector('.film-control-label').textContent = paused ? 'Nastavi' : 'Pauziraj';
+    if (!paused){ scrollPaused = false; sendPlayerCommand('mute'); }
+  });
+
+  function updateFilm(){
+    framePending = false;
+    if (reduceMotion.matches){
+      banner.style.opacity = '1';
+      banner.style.transform = 'none';
+      banner.style.pointerEvents = 'auto';
+      return;
+    }
+    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
+    const sectionProgress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollRange));
+    const fade = Math.min(1, Math.max(0, (sectionProgress - 0.04) / 0.92));
+    banner.style.opacity = String(1 - fade);
+    banner.style.transform = 'translate3d(0,' + (-fade * 18).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.035).toFixed(4) + ')';
+    banner.style.pointerEvents = fade > 0.94 ? 'none' : 'auto';
+    if (fade > 0.96 && !paused && !scrollPaused){ sendPlayerCommand('pauseVideo'); scrollPaused = true; }
+    else if (fade < 0.5 && !paused && scrollPaused && playerLoaded){ sendPlayerCommand('mute'); sendPlayerCommand('playVideo'); scrollPaused = false; }
+  }
+  function scheduleUpdate(){
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(updateFilm);
+  }
+  window.addEventListener('scroll', scheduleUpdate, {passive:true});
+  window.addEventListener('resize', scheduleUpdate, {passive:true});
+  if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', scheduleUpdate);
+  updateFilm();
+})();
+
+/* Desktop wheel scrolling advances one chapter at a measured, smooth pace. */
+(function setupGentleWheelScroll(){
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (motionQuery.matches || !finePointer.matches) return;
+
+  const root = document.documentElement;
+  const sectionSelector = '.hero, .film-section, .film-snap-point, .how-section, .finder-section, #ponuda, #kapsule, .order-section, footer';
+  let busy = false;
+  let unlockTimer = null;
+  let animationFrame = 0;
+
+  function getStops(){
+    const padding = parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+    return Array.from(document.querySelectorAll(sectionSelector))
+      .map(element => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        const margin = parseFloat(style.scrollMarginTop) || 0;
+        return {element, top: Math.max(0, rect.top + window.scrollY - padding - margin)};
+      })
+      .sort((a,b) => a.top - b.top)
+      .filter((stop,index,all) => index === 0 || Math.abs(stop.top - all[index-1].top) > 90);
+  }
+
+  function animateTo(target){
+    const start = window.scrollY;
+    const distance = target - start;
+    if (Math.abs(distance) < 24) return;
+    const duration = 880;
+    const startTime = performance.now();
+    const oldSnap = root.style.scrollSnapType;
+    const oldBehavior = root.style.scrollBehavior;
+    root.style.scrollSnapType = 'none';
+    root.style.scrollBehavior = 'auto';
+
+    function step(now){
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+      window.scrollTo(0, start + distance * eased);
+      if (t < 1){
+        animationFrame = window.requestAnimationFrame(step);
+      } else {
+        animationFrame = 0;
+        window.scrollTo(0, target);
+        root.style.scrollSnapType = oldSnap;
+        root.style.scrollBehavior = oldBehavior;
+        busy = false;
+      }
+    }
+    animationFrame = window.requestAnimationFrame(step);
+  }
+
+  window.addEventListener('wheel', event => {
+    if (motionQuery.matches || !finePointer.matches) return;
+    if (event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+    if (Math.abs(event.deltaY) < 8) return;
+    if (event.target instanceof Element && event.target.closest('textarea, select, input, [contenteditable="true"]')) return;
+
+    const stops = getStops();
+    if (stops.length < 2) return;
+    event.preventDefault();
+    if (busy) return;
+
+    const current = window.scrollY;
+    const direction = Math.sign(event.deltaY);
+    let targetStop;
+    if (direction > 0){
+      targetStop = stops.find(stop => stop.top > current + 100);
+      if (!targetStop) return;
+    } else {
+      for (let index = stops.length - 1; index >= 0; index--){
+        if (stops[index].top < current - 100){
+          targetStop = stops[index];
+          break;
+        }
+      }
+      if (!targetStop) return;
+    }
+
+    busy = true;
+    if (unlockTimer) window.clearTimeout(unlockTimer);
+    animateTo(Math.min(Math.max(0, targetStop.top), root.scrollHeight - window.innerHeight));
+    unlockTimer = window.setTimeout(() => { busy = false; }, 1250);
+  }, {passive:false});
+
+  motionQuery.addEventListener?.('change', event => {
+    if (event.matches && animationFrame){
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      root.style.scrollSnapType = '';
+      root.style.scrollBehavior = '';
+      busy = false;
+    }
+  });
+})();

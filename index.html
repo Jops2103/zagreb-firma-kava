@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261013-05">
+  <link rel="stylesheet" href="styles.css?v=20261013-08">
 </head>
 <body>
 <header class="header">
@@ -29,9 +29,26 @@
       <p class="fine hero-price-note">Cijena po kapsuli 0,50€</p>
       <div class="actions"><a class="btn primary" href="#ponuda" style="background-color:#003da5;border-color:#003da5;color:#fff">Odaberi aparat <span aria-hidden="true">↘</span></a><a class="btn secondary" href="#narudzba">Pošalji upit</a></div>
     </div>
-    <div class="hero-visual hero-photo" aria-label="Fotografija aparata Lavazza Firma Inovy &amp; Milk">
-      <img class="hero-product-image" src="https://www.lavazza.it/it/business/macchine-da-caffe/inovy-milk/_jcr_content/root/Copy%20of%20container/customcontainer_copy/image_305730443_copy_1555038293.coreimg.jpeg/1751901221731/d-carousel-02-inovy-milk.jpeg" onerror="this.onerror=null;this.src='https://www.lavazza.it/it/business/macchine-da-caffe/inovy-milk/_jcr_content/root/Copy%20of%20container/customcontainer_copy/image_797509011.coreimg.jpeg/1751901221687/d-carousel-01-inovy-milk.jpeg';" alt="Lavazza Firma Inovy &amp; Milk na drvenoj podlozi sa stolom s crvenim nogama, šalicom kave i mlijekom" fetchpriority="high">
-      
+    <div class="hero-visual hero-photo" role="group" aria-label="Rotirajuća galerija fotografija aparata Lavazza Firma">
+      <img class="hero-product-image hero-slide is-active" data-hero-slide src="https://www.lavazza.it/it/business/macchine-da-caffe/inovy-milk/_jcr_content/root/Copy%20of%20container/customcontainer_copy/image_305730443_copy_1555038293.coreimg.jpeg/1751901221731/d-carousel-02-inovy-milk.jpeg" alt="Lavazza Firma Inovy &amp; Milk na drvenoj podlozi sa šalicom kave" fetchpriority="high" decoding="async">
+      <img class="hero-product-image hero-slide" data-hero-slide src="https://www.lavazza.com/en/business/coffee-machines/inovy-mini/_jcr_content/root/customcontainer/customcontainer/customcontainer_copy/image_305730443_copy.coreimg.jpeg/1718879340944/d-carousel-machines-inovy-mini-eco-08%402.jpeg" alt="Lavazza Firma Inovy Mini — službena fotografija aparata" loading="lazy" decoding="async" aria-hidden="true">
+      <img class="hero-product-image hero-slide" data-hero-slide src="https://www.lavazza.it/it/business/macchine-da-caffe/inovy-milk/_jcr_content/root/Copy%20of%20container/customcontainer_copy/image_797509011.coreimg.jpeg/1751901221687/d-carousel-01-inovy-milk.jpeg" alt="Lavazza Firma Inovy &amp; Milk — dodatni prikaz aparata" loading="lazy" decoding="async" aria-hidden="true">
+      <img class="hero-product-image hero-slide" data-hero-slide src="https://www.lavazza.it/it/business/macchine-da-caffe/inovy-compact/_jcr_content/root/customcontainer/customcontainer_copy/image_305730443_copy_1555038293.coreimg.jpeg/1751901229989/d-carousel-02-inovy-compact.jpeg" alt="Lavazza Firma Inovy Compact — službena fotografija aparata" loading="lazy" decoding="async" aria-hidden="true">
+      <div class="hero-slide-overlay" aria-hidden="true"><span>LAVAZZA FIRMA</span><span id="hero-slide-count">01 / 04</span></div>
+      <div class="hero-slide-progress" aria-hidden="true"><span></span></div>
+      <button class="hero-slideshow-toggle" id="hero-slideshow-toggle" type="button" aria-label="Pauziraj izmjenu fotografija" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
+    </div>
+  </section>
+
+  <section class="film-section" id="lavazza-film" aria-label="Video na YouTube">
+    <div class="film-sticky">
+      <div class="film-banner">
+        <iframe class="film-banner-player" title="Lavazza Firma — video" data-src="https://www.youtube-nocookie.com/embed/AVZF3WYLkhI?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=AVZF3WYLkhI&amp;controls=0&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+        <span class="film-banner-shade" aria-hidden="true"></span>
+        <span class="film-banner-eyebrow">TRENUTAK ZA KAVU</span>
+        <button class="film-banner-play" type="button" aria-label="Pauziraj video" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="film-control-label">Pauziraj</span></button>
+        <a class="film-banner-copy" href="https://www.youtube.com/watch?v=AVZF3WYLkhI" target="_blank" rel="noopener noreferrer" aria-label="Otvori izvorni video na YouTubeu u novoj kartici"><strong>Pogledajte video</strong><small>Otvori na YouTubeu ↗</small></a>
+      </div>
     </div>
   </section>
 
@@ -218,6 +235,6 @@
   </section>
 </main>
 <footer id="kontakt"><div class="footer-main"><a class="brand footer-brand" href="#pocetna"><span class="mark">ZFK</span><span class="brand-name">ZAGREB FIRMA KAVA</span></a><p>Lavazza Firma aparati i kapsule za dom i poslovne prostore.</p><a class="footer-top" href="#pocetna">Povratak na vrh ↑</a></div><p class="legal">RADNA VERZIJA — nije službena stranica Lavazze i ne tvrdi da postoji službeno partnerstvo. Objavljivanje je planirano tek nakon potrebnih odobrenja. Nazivi modela služe za identifikaciju proizvoda. Fotografije su učitane s vanjskih izvora i potrebno je potvrditi pravo njihova korištenja. Cijene, dostupnost i uvjeti nisu konačni.</p><p class="copyright">© <span id="year"></span> ZFK — Zagreb Firma Kava</p></footer>
-<script src="script.js?v=20261013-04"></script>
+<script src="script.js?v=20261013-07"></script>
 </body>
 </html>
