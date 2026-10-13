@@ -1040,3 +1040,43 @@ body{
     text-shadow:0 1px 3px rgba(0,0,0,.75);
   }
 }
+
+
+/* Final mobile PLAY reset: neutralize any inherited button and pseudo-element styling. */
+@media (max-width:700px){
+  #lavazza-film .film-banner .film-banner-play,
+  #lavazza-film .film-banner .film-banner-play:link,
+  #lavazza-film .film-banner .film-banner-play:visited,
+  #lavazza-film .film-banner .film-banner-play:hover,
+  #lavazza-film .film-banner .film-banner-play:focus,
+  #lavazza-film .film-banner .film-banner-play:focus-visible,
+  #lavazza-film .film-banner .film-banner-play:active{
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    background:none !important;
+    background-color:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    -webkit-box-shadow:none !important;
+  }
+  #lavazza-film .film-banner .film-banner-play::before,
+  #lavazza-film .film-banner .film-banner-play::after{
+    content:none !important;
+    display:none !important;
+    background:none !important;
+    border:0 !important;
+    box-shadow:none !important;
+  }
+  #lavazza-film .film-banner .film-banner-play span{
+    background:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    color:#fff !important;
+  }
+  #lavazza-film .film-banner .film-banner-play span[aria-hidden="true"]{
+    text-shadow:0 1px 3px rgba(0,0,0,.8);
+  }
+}
