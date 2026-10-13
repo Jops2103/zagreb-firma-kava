@@ -1272,3 +1272,37 @@ body{
 @media(max-width:700px){
   .steps article>b{font-size:32px}
 }
+
+
+/* Mobile capsule-banner reveal: a restrained overlap plus progressive scroll reveal. */
+@media (max-width:700px){
+  #lavazza-film.film-section{
+    position:relative;
+    z-index:2;
+    margin-top:-7px;
+    margin-bottom:18px;
+  }
+  #lavazza-film .film-banner{
+    border-radius:0 0 12px 12px;
+    box-shadow:0 8px 18px rgba(20,28,36,.10);
+  }
+  #lavazza-film .film-banner-image{
+    border-radius:inherit;
+  }
+}
+@supports (animation-timeline:view()){
+  @media (max-width:700px) and (prefers-reduced-motion:no-preference){
+    #lavazza-film .film-banner-image{
+      animation: zfk-capsule-image-reveal linear both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 30%;
+    }
+    @keyframes zfk-capsule-image-reveal{
+      from{opacity:.78;transform:scale(1.035)}
+      to{opacity:1;transform:scale(1)}
+    }
+  }
+}
+@media (max-width:700px) and (prefers-reduced-motion:reduce){
+  #lavazza-film .film-banner-image{animation:none;transform:none}
+}
