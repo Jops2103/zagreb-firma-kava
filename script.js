@@ -729,6 +729,7 @@ updateSelectedCapsuleField();
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let framePending = false;
   let paused = false;
+  let scrollPaused = false;
   let playerLoaded = false;
 
   function loadPlayer(){
@@ -760,7 +761,7 @@ updateSelectedCapsuleField();
     toggle.setAttribute('aria-label', paused ? 'Nastavi video' : 'Pauziraj video');
     toggle.querySelector('span[aria-hidden="true"]').textContent = paused ? '▶' : 'Ⅱ';
     toggle.querySelector('.film-control-label').textContent = paused ? 'Nastavi' : 'Pauziraj';
-    if (!paused) sendPlayerCommand('mute');
+    if (!paused){ scrollPaused = false; sendPlayerCommand('mute'); }
   });
 
   function updateFilm(){
@@ -777,8 +778,8 @@ updateSelectedCapsuleField();
     banner.style.opacity = String(1 - fade);
     banner.style.transform = 'translate3d(0,' + (-fade * 18).toFixed(1) + 'px,0) scale(' + (1 - fade * 0.035).toFixed(4) + ')';
     banner.style.pointerEvents = fade > 0.94 ? 'none' : 'auto';
-    if (fade > 0.96 && !paused) sendPlayerCommand('pauseVideo');
-    else if (fade < 0.5 && !paused && playerLoaded) sendPlayerCommand('playVideo');
+    if (fade > 0.96 && !paused && !scrollPaused){ sendPlayerCommand('pauseVideo'); scrollPaused = true; }
+    else if (fade < 0.5 && !paused && scrollPaused && playerLoaded){ sendPlayerCommand('mute'); sendPlayerCommand('playVideo'); scrollPaused = false; }
   }
   function scheduleUpdate(){
     if (framePending) return;
