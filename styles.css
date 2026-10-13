@@ -689,3 +689,11 @@ body{
 @media(min-width:1001px){.hero-photo.hero-visual-empty{height:430px;min-height:430px}}
 @media(max-width:1000px){.hero-photo.hero-visual-empty{height:370px;min-height:370px}}
 @media(max-width:700px){.hero-photo.hero-visual-empty{height:300px;min-height:300px;margin-top:8px}}
+
+
+/* Homepage hero: use the uploaded Lavazza Firma product image. */
+.hero-image-wrap{height:430px;min-width:0;display:flex;align-items:center;justify-content:center;overflow:visible;background:transparent;border:0;box-shadow:none}
+.hero-image-wrap:before{content:none!important;display:none!important}
+.hero-product-image{display:block;width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center;filter:none;border:0;box-shadow:none}
+@media(max-width:1000px){.hero-image-wrap{height:370px}}
+@media(max-width:700px){.hero-image-wrap{height:auto;min-height:0;aspect-ratio:1200/611;margin-top:12px;overflow:visible}.hero-product-image{width:100%;height:100%;object-fit:contain}}
