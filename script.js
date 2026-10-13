@@ -659,65 +659,31 @@ updateSelectedCapsuleField();
   start();
 })();
 
-/* Load the muted, looping YouTube embed only near the viewport; provide a clear pause/resume control. */
-(function setupScrollFilm(){
+/* Gentle image parallax for the full-width video thumbnail; the PLAY link opens YouTube in a new tab. */
+(function setupFilmImageParallax(){
   const section = document.getElementById('lavazza-film');
-  const banner = section && section.querySelector('.film-banner');
-  const player = banner && banner.querySelector('.film-banner-player');
-  const toggle = banner && banner.querySelector('.film-banner-play');
-  if (!section || !banner || !player || !toggle) return;
+  const image = section && section.querySelector('.film-banner-image');
+  if (!section || !image) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduceMotion.matches) return;
   let framePending = false;
-  let paused = false;
-  let scrollPaused = false;
-  let playerLoaded = false;
 
-  function loadPlayer(){
-    if (playerLoaded) return;
-    playerLoaded = true;
-    player.src = player.dataset.src;
+  function updateImagePosition(){
+    framePending = false;
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.bottom < 0 || rect.top > viewportHeight) return;
+    const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+    const shift = (progress - 0.5) * 46;
+    image.style.setProperty('--film-image-shift', shift.toFixed(1) + 'px');
   }
-  if ('IntersectionObserver' in window){
-    const playerObserver = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)){
-        loadPlayer();
-        playerObserver.disconnect();
-      }
-    }, {rootMargin:'300px 0px'});
-    playerObserver.observe(section);
-  } else {
-    loadPlayer();
+  function requestUpdate(){
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(updateImagePosition);
   }
-
-  function sendPlayerCommand(command){
-    if (!player.contentWindow || !playerLoaded) return;
-    player.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}), 'https://www.youtube-nocookie.com');
-  }
-  toggle.addEventListener('click', () => {
-    loadPlayer();
-    paused = !paused;
-    sendPlayerCommand(paused ? 'pauseVideo' : 'playVideo');
-    toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
-    toggle.setAttribute('aria-label', paused ? 'Nastavi video' : 'Pauziraj video');
-    toggle.querySelector('span[aria-hidden="true"]').textContent = paused ? '▶' : 'Ⅱ';
-    toggle.querySelector('.film-control-label').textContent = paused ? 'Nastavi' : 'Pauziraj';
-    if (!paused){ scrollPaused = false; sendPlayerCommand('mute'); }
-  });
-
-  // Keep ordinary page scrolling in control; only pause playback when the video leaves view.
-  if ('IntersectionObserver' in window) {
-    const playbackObserver = new IntersectionObserver(entries => {
-      const visible = entries.some(entry => entry.isIntersecting && entry.intersectionRatio > 0.15);
-      if (!visible && !paused && playerLoaded && !scrollPaused) {
-        sendPlayerCommand('pauseVideo');
-        scrollPaused = true;
-      } else if (visible && !paused && playerLoaded && scrollPaused) {
-        sendPlayerCommand('mute');
-        sendPlayerCommand('playVideo');
-        scrollPaused = false;
-      }
-    }, {threshold:[0,0.15,0.5]});
-    playbackObserver.observe(section);
-  }
+  window.addEventListener('scroll', requestUpdate, {passive:true});
+  window.addEventListener('resize', requestUpdate);
+  updateImagePosition();
 })();
