@@ -674,8 +674,9 @@ updateSelectedCapsuleField();
     const rect = section.getBoundingClientRect();
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
     if (rect.bottom < 0 || rect.top > viewportHeight) return;
-    const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
-    const shift = (progress - 0.5) * 46;
+    const progress = Math.max(0, Math.min(1, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+    // Stronger parallax: the enlarged photo travels upward as the page scrolls down.
+    const shift = (progress - 0.5) * -260;
     image.style.setProperty('--film-image-shift', shift.toFixed(1) + 'px');
   }
   function requestUpdate(){
