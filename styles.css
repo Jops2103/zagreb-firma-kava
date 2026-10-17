@@ -1824,3 +1824,36 @@ body{
   .mobile-reveal{opacity:1!important;transform:none!important;transition:none!important}
   .hero-image-wrap .hero-product-image{transform:none!important}
 }
+
+
+/* Four-machine hero image: show the complete photo on landscape phones and shift PLAY slightly left. */
+@media (max-width: 950px) and (max-height: 600px) and (orientation: landscape) {
+  .hero-photo {
+    height: min(66svh, 440px) !important;
+    min-height: 250px !important;
+    background: #D9DADD !important;
+    overflow: hidden !important;
+  }
+  .hero-image-wrap .hero-product-image {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+    background: #D9DADD !important;
+  }
+  .hero-image-wrap .film-banner-play,
+  .hero-image-wrap .film-banner-play:link,
+  .hero-image-wrap .film-banner-play:visited,
+  .hero-image-wrap .film-banner-play:hover,
+  .hero-image-wrap .film-banner-play:focus,
+  .hero-image-wrap .film-banner-play:focus-visible,
+  .hero-image-wrap .film-banner-play:active {
+    right: 47px !important;
+    left: auto !important;
+  }
+}
