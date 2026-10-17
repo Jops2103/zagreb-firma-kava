@@ -1799,3 +1799,28 @@ body{
 @media (max-width:700px){
   #lavazza-film.film-section{display:none!important}
 }
+
+
+/* Mobile-first motion: gentle hero parallax and cards that reveal as they enter view. */
+@media (max-width:700px) and (orientation:portrait) and (prefers-reduced-motion:no-preference){
+  .hero-image-wrap .hero-product-image{
+    transform:translate3d(0,var(--mobile-hero-shift,0px),0) scale(1.025);
+    will-change:transform;
+  }
+}
+@media (max-width:700px) and (prefers-reduced-motion:no-preference){
+  .mobile-reveal{
+    opacity:0;
+    transform:translate3d(0,14px,0);
+    transition:opacity .48s ease,transform .48s cubic-bezier(.2,.7,.2,1);
+    transition-delay:var(--mobile-reveal-delay,0ms);
+  }
+  .mobile-reveal.is-visible{
+    opacity:1;
+    transform:translate3d(0,0,0);
+  }
+}
+@media (max-width:700px) and (prefers-reduced-motion:reduce){
+  .mobile-reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .hero-image-wrap .hero-product-image{transform:none!important}
+}
