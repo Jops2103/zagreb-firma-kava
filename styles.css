@@ -1924,3 +1924,21 @@ body{
 }
 .hero-image-wrap .film-banner-play span[aria-hidden="true"]{font-size:15px;line-height:1}
 .hero-image-wrap .film-banner-play .film-control-label{display:none}
+
+
+/* Book-like vertical navigation: stop at each main section in both directions.
+   Oversized sections remain scrollable internally so product details and the form stay usable. */
+html{
+  scroll-snap-type:y mandatory;
+  scroll-padding-top:78px;
+}
+main > section{
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+@media(max-width:700px){
+  html{scroll-padding-top:68px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-snap-type:y proximity}
+}
