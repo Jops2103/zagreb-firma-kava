@@ -176,6 +176,24 @@ document.querySelectorAll('.model-select').forEach(button => {
   overlay.addEventListener('click', event => {
     if (event.target === overlay) closeImage();
   });
+
+  // On touchscreens, swipe left/right in the enlarged image to browse the same gallery.
+  let touchStartX = 0;
+  let touchStartY = 0;
+  overlay.addEventListener('touchstart', event => {
+    if (!overlay.classList.contains('open') || !event.changedTouches.length) return;
+    touchStartX = event.changedTouches[0].clientX;
+    touchStartY = event.changedTouches[0].clientY;
+  }, {passive:true});
+  overlay.addEventListener('touchend', event => {
+    if (!overlay.classList.contains('open') || !event.changedTouches.length || activeImages.length < 2) return;
+    const dx = event.changedTouches[0].clientX - touchStartX;
+    const dy = event.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      showImage(activeIndex + (dx < 0 ? 1 : -1));
+    }
+  }, {passive:true});
+
   document.addEventListener('keydown', event => {
     if (!overlay.classList.contains('open')) return;
     if (event.key === 'Escape') closeImage();
@@ -741,4 +759,64 @@ updateSelectedCapsuleField();
   place();
   if (typeof mobile.addEventListener === 'function') mobile.addEventListener('change', place);
   else if (typeof mobile.addListener === 'function') mobile.addListener(place);
+})();
+
+
+/* Mobile-specific scroll effects: lightweight reveal and subtle portrait hero parallax. */
+(function setupMobileScrollEffects(){
+  const mobile = window.matchMedia('(max-width:700px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!mobile.matches) return;
+
+  const revealTargets = Array.from(document.querySelectorAll('.model-card, .capsule-card, #kako-radi .steps article'));
+  if ('IntersectionObserver' in window && !reduceMotion.matches) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -36px 0px'});
+
+    const groups = [
+      Array.from(document.querySelectorAll('.model-card')),
+      Array.from(document.querySelectorAll('.capsule-card')),
+      Array.from(document.querySelectorAll('#kako-radi .steps article'))
+    ];
+    groups.forEach(group => group.forEach((element,index) => {
+      element.classList.add('mobile-reveal');
+      element.style.setProperty('--mobile-reveal-delay', Math.min(index,3) * 55 + 'ms');
+      observer.observe(element);
+    }));
+  }
+
+  // Keep the parallax deliberately subtle and limited to portrait phones.
+  const portrait = window.matchMedia('(max-width:700px) and (orientation:portrait)');
+  const hero = document.querySelector('.hero-image-wrap');
+  const heroImage = hero && hero.querySelector('.hero-product-image');
+  if (!hero || !heroImage || reduceMotion.matches || !portrait.matches) return;
+
+  let framePending = false;
+  function updateParallax(){
+    framePending = false;
+    if (!portrait.matches || !mobile.matches || reduceMotion.matches) {
+      heroImage.style.removeProperty('--mobile-hero-shift');
+      return;
+    }
+    const rect = hero.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.bottom < 0 || rect.top > viewportHeight) return;
+    const distance = (viewportHeight * 0.5) - (rect.top + rect.height * 0.5);
+    const shift = Math.max(-12, Math.min(12, distance * -0.025));
+    heroImage.style.setProperty('--mobile-hero-shift', shift.toFixed(1) + 'px');
+  }
+  function scheduleParallax(){
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(updateParallax);
+  }
+  window.addEventListener('scroll', scheduleParallax, {passive:true});
+  window.addEventListener('resize', scheduleParallax);
+  if (typeof portrait.addEventListener === 'function') portrait.addEventListener('change', scheduleParallax);
+  updateParallax();
 })();
