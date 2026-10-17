@@ -1793,3 +1793,9 @@ body{
   }
   #kako-radi.how-section{padding-top:42px}
 }
+
+
+/* Mobile: remove the capsule sticky image; keep the desktop reveal unchanged. */
+@media (max-width:700px){
+  #lavazza-film.film-section{display:none!important}
+}
