@@ -111,15 +111,42 @@ document.querySelectorAll('.model-select').forEach(button => {
   close.textContent = '×';
   const caption = document.createElement('p');
   caption.className = 'image-lightbox-caption';
-  overlay.append(enlarged, close, caption);
+  const previous = document.createElement('button');
+  previous.className = 'image-lightbox-nav image-lightbox-previous';
+  previous.type = 'button';
+  previous.setAttribute('aria-label', 'Prethodna fotografija');
+  previous.textContent = '‹';
+  const next = document.createElement('button');
+  next.className = 'image-lightbox-nav image-lightbox-next';
+  next.type = 'button';
+  next.setAttribute('aria-label', 'Sljedeća fotografija');
+  next.textContent = '›';
+  overlay.append(enlarged, previous, next, close, caption);
   document.body.append(overlay);
   let previousFocus = null;
+  let activeImages = [];
+  let activeIndex = 0;
 
-  function openImage(image) {
-    previousFocus = document.activeElement;
+  function showImage(index) {
+    if (!activeImages.length) return;
+    activeIndex = (index + activeImages.length) % activeImages.length;
+    const image = activeImages[activeIndex];
     enlarged.src = image.currentSrc || image.src;
     enlarged.alt = image.alt || 'Uvećana fotografija proizvoda';
-    caption.textContent = image.classList.contains('hero-product-image') ? 'Lavazza Firma' : (image.alt || '');
+    caption.textContent = (image.classList.contains('hero-product-image') ? 'Lavazza Firma' : (image.alt || '')) +
+      (activeImages.length > 1 ? ` · ${activeIndex + 1} / ${activeImages.length}` : '');
+    const hasNavigation = activeImages.length > 1;
+    previous.hidden = !hasNavigation;
+    next.hidden = !hasNavigation;
+  }
+  function openImage(image) {
+    previousFocus = document.activeElement;
+    const gallery = image.closest('.product-gallery, .capsule-gallery');
+    activeImages = gallery
+      ? Array.from(gallery.querySelectorAll('img'))
+      : [image];
+    activeIndex = Math.max(0, activeImages.indexOf(image));
+    showImage(activeIndex);
     overlay.classList.add('open');
     document.body.classList.add('lightbox-open');
     close.focus();
@@ -128,8 +155,11 @@ document.querySelectorAll('.model-select').forEach(button => {
     overlay.classList.remove('open');
     document.body.classList.remove('lightbox-open');
     enlarged.removeAttribute('src');
+    activeImages = [];
     if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
   }
+  previous.addEventListener('click', () => showImage(activeIndex - 1));
+  next.addEventListener('click', () => showImage(activeIndex + 1));
   images.forEach(image => {
     image.tabIndex = 0;
     image.setAttribute('role', 'button');
@@ -147,7 +177,10 @@ document.querySelectorAll('.model-select').forEach(button => {
     if (event.target === overlay) closeImage();
   });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && overlay.classList.contains('open')) closeImage();
+    if (!overlay.classList.contains('open')) return;
+    if (event.key === 'Escape') closeImage();
+    else if (event.key === 'ArrowLeft' && activeImages.length > 1) showImage(activeIndex - 1);
+    else if (event.key === 'ArrowRight' && activeImages.length > 1) showImage(activeIndex + 1);
   });
 })();
 
