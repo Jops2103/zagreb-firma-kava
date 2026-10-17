@@ -1897,3 +1897,14 @@ body{
     background: #D9DADD !important;
   }
 }
+
+
+/* Desktop scroll performance: avoid fixed-background repaints while preserving the sticky reveal layout. */
+@media (min-width: 701px) {
+  #lavazza-film .film-banner {
+    background-attachment: scroll;
+  }
+  #lavazza-film .film-banner-image {
+    will-change: auto;
+  }
+}
