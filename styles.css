@@ -1897,27 +1897,3 @@ body{
     background: #D9DADD !important;
   }
 }
-
-
-/* Desktop scroll performance: avoid fixed-background repaints while preserving the sticky reveal layout. */
-@media (min-width: 701px) {
-  #lavazza-film .film-banner {
-    background-attachment: scroll;
-  }
-  #lavazza-film .film-banner-image {
-    will-change: auto;
-  }
-}
-
-
-/* Desktop: gentle section-to-section snapping after a fast scroll, without forcing every stop. */
-@media (min-width: 701px) and (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-snap-type: y proximity;
-  }
-
-  main > section:not(#lavazza-film) {
-    scroll-snap-align: start;
-    scroll-margin-top: 86px;
-  }
-}
