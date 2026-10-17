@@ -1665,3 +1665,15 @@ body{
 #kako-radi .steps article{
   background:transparent!important;
 }
+
+
+/* Four model cards: keep all four in one desktop row, with readable full-width specifications. */
+@media (min-width:1001px){
+  .model-grid-specs{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .model-grid-specs .spec-columns{grid-template-columns:1fr;gap:12px}
+  .model-grid-specs .model-body{padding:16px}
+  .model-grid-specs .model-body h3{font-size:18px}
+}
+@media (min-width:701px) and (max-width:1000px){.model-grid-specs{grid-template-columns:repeat(2,minmax(0,1fr))}.model-grid-specs .spec-columns{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.model-grid-specs{grid-template-columns:1fr}.model-grid-specs .spec-columns{grid-template-columns:1fr 1fr}}
+@media (max-width:420px){.model-grid-specs .spec-columns{grid-template-columns:1fr}}
