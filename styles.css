@@ -1897,3 +1897,30 @@ body{
     background: #D9DADD !important;
   }
 }
+
+
+/* The sticky capsule banner has been removed; retain the video link on the hero image. */
+.hero-image-wrap .film-banner-play{
+  top:12px;
+  right:12px;
+  left:auto;
+  bottom:auto;
+  transform:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#005ca9;
+  color:#fff;
+  opacity:1;
+  visibility:visible;
+  box-shadow:0 2px 7px rgba(0,0,0,.25);
+}
+.hero-image-wrap .film-banner-play span[aria-hidden="true"]{font-size:15px;line-height:1}
+.hero-image-wrap .film-banner-play .film-control-label{display:none}
