@@ -218,7 +218,7 @@ const selectedCapsules = new Map();
 function capsulePackageLimit() {
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
   if (/Inovy Mini/i.test(selectedModel)) return 1;
-  if (/Inovy & Milk|Inovy Compact/i.test(selectedModel)) return 4;
+  if (/LF 900|LF 1150|Inovy & Milk|Inovy Compact/i.test(selectedModel)) return 4;
   return 0;
 }
 
@@ -463,22 +463,22 @@ updateSelectedCapsuleField();
 
   const models = {
     mini: {
-      name: 'Inovy Mini',
-      modelValue: 'Lavazza Firma Inovy Mini',
+      name: 'LF Inovy Mini',
+      modelValue: 'Lavazza Firma LF Inovy Mini',
       quantity: 'Min. količina: 1 kutija',
       tag: 'Najkompaktniji izbor',
       facts: ['2 izbora napitaka', 'Spremnik vode 0,7 l', 'Ladica do 6 kapsula']
     },
     compact: {
-      name: 'Inovy Compact',
-      modelValue: 'Lavazza Firma Inovy Compact',
+      name: 'LF 900',
+      modelValue: 'Lavazza Firma LF 900',
       quantity: 'Min. količina: 4 kutije',
       tag: 'Uravnotežen izbor',
       facts: ['3 izbora napitaka', 'Spremnik vode 0,9 l', 'Ladica do 10 kapsula']
     },
     milk: {
-      name: 'Inovy & Milk',
-      modelValue: 'Lavazza Firma Inovy & Milk',
+      name: 'LF Inovy & Milk',
+      modelValue: 'Lavazza Firma LF Inovy & Milk',
       quantity: 'Min. količina: 4 kutije',
       tag: 'Za napitke s mlijekom',
       facts: ['6 izbora napitaka', 'Spremnik vode 1,8 l', 'Ladica do 19 kapsula']
@@ -516,18 +516,18 @@ updateSelectedCapsuleField();
 
   function getReason(key, use) {
     if (key === 'mini') {
-      return `Budući da vam je najvažniji manji format, Inovy Mini dobar je kandidat ${use}. Od tri modela na ovoj stranici zauzima najmanje prostora.`;
+      return `Budući da vam je najvažniji manji format, LF Inovy Mini dobar je kandidat ${use}. Od četiri modela na ovoj stranici zauzima najmanje prostora.`;
     }
     if (key === 'milk' && answer('finder-drinks') === 'milk') {
-      return `Budući da želite napitke s mlijekom, Inovy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
+      return `Budući da želite napitke s mlijekom, LF Inovy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
     }
     if (key === 'milk') {
-      return `Ako želite širi izbor napitaka, Inovy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
+      return `Ako želite širi izbor napitaka, LF Inovy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
     }
     if (answer('finder-drinks') === 'black') {
-      return `Za vaš odabir crne kave, Inovy Compact nudi kompaktan format i tri izbora napitaka ${use}, uz veći spremnik i ladicu od modela Mini.`;
+      return `Za vaš odabir crne kave, LF 900 nudi kompaktan format i tri izbora napitaka ${use}, uz veći spremnik i ladicu od modela Mini.`;
     }
-    return `Ako još istražujete mogućnosti, Inovy Compact praktičan je početni izbor ${use}: kompaktan je, a nudi tri izbora napitaka.`;
+    return `Ako još istražujete mogućnosti, LF 900 praktičan je početni izbor ${use}: kompaktan je, a nudi tri izbora napitaka.`;
   }
 
   function showRecommendation() {
