@@ -2054,3 +2054,60 @@ main > section{
 @media(max-width:420px){
   #ponuda .model-grid-specs .model-card .model-art{height:220px !important;min-height:0 !important}
 }
+
+
+/* Full-bleed machine galleries: fill every photo viewport edge-to-edge without blank side bands. */
+#ponuda .model-grid-specs .model-card .model-art{
+  height:300px !important;
+  min-height:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#d9dadd !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery{
+  display:flex !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  background:#d9dadd !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img,
+#ponuda .model-grid-specs .model-card .product-gallery .gallery-main{
+  display:block !important;
+  flex:0 0 100% !important;
+  width:100% !important;
+  min-width:100% !important;
+  height:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  background:#d9dadd !important;
+  border:0 !important;
+  border-radius:0 !important;
+  mix-blend-mode:normal !important;
+  -webkit-mix-blend-mode:normal !important;
+}
+/* Do not put black behind LF Inovy & Milk: its milk unit must remain visible. */
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery img,
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery .gallery-main{
+  background:#d9dadd !important;
+}
+@media(max-width:1000px){
+  #ponuda .model-grid-specs .model-card .model-art{height:285px !important}
+}
+@media(max-width:700px){
+  #ponuda .model-grid-specs .model-card .model-art{height:250px !important}
+}
+@media(max-width:420px){
+  #ponuda .model-grid-specs .model-card .model-art{height:225px !important}
+}
