@@ -1,0 +1,39 @@
+name: Optimize site images
+
+on:
+  push:
+    branches:
+      - real-image-optimization
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out optimization branch
+        uses: actions/checkout@v4
+        with:
+          ref: real-image-optimization
+          persist-credentials: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install image optimizer
+        run: npm install --no-save sharp
+      - name: Convert local product images to WebP
+        run: node scripts/optimize-images.mjs
+      - name: Commit optimized images to the review branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add optimized/
+          if git diff --cached --quiet; then
+            echo "Optimized images are already up to date."
+          else
+            git commit -m "Add optimized WebP image assets"
+            git push origin real-image-optimization
+          fi
