@@ -2141,3 +2141,17 @@ main > section{
   mix-blend-mode:normal !important;
   -webkit-mix-blend-mode:normal !important;
 }
+
+
+/* Match the established desktop hover lift on the fourth machine card, LF Inovy & Milk. */
+#ponuda .model-grid-specs > .model-card:nth-child(4){
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  #ponuda .model-grid-specs > .model-card:nth-child(4):hover,
+  #ponuda .model-grid-specs > .model-card:nth-child(4):focus-within{
+    transform:translateY(-4px) !important;
+    box-shadow:0 16px 34px #24282d20 !important;
+    border-color:#737a82 !important;
+  }
+}
