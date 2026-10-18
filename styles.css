@@ -2582,3 +2582,59 @@ main > section{
     object-fit: contain !important;
   }
 }
+
+
+/* Four appliance cards: show only the primary photo in the card.
+   The second photo remains in the gallery DOM and is reachable in the lightbox
+   with the left/right arrows after clicking the primary photo. */
+#ponuda .model-grid-specs .model-card .model-art {
+  height: 300px !important;
+  min-height: 300px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #D9DADD !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #D9DADD !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img {
+  display: none !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img.gallery-main {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #D9DADD !important;
+  transform: none !important;
+  mix-blend-mode: normal !important;
+  -webkit-mix-blend-mode: normal !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img.gallery-main {
+  cursor: zoom-in;
+}
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .model-art {
+    height: 300px !important;
+    min-height: 300px !important;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery img.gallery-main {
+    padding: 8px !important;
+  }
+}
