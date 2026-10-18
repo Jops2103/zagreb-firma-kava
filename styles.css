@@ -2111,3 +2111,18 @@ main > section{
 @media(max-width:420px){
   #ponuda .model-grid-specs .model-card .model-art{height:225px !important}
 }
+
+
+/* LF 1150: match the tighter image zoom and silver-gray backdrop of LF Inovy & Milk. */
+#ponuda .model-grid-specs .model-card:nth-child(3) .model-art,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery{
+  background:#d9dadd !important;
+}
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
+  background:#d9dadd !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.10);
+  mix-blend-mode:multiply !important;
+  -webkit-mix-blend-mode:multiply !important;
+}
