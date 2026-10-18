@@ -2371,3 +2371,14 @@ main > section{
 #ponuda .model-grid-specs .model-card .product-gallery:has(img.blend-bg) {
   background: #D9DADD !important;
 }
+
+/* Keep the gallery surface black; the photo tiles themselves stay above it. */
+#ponuda .model-grid-specs .model-card .product-gallery:has(img.blend-bg) {
+  background: #000 !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img.blend-bg {
+  background: #D9DADD !important;
+  border-color: #D9DADD !important;
+  mix-blend-mode: normal !important;
+  -webkit-mix-blend-mode: normal !important;
+}
