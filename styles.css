@@ -2006,13 +2006,13 @@ main > section{
 }
 
 
-/* Machine photo letterboxing: fill unused parts of selected frames with black. */
-/* First two cards (MALI FORMAT and KOMPAKTAN): black fills the top/bottom around contained photos. */
+/* Photo-frame fill: soft silver-gray tones to blend with the machine photos and page background. */
+/* First two cards (MALI FORMAT and KOMPAKTAN): soften the top/bottom letterboxing. */
 #ponuda .model-grid-specs .model-card:nth-child(1) .product-gallery img,
 #ponuda .model-grid-specs .model-card:nth-child(2) .product-gallery img{
-  background:#000 !important;
+  background:linear-gradient(135deg,#d5d7d8 0%,#e2e2df 38%,#d0d3d5 72%,#dededb 100%) !important;
 }
-/* Fourth card (LF Inovy & Milk): black fills the left/right sides of the photo frame. */
+/* Fourth card (LF Inovy & Milk): use the same silver-gray fill at the left/right edges. */
 #ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery img{
-  background:#000 !important;
+  background:linear-gradient(135deg,#d5d7d8 0%,#e2e2df 38%,#d0d3d5 72%,#dededb 100%) !important;
 }
