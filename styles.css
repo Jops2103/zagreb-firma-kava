@@ -2155,3 +2155,54 @@ main > section{
     border-color:#737a82 !important;
   }
 }
+
+
+/* Responsive image fit for mobile browsers: show the complete machine instead of cropping it. */
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .model-art {
+    height: clamp(220px, 66vw, 285px) !important;
+    min-height: 0 !important;
+    background: #D9DADD !important;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery {
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #92979d #D9DADD;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    scroll-snap-align: start;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: #D9DADD !important;
+  }
+  .capsule-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(8px, 2.5vw, 12px);
+  }
+  .capsule-card {
+    min-width: 0;
+    padding: clamp(7px, 2.5vw, 11px);
+  }
+  .capsule-card img {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(125px, 38vw, 175px);
+    object-fit: contain;
+    object-position: center;
+    background: #D9DADD;
+  }
+  .capsule-card .btn {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 7px;
+    white-space: normal;
+    line-height: 1.35;
+  }
+}
+@media (max-width: 360px) {
+  .capsule-card h3 { font-size: 12px; overflow-wrap: anywhere; }
+  .capsule-card p { font-size: 11px !important; }
+  .capsule-card .btn { font-size: 9px; }
+}
