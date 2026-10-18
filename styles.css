@@ -2523,3 +2523,62 @@ main > section{
     background: #000 !important;
   }
 }
+
+
+/* Machine gallery reset: show each new photo at its natural proportions and full card width.
+   Avoid fixed-height mobile windows and object-fit:cover, which can crop the machines. */
+#ponuda .model-grid-specs .model-card .model-art {
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: #000 !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: #000 !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img,
+#ponuda .model-grid-specs .model-card .product-gallery .gallery-main {
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  background: #000 !important;
+}
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .model-art,
+  #ponuda .model-grid-specs .model-card .product-gallery {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+}
