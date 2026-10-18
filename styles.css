@@ -2113,16 +2113,17 @@ main > section{
 }
 
 
-/* LF 1150: match the tighter image zoom and silver-gray backdrop of LF Inovy & Milk. */
+/* LF 1150: match the on-card image scale and gray backdrop of LF Inovy & Milk. */
 #ponuda .model-grid-specs .model-card:nth-child(3) .model-art,
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery{
   background:#d9dadd !important;
 }
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
-  background:#d9dadd !important;
-  object-fit:cover !important;
+  background:transparent !important;
+  border-color:#d9dadd !important;
+  object-fit:contain !important;
   object-position:center center !important;
-  transform:scale(1.10);
+  transform:none !important;
   mix-blend-mode:multiply !important;
   -webkit-mix-blend-mode:multiply !important;
 }
