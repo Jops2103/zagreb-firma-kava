@@ -2113,11 +2113,11 @@ main > section{
 }
 
 
-/* LF 1150: match the other appliance cards' black and charcoal photo backdrop. */
+/* LF 1150: use visible charcoal tones so the black machine remains distinct. */
 #ponuda .model-grid-specs .model-card:nth-child(3) .model-art,
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery,
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
-  background:linear-gradient(135deg,#242424 0%,#111111 42%,#303030 72%,#191919 100%) !important;
+  background:linear-gradient(135deg,#666666 0%,#4b4b4b 42%,#707070 72%,#555555 100%) !important;
 }
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
   object-fit:contain !important;
