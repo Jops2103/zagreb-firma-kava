@@ -2339,3 +2339,29 @@ main > section{
     transform-origin: center center !important;
   }
 }
+
+
+/* LF Inovy & Milk: mobile-only correction — show the whole machine and blend photo backgrounds into the page. */
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs > .model-card:nth-child(4) .model-art,
+  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery {
+    background: #D9DADD !important;
+  }
+  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
+    transform: none !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: #D9DADD !important;
+    mix-blend-mode: multiply !important;
+    -webkit-mix-blend-mode: multiply !important;
+  }
+  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img.blend-bg {
+    background: transparent !important;
+  }
+}
+@media (max-width: 420px) {
+  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
+    transform: none !important;
+    padding: 0 !important;
+  }
+}
