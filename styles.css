@@ -2113,16 +2113,16 @@ main > section{
 }
 
 
-/* LF 1150: match the tighter image zoom and silver-gray backdrop of LF Inovy & Milk. */
+/* LF 1150: match the other appliance cards' black and charcoal photo backdrop. */
 #ponuda .model-grid-specs .model-card:nth-child(3) .model-art,
-#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery{
-  background:#d9dadd !important;
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
+  background:linear-gradient(135deg,#242424 0%,#111111 42%,#303030 72%,#191919 100%) !important;
 }
 #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
-  background:#d9dadd !important;
-  object-fit:cover !important;
+  object-fit:contain !important;
   object-position:center center !important;
-  transform:scale(1.10);
+  transform:none !important;
   mix-blend-mode:multiply !important;
   -webkit-mix-blend-mode:multiply !important;
 }
