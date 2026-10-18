@@ -2323,45 +2323,36 @@ main > section{
 }
 
 
-/* Mobile only: widen the LF 1150 appliance horizontally without changing desktop. */
+
+
+
+
+
+
+/* Mobile-only: keep every machine gallery aligned to the Inovy Mini reference.
+   Desktop styles are untouched. No per-machine zoom or blend-mode tricks. */
 @media (max-width: 700px) {
-  #ponuda .model-grid-specs > .model-card:nth-child(3) .product-gallery img {
-    transform: scale(1.14, 1.06) !important;
-    transform-origin: center center !important;
-  }
-}
-
-
-/* Mobile only: expand LF Inovy & Milk photo further toward both frame edges. */
-@media (max-width: 700px) {
-  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
-    transform: scale(1.28, 1.06) !important;
-    transform-origin: center center !important;
-  }
-}
-
-
-/* LF Inovy & Milk: mobile-only correction — show the whole machine and blend photo backgrounds into the page. */
-@media (max-width: 700px) {
+  #ponuda .model-grid-specs > .model-card:nth-child(1) .model-art,
+  #ponuda .model-grid-specs > .model-card:nth-child(2) .model-art,
+  #ponuda .model-grid-specs > .model-card:nth-child(3) .model-art,
   #ponuda .model-grid-specs > .model-card:nth-child(4) .model-art,
+  #ponuda .model-grid-specs > .model-card:nth-child(1) .product-gallery,
+  #ponuda .model-grid-specs > .model-card:nth-child(2) .product-gallery,
+  #ponuda .model-grid-specs > .model-card:nth-child(3) .product-gallery,
   #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery {
     background: #D9DADD !important;
   }
+
+  #ponuda .model-grid-specs > .model-card:nth-child(1) .product-gallery img,
+  #ponuda .model-grid-specs > .model-card:nth-child(2) .product-gallery img,
+  #ponuda .model-grid-specs > .model-card:nth-child(3) .product-gallery img,
   #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
     transform: none !important;
+    transform-origin: center center !important;
     object-fit: contain !important;
     object-position: center center !important;
     background: #D9DADD !important;
-    mix-blend-mode: multiply !important;
-    -webkit-mix-blend-mode: multiply !important;
-  }
-  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img.blend-bg {
-    background: transparent !important;
-  }
-}
-@media (max-width: 420px) {
-  #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
-    transform: none !important;
-    padding: 0 !important;
+    mix-blend-mode: normal !important;
+    -webkit-mix-blend-mode: normal !important;
   }
 }
