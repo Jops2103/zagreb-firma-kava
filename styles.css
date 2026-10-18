@@ -2659,3 +2659,15 @@ main > section{
     padding: 6px 8px !important;
   }
 }
+
+
+/* Desktop: restore natural continuous wheel/trackpad scrolling; keep snap only for horizontal image galleries. */
+@media (min-width: 701px) {
+  html {
+    scroll-snap-type: none !important;
+  }
+  main > section {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
+}
