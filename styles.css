@@ -2126,3 +2126,18 @@ main > section{
   mix-blend-mode:multiply !important;
   -webkit-mix-blend-mode:multiply !important;
 }
+
+
+/* LF 1150 uses two new photos with their own finished black backgrounds. */
+#ponuda .model-grid-specs .model-card:nth-child(3) .model-art,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
+  background:#000 !important;
+}
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:none !important;
+  mix-blend-mode:normal !important;
+  -webkit-mix-blend-mode:normal !important;
+}
