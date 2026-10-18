@@ -2004,3 +2004,15 @@ main > section{
 @media(max-width:420px){
   #ponuda .model-grid-specs .model-card .model-art{height:285px;min-height:285px;padding:0}
 }
+
+
+/* Machine photo letterboxing: fill unused parts of selected frames with black. */
+/* First two cards (MALI FORMAT and KOMPAKTAN): black fills the top/bottom around contained photos. */
+#ponuda .model-grid-specs .model-card:nth-child(1) .product-gallery img,
+#ponuda .model-grid-specs .model-card:nth-child(2) .product-gallery img{
+  background:#000 !important;
+}
+/* Fourth card (LF Inovy & Milk): black fills the left/right sides of the photo frame. */
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery img{
+  background:#000 !important;
+}
