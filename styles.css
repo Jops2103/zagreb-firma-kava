@@ -2256,13 +2256,13 @@ main > section{
 }
 
 
-/* Mobile only: zoom out product photos in columns 2–4 while keeping the gallery frame and LF Inovy Mini unchanged. */
+/* Mobile only: reduce the complete photos in columns 2–4 more strongly; keep the gallery frame and LF Inovy Mini unchanged. */
 @media (max-width:700px){
   #ponuda .model-grid-specs > .model-card:nth-child(2) .product-gallery img,
   #ponuda .model-grid-specs > .model-card:nth-child(3) .product-gallery img,
   #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img{
     box-sizing:border-box !important;
-    padding:18px !important;
+    padding:34px !important;
     object-fit:contain !important;
     object-position:center center !important;
     transform:none !important;
@@ -2272,6 +2272,6 @@ main > section{
   #ponuda .model-grid-specs > .model-card:nth-child(2) .product-gallery img,
   #ponuda .model-grid-specs > .model-card:nth-child(3) .product-gallery img,
   #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img{
-    padding:14px !important;
+    padding:28px !important;
   }
 }
