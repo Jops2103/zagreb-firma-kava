@@ -2638,3 +2638,24 @@ main > section{
     padding: 8px !important;
   }
 }
+
+
+/* Product labels: keep the background snug around the text instead of stretching across the photo. */
+#ponuda .model-grid-specs .model-card .model-tag {
+  display: inline-block !important;
+  width: fit-content !important;
+  max-width: calc(100% - 26px) !important;
+  left: 13px !important;
+  right: auto !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  padding: 6px 9px !important;
+}
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .model-tag {
+    left: 8px !important;
+    right: auto !important;
+    max-width: calc(100% - 16px) !important;
+    padding: 6px 8px !important;
+  }
+}
