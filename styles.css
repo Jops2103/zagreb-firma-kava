@@ -2356,7 +2356,7 @@ main > section{
   #ponuda .model-grid-specs > .model-card:nth-child(4) .product-gallery img {
     object-fit: contain !important;
     object-position: center center !important;
-    transform: scale(1.2) !important;
+    transform: scale(1.205) !important;
     transform-origin: center center !important;
     padding: 0 !important;
   }
