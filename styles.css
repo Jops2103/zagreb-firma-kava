@@ -2208,34 +2208,49 @@ main > section{
 }
 
 
-/* Mobile zoom correction: keep more breathing room around the actual product inside each photo. */
+/* Mobile layout correction: preserve image scale and give each section its own responsive frame. */
 @media (max-width: 700px) {
-  #ponuda .model-grid-specs .model-card .product-gallery img {
-    transform: scale(.82) !important;
-    transform-origin: center center !important;
-    background: #D9DADD !important;
-  }
-  #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img {
-    transform: scale(.82) !important;
-    background: #000 !important;
+  /* The four-machine hero image should use the full available width, without extra inset padding. */
+  .hero-photo {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 1024 / 684;
+    margin-top: 8px;
+    overflow: hidden;
   }
   .hero-photo .hero-product-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
     object-fit: contain !important;
-    object-position: center !important;
-    padding: 10px 24px !important;
+    object-position: center center !important;
+    transform: none !important;
     filter: none !important;
   }
+
+  /* Product photos: do not scale the entire image down; fit the full photo inside its gallery cell. */
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+    padding: 4px !important;
+  }
+
+  /* Capsule images already have a responsive height; avoid an extra shrink transform. */
   .capsule-card img {
-    transform: scale(.90);
-    transform-origin: center center;
+    transform: none !important;
+    object-fit: contain !important;
+    object-position: center center !important;
   }
 }
 @media (max-width: 420px) {
+  .hero-photo {
+    aspect-ratio: 1024 / 684;
+  }
   #ponuda .model-grid-specs .model-card .product-gallery img {
-    transform: scale(.76) !important;
+    transform: none !important;
+    padding: 3px !important;
   }
-  #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img {
-    transform: scale(.76) !important;
-  }
-  .hero-photo .hero-product-image { padding: 14px 30px !important; }
 }
