@@ -2382,3 +2382,47 @@ main > section{
   mix-blend-mode: normal !important;
   -webkit-mix-blend-mode: normal !important;
 }
+
+/* Gallery fill correction: make each machine photo fill the full column width.
+   Individual photos may crop/scale differently; avoid contain-sized images and side gaps. */
+#ponuda .model-grid-specs .model-card .model-art {
+  background: #000 !important;
+  overflow: hidden !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery {
+  display: flex !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  background: #000 !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery img {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  background: #000 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  mix-blend-mode: normal !important;
+  -webkit-mix-blend-mode: normal !important;
+  transform: none !important;
+}
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .model-art {
+    height: clamp(260px, 78vw, 340px) !important;
+    min-height: 0 !important;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+}
