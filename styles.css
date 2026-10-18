@@ -2206,3 +2206,36 @@ main > section{
   .capsule-card p { font-size: 11px !important; }
   .capsule-card .btn { font-size: 9px; }
 }
+
+
+/* Mobile zoom correction: keep more breathing room around the actual product inside each photo. */
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    transform: scale(.82) !important;
+    transform-origin: center center !important;
+    background: #D9DADD !important;
+  }
+  #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img {
+    transform: scale(.82) !important;
+    background: #000 !important;
+  }
+  .hero-photo .hero-product-image {
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 10px 24px !important;
+    filter: none !important;
+  }
+  .capsule-card img {
+    transform: scale(.90);
+    transform-origin: center center;
+  }
+}
+@media (max-width: 420px) {
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    transform: scale(.76) !important;
+  }
+  #ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img {
+    transform: scale(.76) !important;
+  }
+  .hero-photo .hero-product-image { padding: 14px 30px !important; }
+}
