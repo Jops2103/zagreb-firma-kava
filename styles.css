@@ -2016,3 +2016,41 @@ main > section{
 #ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery img{
   background:linear-gradient(135deg,#d5d7d8 0%,#e2e2df 38%,#d0d3d5 72%,#dededb 100%) !important;
 }
+
+
+/* Revised machine photo frames: reduce unused vertical space and control each image's fill. */
+#ponuda .model-grid-specs .model-card .model-art{
+  height:260px !important;
+  min-height:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+#ponuda .model-grid-specs .model-card .product-gallery{
+  height:100% !important;
+  min-height:0 !important;
+}
+/* Match the first three photo frames with a shared soft silver-gray background. */
+#ponuda .model-grid-specs .model-card:nth-child(1) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(2) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery{
+  background:linear-gradient(135deg,#d5d7d8 0%,#e2e2df 38%,#d0d3d5 72%,#dededb 100%) !important;
+}
+#ponuda .model-grid-specs .model-card:nth-child(1) .product-gallery img,
+#ponuda .model-grid-specs .model-card:nth-child(2) .product-gallery img,
+#ponuda .model-grid-specs .model-card:nth-child(3) .product-gallery img{
+  background:transparent !important;
+}
+/* LF Inovy & Milk: black fill appears on the sides where the photo does not cover the frame. */
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery,
+#ponuda .model-grid-specs .model-card:nth-child(4) .product-gallery img{
+  background:#000 !important;
+}
+@media(max-width:1000px){
+  #ponuda .model-grid-specs .model-card .model-art{height:245px !important;min-height:0 !important}
+}
+@media(max-width:700px){
+  #ponuda .model-grid-specs .model-card .model-art{height:235px !important;min-height:0 !important}
+}
+@media(max-width:420px){
+  #ponuda .model-grid-specs .model-card .model-art{height:220px !important;min-height:0 !important}
+}
