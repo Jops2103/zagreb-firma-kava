@@ -2498,3 +2498,28 @@ main > section{
   #ponuda .model-grid-specs > .model-card:nth-child(3) .model-art { height: 310px !important; }
   #ponuda .model-grid-specs > .model-card:nth-child(4) .model-art { height: 340px !important; }
 }
+
+
+/* Each mobile photo gets a full-width viewport. Later cards use taller viewports,
+   allowing their product photos to appear larger instead of leaving side margins. */
+@media (max-width: 700px) {
+  #ponuda .model-grid-specs .model-card .product-gallery {
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  #ponuda .model-grid-specs .model-card .product-gallery img {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #000 !important;
+  }
+}
