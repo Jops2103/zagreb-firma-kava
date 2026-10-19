@@ -2774,7 +2774,6 @@ main > section{
   border: 1px solid #c8c9cb;
   border-radius: 3px;
   background: rgba(224, 225, 227, .96);
-  transition: background-color .18s ease, opacity .18s ease, transform .18s ease, visibility .18s ease;
   color: #111 !important;
   font-size: 14px;
   font-weight: 700;
@@ -2792,6 +2791,10 @@ main > section{
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
+  }
+  #kapsule .capsule-image-link:hover .capsule-hover-label {
+    background: rgba(190, 192, 195, .98);
+    border-color: #aeb0b3;
   }
 }
 @media (hover: none) {
