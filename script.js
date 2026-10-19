@@ -456,6 +456,24 @@ if (capsuleModelField) {
 
 updateSelectedCapsuleField();
 
+// A capsule chosen on its detail page arrives here as a one-box capsule-only order.
+const capsuleFromDetail = params.get('odaberiKapsulu');
+if (capsuleFromDetail && capsuleField && topicField) {
+  const matchingCapsuleButton = Array.from(document.querySelectorAll('.capsule-select'))
+    .find(button => button.dataset.capsule === capsuleFromDetail);
+  if (matchingCapsuleButton) {
+    topicField.value = 'Želim naručiti kapsule';
+    selectedCapsules.clear();
+    selectedCapsules.set(capsuleFromDetail, 1);
+    updateSelectedCapsuleField();
+    if (status) status.textContent = '';
+    params.delete('odaberiKapsulu');
+    const remainingQuery = params.toString();
+    const cleanUrl = window.location.pathname + (remainingQuery ? '?' + remainingQuery : '') + window.location.hash;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+}
+
 /* Interactive appliance finder. The final choice reuses the existing model-selection flow. */
 (function setupApplianceFinder(){
   const finder = document.getElementById('appliance-finder');
