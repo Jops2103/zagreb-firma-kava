@@ -2749,17 +2749,17 @@ main > section{
   }
 }
 
-/* Capsule label: desktop hover only; never shown on touch/mobile devices. */
+/* Capsule image label rebuilt with a real HTML element (not a pseudo-element). */
 #kapsule .capsule-gallery .capsule-card .capsule-image-link {
   position: relative;
   isolation: isolate;
 }
-#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-  content: "Saznaj više";
+#kapsule .capsule-gallery .capsule-card .capsule-hover-label {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   left: 50%;
   bottom: 8px;
+  display: block;
   width: max-content;
   max-width: calc(100% - 12px);
   padding: 3px 7px;
@@ -2767,7 +2767,6 @@ main > section{
   border-radius: 2px;
   color: #000;
   background: #e6e7e9;
-  box-shadow: none;
   font-size: 11px;
   font-weight: 700;
   line-height: 1.15;
@@ -2781,18 +2780,15 @@ main > section{
   pointer-events: none;
 }
 @media (hover: hover) and (pointer: fine) {
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link:hover .capsule-hover-label,
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible .capsule-hover-label {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
   }
 }
 @media (hover: none), (pointer: coarse) {
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-    content: none !important;
+  #kapsule .capsule-gallery .capsule-card .capsule-hover-label {
     display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
   }
 }
