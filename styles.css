@@ -2807,7 +2807,8 @@ main > section{
 
 /* Capsule "Saznaj više": fixed, readable tag in the upper-left corner of every capsule image. */
 #kapsule .capsule-image-link .capsule-hover-label {
-  left: 8px !important;
+  left: auto !important;
+  right: 8px !important;
   top: 8px !important;
   bottom: auto !important;
   transform: none !important;
