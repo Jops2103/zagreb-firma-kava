@@ -2685,3 +2685,11 @@ main > section{
   mix-blend-mode: multiply;
   -webkit-mix-blend-mode: multiply;
 }
+
+
+/* All capsule image areas use a clean white background. */
+#kapsule .capsule-gallery .capsule-card img {
+  background: #fff !important;
+  mix-blend-mode: normal !important;
+  -webkit-mix-blend-mode: normal !important;
+}
