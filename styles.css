@@ -2783,7 +2783,7 @@ main > section{
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+  transition: background-color .18s ease, opacity .18s ease, transform .18s ease, visibility .18s ease;
 }
 @media (hover: hover) and (pointer: fine) {
   #kapsule .capsule-image-link:hover .capsule-hover-label,
@@ -2791,6 +2791,10 @@ main > section{
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
+  }
+  #kapsule .capsule-image-link:hover .capsule-hover-label {
+    background: rgba(190, 192, 195, .98);
+    border-color: #aeb0b3;
   }
 }
 @media (hover: none) {
