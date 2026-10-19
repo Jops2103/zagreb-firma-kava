@@ -2671,3 +2671,17 @@ main > section{
     scroll-snap-stop: normal !important;
   }
 }
+
+
+/* Blend the six capsule photos with white backgrounds into the site gray.
+   Keep all other capsule photos and card styling unchanged. */
+#kapsule .capsule-gallery > .capsule-card:nth-child(4) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(5) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(6) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(7) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(8) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(11) img {
+  background: var(--bg) !important;
+  mix-blend-mode: multiply;
+  -webkit-mix-blend-mode: multiply;
+}
