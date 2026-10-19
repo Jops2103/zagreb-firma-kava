@@ -2900,3 +2900,16 @@ main > section{
     font-size: 11px;
   }
 }
+
+
+/* Capsule prompt: light-gray background with black text for clear contrast. */
+#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+  color: #111;
+  background: #e6e7e9;
+  border: 1px solid rgba(0, 0, 0, .12);
+}
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
+  color: #000;
+  background: #e6e7e9;
+}
