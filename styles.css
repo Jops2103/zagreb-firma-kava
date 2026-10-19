@@ -2749,8 +2749,7 @@ main > section{
   }
 }
 
-
-/* Reliable capsule hover prompt: explicit visibility and stacking above the pack image. */
+/* Capsule label: desktop hover only; never shown on touch/mobile devices. */
 #kapsule .capsule-gallery .capsule-card .capsule-image-link {
   position: relative;
   isolation: isolate;
@@ -2760,106 +2759,11 @@ main > section{
   position: absolute;
   z-index: 2;
   left: 50%;
-  right: auto;
-  bottom: 10px;
-  display: block;
-  width: max-content;
-  max-width: calc(100% - 12px);
-  min-height: 0;
-  padding: 6px 10px;
-  color: #fff;
-  background: #003da5;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0;
-  text-align: center;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(-50%, 5px);
-  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
-  pointer-events: none;
-}
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-@media (hover: none) {
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, 0);
-  }
-}
-
-
-/* Final compact capsule prompt: minimal blue padding and slightly dimmer text on hover. */
-#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-  padding: 2px 4px;
-  font-size: 11px;
-  line-height: 1.15;
-  border-radius: 2px;
-  color: #fff;
-  background: #003da5;
-  transition: opacity .2s ease, transform .2s ease, visibility .2s ease, color .2s ease;
-}
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
-  color: #c7c7c7;
-}
-@media (hover: none) {
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-    padding: 2px 4px;
-    font-size: 11px;
-  }
-}
-
-
-/* Capsule prompt: light-gray background with black text for clear contrast. */
-#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-  color: #111;
-  background: #e6e7e9;
-  border: 1px solid rgba(0, 0, 0, .12);
-}
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
-  color: #000;
-  background: #e6e7e9;
-}
-
-
-/* Definitive capsule label override: light gray background, black text. */
-#kapsule .capsule-gallery .capsule-card .capsule-image-link::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
-  color: #000 !important;
-  background: #e6e7e9 !important;
-  border: 1px solid rgba(0, 0, 0, .18) !important;
-  box-shadow: none !important;
-}
-
-
-/* Single source of truth for the capsule "Saznaj više" label. */
-#kapsule .capsule-gallery .capsule-card .capsule-image-link {
-  position: relative;
-  isolation: isolate;
-}
-#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-  content: "Saznaj više";
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  right: auto;
   bottom: 8px;
-  display: block;
   width: max-content;
   max-width: calc(100% - 12px);
-  min-height: 0;
-  padding: 3px 6px;
-  border: 1px solid rgba(0, 0, 0, .18);
+  padding: 3px 7px;
+  border: 1px solid rgba(0, 0, 0, .16);
   border-radius: 2px;
   color: #000;
   background: #e6e7e9;
@@ -2873,23 +2777,22 @@ main > section{
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, 5px);
-  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
   pointer-events: none;
 }
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
-#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
-  color: #000;
-  background: #e6e7e9;
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-@media (hover: none) {
-  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
-    color: #000;
-    background: #e6e7e9;
+@media (hover: hover) and (pointer: fine) {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 }
