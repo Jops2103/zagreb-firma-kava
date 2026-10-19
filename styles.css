@@ -175,7 +175,7 @@ body.lightbox-open{overflow:hidden}
 .email-order-note{max-width:900px;margin:28px auto 0;padding:22px 24px;background:#f8f8f6;border:1px solid #c9c7c1;border-radius:4px}
 .email-order-note>p:first-child{margin:0 0 10px;font-weight:800;font-size:16px;color:#292a2c}
 .email-copy-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.email-copy-row>a{font-size:17px;font-weight:800;color:#c8102e;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.email-copy-row>a{font-size:17px;font-weight:800;color:#003da5;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .copy-email-btn{border:1px solid #92979d;border-radius:3px;background:#fff;padding:10px 14px;color:#292a2c;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .copy-email-btn:hover{background:#e1e0dc}
 .email-order-hint{margin:12px 0 0;color:#5d5b56;font-size:13px;line-height:1.65}
