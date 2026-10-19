@@ -2722,3 +2722,54 @@ main > section{
   background: var(--bg) !important;
   background-color: var(--bg) !important;
 }
+
+
+/* Capsule cards: use a clear text prompt instead of the browser's zoom-in magnifier cursor. */
+#kapsule .capsule-image-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+}
+#kapsule .capsule-image-link img {
+  cursor: pointer !important;
+  transition: filter .2s ease;
+}
+#kapsule .capsule-image-link::after {
+  content: "Saznajte više";
+  position: absolute;
+  inset: auto 10px 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  color: #fff;
+  background: #003da5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+#kapsule .capsule-image-link:hover::after,
+#kapsule .capsule-image-link:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+#kapsule .capsule-image-link:hover img,
+#kapsule .capsule-image-link:focus-visible img {
+  filter: brightness(.88);
+}
+@media (hover: none) {
+  #kapsule .capsule-image-link::after {
+    inset: auto 6px 6px 6px;
+    min-height: 32px;
+    font-size: 11px;
+    opacity: 1;
+    transform: none;
+  }
+}
