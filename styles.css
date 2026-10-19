@@ -2715,3 +2715,9 @@ main > section{
   mix-blend-mode: darken !important;
   -webkit-mix-blend-mode: darken !important;
 }
+
+
+/* Match the background of every capsule photo to Espresso Aromatico: #E1E0DC. */
+#kapsule .capsule-gallery .capsule-card img {
+  background-color: #E1E0DC !important;
+}
