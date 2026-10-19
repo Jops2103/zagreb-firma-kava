@@ -2773,3 +2773,29 @@ main > section{
     transform: none;
   }
 }
+
+
+/* Enlarge capsule pack photos so they visually fill each card's image frame. */
+#kapsule .capsule-gallery .capsule-card .capsule-image-link {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg);
+}
+#kapsule .capsule-gallery .capsule-card .capsule-image-link img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.16);
+  transform-origin: center;
+}
+@media (max-width: 700px) {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link {
+    aspect-ratio: 4 / 3;
+  }
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link img {
+    transform: scale(1.12);
+  }
+}
