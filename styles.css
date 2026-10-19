@@ -2701,3 +2701,17 @@ main > section{
   mix-blend-mode: multiply !important;
   -webkit-mix-blend-mode: multiply !important;
 }
+
+
+/* Keep the six capsule photos on the same light gray as the first three,
+   while avoiding the darkening caused by multiply blending. */
+#kapsule .capsule-gallery > .capsule-card:nth-child(4) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(5) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(6) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(7) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(8) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(11) img {
+  background: var(--bg) !important;
+  mix-blend-mode: darken !important;
+  -webkit-mix-blend-mode: darken !important;
+}
