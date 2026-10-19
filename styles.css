@@ -2788,7 +2788,7 @@ main > section{
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.16);
+  transform: none;
   transform-origin: center;
 }
 @media (max-width: 700px) {
@@ -2796,6 +2796,6 @@ main > section{
     aspect-ratio: 4 / 3;
   }
   #kapsule .capsule-gallery .capsule-card .capsule-image-link img {
-    transform: scale(1.12);
+    transform: none;
   }
 }
