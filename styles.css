@@ -2827,3 +2827,17 @@ main > section{
   visibility: visible !important;
   pointer-events: none;
 }
+
+
+/* Darken the capsule "Saznaj više" label when the pointer is directly over it. */
+@media (hover: hover) and (pointer: fine) {
+  #kapsule .capsule-image-link .capsule-hover-label {
+    pointer-events: auto;
+    cursor: default;
+    transition: background-color .18s ease, border-color .18s ease;
+  }
+  #kapsule .capsule-image-link .capsule-hover-label:hover {
+    background: #aeb0b3 !important;
+    border-color: #85888c !important;
+  }
+}
