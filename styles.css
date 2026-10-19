@@ -2799,3 +2799,36 @@ main > section{
     transform: none;
   }
 }
+
+
+/* Capsule hover label: keep the blue background snug around the words. */
+#kapsule .capsule-image-link::after {
+  content: "Saznaj više";
+  left: 50%;
+  right: auto;
+  bottom: 10px;
+  width: max-content;
+  max-width: calc(100% - 12px);
+  min-height: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  transform: translate(-50%, 5px);
+}
+#kapsule .capsule-image-link:hover::after,
+#kapsule .capsule-image-link:focus-visible::after {
+  transform: translate(-50%, 0);
+}
+@media (hover: none) {
+  #kapsule .capsule-image-link::after {
+    left: 50%;
+    right: auto;
+    bottom: 6px;
+    min-height: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    transform: translateX(-50%);
+  }
+}
