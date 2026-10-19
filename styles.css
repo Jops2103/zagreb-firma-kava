@@ -2685,3 +2685,19 @@ main > section{
   mix-blend-mode: multiply;
   -webkit-mix-blend-mode: multiply;
 }
+
+
+/* Give every capsule photo the same site-gray image background.
+   The six photos that contain white margins blend into that same gray. */
+#kapsule .capsule-gallery .capsule-card img {
+  background: var(--bg) !important;
+}
+#kapsule .capsule-gallery > .capsule-card:nth-child(4) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(5) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(6) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(7) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(8) img,
+#kapsule .capsule-gallery > .capsule-card:nth-child(11) img {
+  mix-blend-mode: multiply !important;
+  -webkit-mix-blend-mode: multiply !important;
+}
