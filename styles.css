@@ -2717,7 +2717,8 @@ main > section{
 }
 
 
-/* Match the background of every capsule photo to Espresso Aromatico: #E1E0DC. */
+/* Set the complete background area behind every capsule image to white. */
 #kapsule .capsule-gallery .capsule-card img {
-  background-color: #E1E0DC !important;
+  background: #fff !important;
+  background-color: #fff !important;
 }
