@@ -2717,8 +2717,8 @@ main > section{
 }
 
 
-/* Set the complete background area behind every capsule image to white. */
+/* Restore PR #89: use the site's gray background behind all capsule images. */
 #kapsule .capsule-gallery .capsule-card img {
-  background: #fff !important;
-  background-color: #fff !important;
+  background: var(--bg) !important;
+  background-color: var(--bg) !important;
 }
