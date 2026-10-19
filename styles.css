@@ -2842,3 +2842,51 @@ main > section{
     border-color: #85888c !important;
   }
 }
+
+
+/* Capsule cards: replace the text badge with a subtle information icon. */
+#kapsule .capsule-image-link .capsule-hover-label {
+  width: 30px !important;
+  height: 30px !important;
+  max-width: none !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  background: rgba(25, 27, 30, .78) !important;
+  border: 1px solid rgba(255, 255, 255, .78) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .18);
+  pointer-events: none !important;
+  transition: background-color .18s ease, transform .18s ease !important;
+}
+#kapsule .capsule-image-link .capsule-hover-label::before {
+  content: "i";
+  display: block;
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+#kapsule .capsule-image-link img {
+  transition: transform .22s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  #kapsule .capsule-image-link:hover img {
+    transform: scale(1.035);
+  }
+  #kapsule .capsule-image-link:hover .capsule-hover-label,
+  #kapsule .capsule-image-link:focus-visible .capsule-hover-label {
+    background: rgba(25, 27, 30, .96) !important;
+    transform: scale(1.08) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #kapsule .capsule-image-link img,
+  #kapsule .capsule-image-link .capsule-hover-label {
+    transition: none !important;
+  }
+}
