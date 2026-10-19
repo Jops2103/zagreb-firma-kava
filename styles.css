@@ -2878,3 +2878,25 @@ main > section{
     transform: translate(-50%, 0);
   }
 }
+
+
+/* Final compact capsule prompt: minimal blue padding and slightly dimmer text on hover. */
+#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+  padding: 2px 4px;
+  font-size: 11px;
+  line-height: 1.15;
+  border-radius: 2px;
+  color: #fff;
+  background: #003da5;
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease, color .2s ease;
+}
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
+  color: #c7c7c7;
+}
+@media (hover: none) {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+    padding: 2px 4px;
+    font-size: 11px;
+  }
+}
