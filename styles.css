@@ -2774,6 +2774,7 @@ main > section{
   border: 1px solid #c8c9cb;
   border-radius: 3px;
   background: rgba(224, 225, 227, .96);
+  transition: background-color .18s ease, opacity .18s ease, transform .18s ease, visibility .18s ease;
   color: #111 !important;
   font-size: 14px;
   font-weight: 700;
@@ -2783,7 +2784,7 @@ main > section{
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+  transition: background-color .18s ease, opacity .18s ease, transform .18s ease, visibility .18s ease;
 }
 @media (hover: hover) and (pointer: fine) {
   #kapsule .capsule-image-link:hover .capsule-hover-label,
