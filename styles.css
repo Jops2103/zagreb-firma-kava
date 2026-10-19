@@ -2832,3 +2832,49 @@ main > section{
     transform: translateX(-50%);
   }
 }
+
+
+/* Reliable capsule hover prompt: explicit visibility and stacking above the pack image. */
+#kapsule .capsule-gallery .capsule-card .capsule-image-link {
+  position: relative;
+  isolation: isolate;
+}
+#kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+  content: "Saznaj više";
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  right: auto;
+  bottom: 10px;
+  display: block;
+  width: max-content;
+  max-width: calc(100% - 12px);
+  min-height: 0;
+  padding: 6px 10px;
+  color: #fff;
+  background: #003da5;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 5px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  pointer-events: none;
+}
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:hover::after,
+#kapsule .capsule-gallery .capsule-card .capsule-image-link:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+@media (hover: none) {
+  #kapsule .capsule-gallery .capsule-card .capsule-image-link::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+}
