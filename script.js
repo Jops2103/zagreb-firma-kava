@@ -97,7 +97,7 @@ document.querySelectorAll('.model-select').forEach(button => {
 
 // Enlarge product and hero photos on click; close with Escape or backdrop.
 (function setupImageLightbox(){
-  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image, .capsule-gallery img'));
+  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image'));
   if (!images.length) return;
   const overlay = document.createElement('div');
   overlay.className = 'image-lightbox';
