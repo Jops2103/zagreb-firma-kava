@@ -84,6 +84,7 @@ document.querySelectorAll('.model-select').forEach(button => {
 
     // The minimum is included; any extra quantity can be added in the form.
     selectedCapsules.clear();
+    saveCapsuleSelections();
     if (additionalCapsulesField) additionalCapsulesField.value = '0';
     if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste dodatnih kapsula nisu odabrane';
     if (status) status.textContent = '';
@@ -232,6 +233,22 @@ const additionalCapsulesWrap = document.getElementById('additional-capsules-fiel
 const additionalCapsulesDetails = document.getElementById('additional-capsules-details');
 const additionalCapsulesChoices = document.querySelectorAll('input[name="Dodatne kapsule"]');
 const selectedCapsules = new Map();
+const capsuleSelectionStorageKey = 'zfk-selected-capsules-v1';
+
+function saveCapsuleSelections() {
+  try { localStorage.setItem(capsuleSelectionStorageKey, JSON.stringify(Array.from(selectedCapsules.entries()))); } catch (error) { /* Storage may be unavailable; current-page selection still works. */ }
+}
+
+function restoreCapsuleSelections() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(capsuleSelectionStorageKey) || '[]');
+    if (Array.isArray(saved)) saved.forEach(entry => {
+      if (Array.isArray(entry) && typeof entry[0] === 'string' && Number.isFinite(entry[1]) && entry[1] > 0) {
+        selectedCapsules.set(entry[0], Math.floor(entry[1]));
+      }
+    });
+  } catch (error) { /* Ignore invalid or unavailable saved selections. */ }
+}
 
 function capsulePackageLimit() {
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
@@ -386,6 +403,7 @@ document.querySelectorAll('.capsule-select').forEach(button => {
     }
 
     selectedCapsules.set(variety, (selectedCapsules.get(variety) || 0) + 1);
+    saveCapsuleSelections();
     updateSelectedCapsuleField();
     if (status) status.textContent = '';
     if (!isCapsuleOnlyOrder() && minimum > 0 && selectedBoxes + 1 === minimum) {
@@ -411,6 +429,7 @@ additionalCapsulesChoices.forEach(choice => {
 
       selectedCapsules.clear();
       packageSelections.forEach((qty, name) => selectedCapsules.set(name, qty));
+      saveCapsuleSelections();
     }
 
     updateSelectedCapsuleField();
@@ -441,6 +460,7 @@ if (topicField) {
       if (noExtra) noExtra.checked = true;
     }
     selectedCapsules.clear();
+    saveCapsuleSelections();
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
   });
@@ -449,22 +469,24 @@ if (topicField) {
 if (capsuleModelField) {
   capsuleModelField.addEventListener('change', () => {
     selectedCapsules.clear();
+    saveCapsuleSelections();
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
   });
 }
 
+restoreCapsuleSelections();
 updateSelectedCapsuleField();
 
-// A capsule chosen on its detail page arrives here as a one-box capsule-only order.
+// A capsule chosen on its detail page adds one box without clearing earlier choices.
 const capsuleFromDetail = params.get('odaberiKapsulu');
 if (capsuleFromDetail && capsuleField && topicField) {
   const matchingCapsuleButton = Array.from(document.querySelectorAll('.capsule-select'))
     .find(button => button.dataset.capsule === capsuleFromDetail);
   if (matchingCapsuleButton) {
     topicField.value = 'Želim naručiti kapsule';
-    selectedCapsules.clear();
-    selectedCapsules.set(capsuleFromDetail, 1);
+    selectedCapsules.set(capsuleFromDetail, (selectedCapsules.get(capsuleFromDetail) || 0) + 1);
+    saveCapsuleSelections();
     updateSelectedCapsuleField();
     if (status) status.textContent = '';
     params.delete('odaberiKapsulu');
