@@ -97,7 +97,7 @@ document.querySelectorAll('.model-select').forEach(button => {
 
 // Enlarge product and hero photos on click; close with Escape or backdrop.
 (function setupImageLightbox(){
-  const images = Array.from(document.querySelectorAll('.product-gallery img, .hero-product-image'));
+  const images = Array.from(document.querySelectorAll('.product-gallery img, .model-image-gallery img, .hero-product-image'));
   if (!images.length) return;
   const overlay = document.createElement('div');
   overlay.className = 'image-lightbox';
@@ -142,7 +142,7 @@ document.querySelectorAll('.model-select').forEach(button => {
   }
   function openImage(image) {
     previousFocus = document.activeElement;
-    const gallery = image.closest('.product-gallery, .capsule-gallery');
+    const gallery = image.closest('.product-gallery, .model-image-gallery, .capsule-gallery');
     activeImages = gallery
       ? Array.from(gallery.querySelectorAll('img'))
       : [image];
