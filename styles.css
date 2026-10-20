@@ -3455,3 +3455,39 @@ main > section{
   max-width: 600px;
   margin: 0 auto;
 }
+
+
+/* ZFK: display LB machine photos in 400x600 portrait frames without changing source files. */
+#ponuda .model-image-columns {
+  max-width: 836px !important;
+  grid-template-columns: repeat(2, minmax(0, 400px)) !important;
+  justify-content: center;
+  gap: 36px;
+}
+#ponuda .model-image-column { min-width: 0; }
+#ponuda .model-image-gallery {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 2 / 3;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#ponuda .model-image-gallery .model-image-main {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+@media (max-width: 700px) {
+  #ponuda .model-image-columns {
+    grid-template-columns: minmax(0, 400px) !important;
+    max-width: 400px !important;
+    gap: 28px;
+  }
+  #ponuda .model-image-gallery {
+    width: 100%;
+    max-width: 400px;
+  }
+}
