@@ -2977,11 +2977,16 @@ main > section{
 }
 
 
-/* Follow-up: enlarge the LB 1200 image canvas to match the white photo background
-   of the LB 300 Mini. Keep the mobile layout stacked and unchanged. */
+/* Balance the LB 300 Mini and LB 1200 photo canvases on desktop.
+   Widen the left column to match the right and slightly enlarge the LB 300 image.
+   Keep the mobile layout stacked and unchanged. */
 @media (min-width: 701px) {
   #ponuda .model-grid-two {
-    grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr) !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+  #ponuda .model-grid-two .model-card:first-child .product-gallery img.gallery-main {
+    transform: scale(1.4) !important;
+    transform-origin: center center !important;
   }
   #ponuda .model-grid-two .model-card:nth-child(2) .product-gallery img.gallery-main {
     transform: scale(1.25) !important;
