@@ -3561,3 +3561,68 @@ main > section{
     gap: 2px;
   }
 }
+
+
+/* ZFK: make the technical-specification disclosure feel clearly interactive. */
+#ponuda .machine-specs {
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+#ponuda .machine-specs summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  background: rgba(255,255,255,.28);
+  transition: background-color 180ms ease, color 180ms ease, padding 180ms ease;
+}
+#ponuda .machine-specs summary::after {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  background: #003da5;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+#ponuda .machine-specs[open] summary::after {
+  content: "−";
+  background: #252a31;
+}
+@media (hover: hover) and (pointer: fine) {
+  #ponuda .machine-specs summary:hover {
+    color: #fff;
+    background: #343a43;
+    padding-left: 18px;
+  }
+  #ponuda .machine-specs summary:hover::after {
+    color: #003da5;
+    background: #fff;
+    transform: scale(1.08);
+  }
+  #ponuda .machine-specs:hover {
+    border-color: #343a43;
+    box-shadow: 0 4px 12px rgba(20,25,35,.16);
+  }
+}
+#ponuda .machine-specs summary:focus-visible {
+  outline: 3px solid #003da5;
+  outline-offset: -3px;
+  background: #343a43;
+  color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ponuda .machine-specs,
+  #ponuda .machine-specs summary,
+  #ponuda .machine-specs summary::after {
+    transition: none;
+  }
+}
