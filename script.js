@@ -76,7 +76,7 @@ document.querySelectorAll('.model-select').forEach(button => {
     const model = document.getElementById('model');
     const modelName = button.dataset.model.replace(/^Lavazza Firma /, '');
     const option = Array.from(model.options).find(item =>
-      item.textContent.startsWith(`Lavazza ${modelName} —`)
+      item.textContent.startsWith(`Lavazza ${modelName}`)
     );
 
     if (option) model.value = option.value || option.textContent;
@@ -371,7 +371,7 @@ document.querySelectorAll('.model-select').forEach(button => {
     const model = document.getElementById('model');
     const modelName = button.dataset.model.replace(/^Lavazza Firma /, '');
     const option = Array.from(model.options).find(item =>
-      item.textContent.startsWith(`Lavazza ${modelName} —`)
+      item.textContent.startsWith(`Lavazza ${modelName}`)
     );
     if (option) model.value = option.value || option.textContent;
     topicField.value = 'Želim aparat uz mjesečnu kupnju kapsula';
