@@ -3626,3 +3626,43 @@ main > section{
     transition: none;
   }
 }
+
+
+/* ZFK: prominent Lavazza-blue selection button under each machine's specifications. */
+#ponuda .machine-select {
+  width: 100%;
+  margin: 14px 0 18px;
+  min-height: 50px;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #003da5;
+  border-color: #003da5;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 35, 100, .16);
+  font-size: 13px;
+  letter-spacing: .01em;
+}
+#ponuda .machine-select span {
+  font-size: 17px;
+  transition: transform 180ms ease;
+}
+#ponuda .machine-select:hover {
+  background: #002f80;
+  border-color: #002f80;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(0, 35, 100, .24);
+  transform: translateY(-2px);
+}
+#ponuda .machine-select:hover span {
+  transform: translate(2px, -2px);
+}
+#ponuda .machine-select:focus-visible {
+  outline: 3px solid #003da5;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ponuda .machine-select,
+  #ponuda .machine-select span {
+    transition: none;
+  }
+}
