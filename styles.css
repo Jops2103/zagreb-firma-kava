@@ -3443,3 +3443,15 @@ main > section{
   #ponuda .model-image-column h3 { font-size: 19px; }
   #ponuda .model-image-thumbnails { gap: 8px; }
 }
+
+
+/* ZFK: keep alternate machine photos out of the page layout; show them only in the click-to-open lightbox carousel. */
+#ponuda .model-image-thumbnails {
+  display: none !important;
+}
+#ponuda .model-image-gallery .model-image-main {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
