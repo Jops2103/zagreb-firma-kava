@@ -2993,3 +2993,16 @@ main > section{
     transform-origin: center center !important;
   }
 }
+
+
+/* Follow-up: double the LB 300 Mini column width and photo scale on desktop.
+   Preserve the current LB 1200 photo size and the stacked mobile layout. */
+@media (min-width: 701px) {
+  #ponuda .model-grid-two {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) !important;
+  }
+  #ponuda .model-grid-two .model-card:first-child .product-gallery img.gallery-main {
+    transform: scale(2.8) !important;
+    transform-origin: center center !important;
+  }
+}
