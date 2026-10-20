@@ -3388,3 +3388,58 @@ main > section{
     font-size: 19px;
   }
 }
+
+
+/* ZFK: portrait galleries for the LB 300 mini and LB 1200 Classy & Milk */
+#ponuda .model-image-columns {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 36px);
+  align-items: start;
+}
+#ponuda .model-image-column { min-width: 0; }
+#ponuda .model-image-column h3 {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: clamp(17px, 1.7vw, 22px);
+  line-height: 1.35;
+  letter-spacing: -.35px;
+}
+#ponuda .model-image-gallery { min-width: 0; }
+#ponuda .model-image-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  background: #d9dadd;
+  border: 1px solid #bfc0c1;
+  cursor: zoom-in;
+}
+#ponuda .model-image-gallery .model-image-main { max-width: 600px; margin: 0 auto; }
+#ponuda .model-image-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+#ponuda .model-image-thumbnails img { max-width: 100%; }
+#ponuda .model-gallery-hint {
+  margin: 9px 0 0;
+  color: #55585d;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.45;
+}
+@media (max-width: 700px) {
+  #ponuda .model-image-columns {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 520px;
+    gap: 28px;
+  }
+  #ponuda .model-image-column h3 { font-size: 19px; }
+  #ponuda .model-image-thumbnails { gap: 8px; }
+}
