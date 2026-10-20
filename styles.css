@@ -2975,3 +2975,16 @@ main > section{
     transform-origin: center center !important;
   }
 }
+
+
+/* Follow-up: enlarge the LB 1200 image canvas to match the white photo background
+   of the LB 300 Mini. Keep the mobile layout stacked and unchanged. */
+@media (min-width: 701px) {
+  #ponuda .model-grid-two {
+    grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr) !important;
+  }
+  #ponuda .model-grid-two .model-card:nth-child(2) .product-gallery img.gallery-main {
+    transform: scale(1.25) !important;
+    transform-origin: center center !important;
+  }
+}
