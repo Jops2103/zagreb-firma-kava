@@ -2895,3 +2895,11 @@ main > section{
 /* Remove the former four-machine hero image and let the introduction use the full hero width. */
 .hero{grid-template-columns:minmax(0,1fr)!important;min-height:0!important;}
 .hero-copy{width:100%;max-width:760px;margin-inline:auto;}
+
+
+/* Place the uploaded merged-machines image below the complete hero introduction. */
+.hero{grid-template-columns:minmax(0,1fr)!important;min-height:0!important;gap:0!important;padding-right:clamp(24px,9vw,140px)!important;}
+.hero-copy{width:100%;max-width:900px;margin-inline:auto;}
+.hero-machines-below{width:min(100%,1100px);margin:26px auto 0;grid-column:1/-1;min-width:0;}
+.hero-machines-below img{display:block;width:100%;height:auto;max-height:610px;object-fit:contain;object-position:center;}
+@media(max-width:700px){.hero{padding:32px 18px 22px!important}.hero-machines-below{width:100%;margin-top:18px}.hero-machines-below img{width:100%;height:auto;object-fit:contain}}
