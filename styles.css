@@ -3334,3 +3334,57 @@ main > section{
     flex-basis:90%!important;width:90%!important;min-width:90%!important;height:300px!important;max-height:300px!important;
   }
 }
+
+
+/* ZFK: two portrait image slots for the LB 300 mini and LB 1200 Classy & Milk */
+#ponuda .model-image-columns {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 36px);
+  align-items: start;
+}
+#ponuda .model-image-column {
+  min-width: 0;
+}
+#ponuda .model-image-column h3 {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: clamp(17px, 1.7vw, 22px);
+  line-height: 1.35;
+  letter-spacing: -.35px;
+}
+#ponuda .model-image-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 1px solid #bfc0c1;
+  background: #d9dadd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #777b80;
+  text-align: center;
+  overflow: hidden;
+}
+#ponuda .model-image-placeholder span {
+  font-size: 13px;
+  font-weight: 700;
+}
+#ponuda .model-image-placeholder small {
+  font-size: 11px;
+  letter-spacing: .4px;
+}
+@media (max-width: 700px) {
+  #ponuda .model-image-columns {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 520px;
+    gap: 28px;
+  }
+  #ponuda .model-image-column h3 {
+    font-size: 19px;
+  }
+}
