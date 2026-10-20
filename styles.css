@@ -2890,3 +2890,8 @@ main > section{
     transition: none !important;
   }
 }
+
+
+/* Remove the former four-machine hero image and let the introduction use the full hero width. */
+.hero{grid-template-columns:minmax(0,1fr)!important;min-height:0!important;}
+.hero-copy{width:100%;max-width:760px;margin-inline:auto;}
