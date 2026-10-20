@@ -3113,3 +3113,44 @@ main > section{
 @media (max-width: 420px) {
   #ponuda .model-grid-two .model-card .model-art { height: 440px !important; }
 }
+
+
+/* Fix LB 300 portrait gallery specifically: keep all three 600×800 photos whole. */
+@media (min-width: 701px) {
+  #ponuda .model-grid-two > .model-card:first-child .product-gallery {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr) 150px !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 16px 12px 12px !important;
+    overflow: hidden !important;
+  }
+  #ponuda .model-grid-two > .model-card:first-child .product-gallery img {
+    display: block !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    aspect-ratio: 3 / 4 !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 3px !important;
+    transform: none !important;
+  }
+  #ponuda .model-grid-two > .model-card:first-child .product-gallery img.gallery-main {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    justify-self: center !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 3 / 4 !important;
+    object-fit: contain !important;
+  }
+  #ponuda .model-grid-two > .model-card:first-child .product-gallery img:not(.gallery-main) {
+    grid-row: 2 !important;
+  }
+}
