@@ -3154,3 +3154,17 @@ main > section{
     grid-row: 2 !important;
   }
 }
+
+
+/* Temporary clean layout after removing the old LB 300 column for a fresh rebuild. */
+#ponuda .model-grid-one {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: 680px !important;
+  margin-inline: auto !important;
+}
+#ponuda .model-grid-one > .model-card {
+  width: 100% !important;
+  min-width: 0 !important;
+}
