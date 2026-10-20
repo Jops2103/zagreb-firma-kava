@@ -2955,3 +2955,10 @@ main > section{
     padding: 0 !important;
   }
 }
+
+
+/* PR: enlarge the LB 300 Mini photo so the machine appears comparable in visual size to the LB 1200. */
+#ponuda .model-grid-two .model-card:first-child .product-gallery img.gallery-main {
+  transform: scale(1.3) !important;
+  transform-origin: center center !important;
+}
