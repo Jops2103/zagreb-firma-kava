@@ -3006,3 +3006,30 @@ main > section{
     transform-origin: center center !important;
   }
 }
+
+
+/* Equal 50/50 machine cards with matching 768px desktop photo frames.
+   Reset the previous 2:1 column split and the oversized LB 300 transform;
+   contain both machines at the same display height without cropping. */
+@media (min-width: 701px) {
+  #ponuda .model-grid-two {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    max-width: 1120px !important;
+    width: 100% !important;
+  }
+  #ponuda .model-grid-two .model-card .model-art {
+    height: 768px !important;
+    min-height: 768px !important;
+  }
+  #ponuda .model-grid-two .model-card .product-gallery {
+    height: 100% !important;
+  }
+  #ponuda .model-grid-two .model-card .product-gallery img.gallery-main {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+}
