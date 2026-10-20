@@ -2922,3 +2922,36 @@ main > section{
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* PR: maximize the two model photos under “Odaberite svoj aparat”.
+   Keep both columns equal on desktop, show the full machine without cropping,
+   and give the stacked mobile card a larger image area. */
+#ponuda .model-grid-two .model-card .model-art {
+  height: clamp(480px, 48vw, 680px) !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+#ponuda .model-grid-two .model-card .product-gallery {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+#ponuda .model-grid-two .model-card .product-gallery img.gallery-main {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+@media (max-width: 700px) {
+  #ponuda .model-grid-two .model-card .model-art {
+    height: min(145vw, 620px) !important;
+    min-height: 420px !important;
+  }
+  #ponuda .model-grid-two .model-card .product-gallery img.gallery-main {
+    padding: 0 !important;
+  }
+}
