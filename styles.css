@@ -3666,3 +3666,15 @@ main > section{
     transition: none;
   }
 }
+
+
+/* ZFK: istakni minimalnu mjesečnu količinu kapsula ispod naziva aparata. */
+#ponuda .machine-minimum-capsules {
+  margin: -5px 0 14px;
+  color: #79502b;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.4;
+  letter-spacing: .02em;
+}
+#ponuda .machine-minimum-capsules strong { font-weight: 800; }
