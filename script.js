@@ -421,10 +421,18 @@ function updateSelectedCapsuleField() {
 
 document.querySelectorAll('.model-select').forEach(button => {
   button.addEventListener('click', () => {
-    const modelName = (button.dataset.model || '').replace(/^Lavazza (?:Firma )?/, '');
-    const modelOption = Array.from(capsuleModelField.options).find(item =>
-      item.textContent.toLowerCase().includes(modelName.toLowerCase())
-    );
+    // Finder and machine-card buttons share this handler. Match the canonical form
+    // option by model family so longer display names (e.g. "LB 1200 Classy & Milk")
+    // still select the corresponding inquiry-form option ("Lavazza LB 1200").
+    const modelName = button.dataset.model || '';
+    const modelPattern = /LB\s*300/i.test(modelName)
+      ? /LB\s*300/i
+      : /LB\s*1200/i.test(modelName)
+        ? /LB\s*1200/i
+        : null;
+    const modelOption = modelPattern
+      ? Array.from(capsuleModelField.options).find(item => modelPattern.test(item.textContent))
+      : null;
     if (modelOption) capsuleModelField.value = modelOption.value || modelOption.textContent;
     topicField.value = 'Želim aparat uz mjesečnu kupnju kapsula';
     selectedCapsules.clear();
