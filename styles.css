@@ -4145,3 +4145,24 @@ input, select, textarea {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Uninterrupted page scrolling across touch devices and desktop browsers.
+   Explicitly disable scroll snapping so the page never locks onto section boundaries. */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: none !important;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+body {
+  scroll-snap-type: none !important;
+  overscroll-behavior-y: auto;
+}
+*, *::before, *::after {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
