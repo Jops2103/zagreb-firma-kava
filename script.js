@@ -71,30 +71,6 @@ window.matchMedia('(min-width: 701px)').addEventListener('change', event => {
   if (event.matches) closeMenu();
 });
 
-document.querySelectorAll('.model-select').forEach(button => {
-  button.addEventListener('click', () => {
-    const model = document.getElementById('model');
-    const modelName = button.dataset.model.replace(/^Lavazza Firma /, '');
-    const option = Array.from(model.options).find(item =>
-      item.textContent.startsWith(`Lavazza ${modelName}`)
-    );
-
-    if (option) model.value = option.value || option.textContent;
-    document.getElementById('topic').value = 'Želim aparat uz mjesečnu kupnju kapsula';
-
-    // The minimum is included; any extra quantity can be added in the form.
-    selectedCapsules.clear();
-    saveCapsuleSelections();
-    if (additionalCapsulesField) additionalCapsulesField.value = '0';
-    if (capsuleVarietiesField) capsuleVarietiesField.value = 'Vrste dodatnih kapsula nisu odabrane';
-    if (status) status.textContent = '';
-    updateSelectedCapsuleField();
-    document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
-    document.getElementById('model').focus({ preventScroll: true });
-  });
-});
-
-
 // Enlarge product and hero photos on click; close with Escape or backdrop.
 (function setupImageLightbox(){
   const images = Array.from(document.querySelectorAll('.product-gallery img, .model-image-gallery img, .hero-product-image'));
@@ -252,8 +228,8 @@ function restoreCapsuleSelections() {
 
 function capsulePackageLimit() {
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
-  if (/Inovy Mini/i.test(selectedModel)) return 1;
-  if (/LF 900|LF 1150|Inovy & Milk|Inovy Compact/i.test(selectedModel)) return 4;
+  if (/LB\s*300/i.test(selectedModel)) return 1;
+  if (/LB\s*1200/i.test(selectedModel)) return 2;
   return 0;
 }
 
@@ -330,7 +306,10 @@ function updateSelectedCapsuleField() {
     if (isCapsuleOnlyOrder()) {
       note.textContent = 'Svaki klik na „Odaberi ove kapsule” dodaje jednu kutiju.';
     } else if (minimum > 0) {
-      note.textContent = '';
+      const selectedCount = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+      note.textContent = selectedCount < minimum
+        ? `Za odabrani aparat obavezno odaberite najmanje ${minimum} ${minimum === 1 ? 'kutiju kapsula' : 'kutije kapsula'}. Nakon odabira vratit ćemo vas na upit, gdje možete izabrati želite li odmah naručiti još kutija.`
+        : 'Minimalna količina je odabrana. Nastavite na upit i odaberite DA ako želite dodati još kutija.';
     } else {
       note.textContent = 'Najprije odaberite aparat ili vrstu upita, a zatim izaberite kapsule.';
     }
@@ -368,20 +347,22 @@ function updateSelectedCapsuleField() {
 
 document.querySelectorAll('.model-select').forEach(button => {
   button.addEventListener('click', () => {
-    const model = document.getElementById('model');
-    const modelName = button.dataset.model.replace(/^Lavazza Firma /, '');
-    const option = Array.from(model.options).find(item =>
-      item.textContent.startsWith(`Lavazza ${modelName}`)
+    const modelName = (button.dataset.model || '').replace(/^Lavazza (?:Firma )?/, '');
+    const modelOption = Array.from(capsuleModelField.options).find(item =>
+      item.textContent.toLowerCase().includes(modelName.toLowerCase())
     );
-    if (option) model.value = option.value || option.textContent;
+    if (modelOption) capsuleModelField.value = modelOption.value || modelOption.textContent;
     topicField.value = 'Želim aparat uz mjesečnu kupnju kapsula';
     selectedCapsules.clear();
+    saveCapsuleSelections();
     const noExtra = document.querySelector('input[name="Dodatne kapsule"][value="Ne"]');
     if (noExtra) noExtra.checked = true;
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
-    document.getElementById('narudzba').scrollIntoView({ behavior: 'smooth' });
-    capsuleModelField.focus({ preventScroll: true });
+    const capsuleSection = document.getElementById('kapsule');
+    if (capsuleSection) capsuleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const note = document.getElementById('capsule-selection-note');
+    if (note) note.focus?.({ preventScroll: true });
   });
 });
 
