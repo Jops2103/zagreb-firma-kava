@@ -3719,3 +3719,43 @@ main > section{
   font-size: 30px;
   line-height: 1.2;
 }
+
+
+/* ZFK: first Lavazza BLUE capsule box gallery — product description lives on its own detail page. */
+#kapsule .blue-capsule-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+#kapsule .blue-capsule-card {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #dedede;
+  box-shadow: 0 8px 26px rgba(20, 25, 35, .07);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+#kapsule .blue-capsule-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fff;
+}
+#kapsule .blue-capsule-card:hover,
+#kapsule .blue-capsule-card:focus-visible {
+  border-color: #003da5;
+  box-shadow: 0 12px 30px rgba(0, 35, 100, .14);
+  transform: translateY(-2px);
+}
+#kapsule .blue-capsule-card:focus-visible {
+  outline: 3px solid #003da5;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #kapsule .blue-capsule-card { transition: none; }
+}
