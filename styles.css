@@ -3917,3 +3917,8 @@ main > section{
     box-shadow: none !important;
   }
 }
+
+
+/* Keep the minimum capsule quantity note the same size as the surrounding hero copy. */
+.hero .hero-minimum-note{font-size:15px;line-height:1.85;max-width:490px;color:#4f4e4a;margin:8px 0}
+@media(max-width:700px){.hero .hero-minimum-note{font-size:14px;line-height:1.85;max-width:100%}}
