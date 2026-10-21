@@ -283,7 +283,14 @@ function updateSelectedCapsuleField() {
   if (!capsuleField) return;
   const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const minimum = isCapsuleOnlyOrder() ? 0 : capsulePackageLimit();
-  capsuleField.value = `${selectedBoxes} kutija`;
+  const boxLabel = selectedBoxes === 1
+    ? 'jedna kutija'
+    : selectedBoxes >= 2 && selectedBoxes <= 4
+      ? `${selectedBoxes} kutije`
+      : selectedBoxes >= 5
+        ? `${selectedBoxes} kutija`
+        : '';
+  capsuleField.value = boxLabel;
 
   // Clear the visible validation state as soon as the required capsule quantity is selected.
   const capsuleSelectionWrap = capsuleField.closest('.capsule-selection-field');
