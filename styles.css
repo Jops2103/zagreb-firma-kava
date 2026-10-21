@@ -3788,5 +3788,5 @@ main > section{
 
 
 /* Naslov proizvoda i vidljiv gumb za odabir u glavnoj galeriji kapsula. */
-#kapsule .blue-capsule-title{width:100%;margin:0 0 12px;color:#003da5;text-align:center;font-size:clamp(1.05rem,2.6vw,1.35rem);font-weight:800;line-height:1.35}
+#kapsule .blue-capsule-title{width:100%;margin:0 0 12px;color:#000;text-align:center;font-size:clamp(1.05rem,2.6vw,1.35rem);font-weight:400;line-height:1.35}
 #kapsule .blue-capsule-gallery .capsule-select{font-size:17px;font-weight:800;justify-content:center;text-align:center;min-height:48px}
