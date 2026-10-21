@@ -3886,3 +3886,34 @@ main > section{
     color:#34373b!important;
   }
 }
+
+
+/* Final mobile finder fix: remove the blue outline around the whole active question group. */
+@media (max-width: 760px) {
+  #vodic .finder-options,
+  #vodic .finder-options:focus,
+  #vodic .finder-options:focus-within,
+  #vodic .finder-options:focus-visible,
+  #vodic .finder-options legend,
+  #vodic .finder-options legend:focus,
+  #vodic .finder-options legend:focus-within,
+  #vodic .finder-options legend:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  #vodic .finder-options {
+    -webkit-tap-highlight-color: transparent;
+  }
+  #vodic .finder-option:focus,
+  #vodic .finder-option:focus-visible,
+  #vodic .finder-option:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  #vodic .finder-option input:focus,
+  #vodic .finder-option input:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
