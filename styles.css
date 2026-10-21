@@ -3461,10 +3461,10 @@ main > section{
 
 /* ZFK: fit the newly supplied landscape photos without cropping or forcing portrait dimensions. */
 #ponuda .model-image-columns {
-  max-width: 760px;
-  grid-template-columns: minmax(0, 1fr);
+  max-width: 1040px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 28px;
+  gap: clamp(20px, 3vw, 36px);
 }
 #ponuda .model-image-column { min-width: 0; }
 #ponuda .model-image-gallery {
