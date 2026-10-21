@@ -9,7 +9,7 @@
     history.replaceState(null, '', window.location.pathname + window.location.search);
   }
 
-  const returnToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  const returnToTop = () => window.scrollTo(0, 0);
   returnToTop();
   window.addEventListener('load', returnToTop, { once: true });
   window.addEventListener('pageshow', () => {
