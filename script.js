@@ -296,7 +296,7 @@ function updateSelectedCapsuleField() {
   const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const minimum = isCapsuleOnlyOrder() ? 0 : capsulePackageLimit();
   const boxLabel = selectedBoxes === 1
-    ? 'jedna kutija'
+    ? '1 kutija'
     : selectedBoxes >= 2 && selectedBoxes <= 4
       ? `${selectedBoxes} kutije`
       : selectedBoxes >= 5
