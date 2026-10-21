@@ -1,3 +1,15 @@
+/* On a page refresh, start at the top instead of restoring a previously scrolled position or URL hash. */
+(function resetScrollPositionOnRefresh(){
+  const navigation = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (!navigation || navigation.type !== 'reload') return;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  window.addEventListener('load', () => {
+    window.scrollTo(0, 0);
+    window.requestAnimationFrame(() => window.scrollTo(0, 0));
+  }, { once: true });
+})();
+
 const form = document.getElementById('order-form');
 const status = document.getElementById('status');
 
