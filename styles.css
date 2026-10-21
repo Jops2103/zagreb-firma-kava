@@ -3922,3 +3922,226 @@ main > section{
 /* Keep the minimum capsule quantity note the same size as the surrounding hero copy. */
 .hero .hero-minimum-note{font-size:15px;line-height:1.85;max-width:490px;color:#4f4e4a;margin:8px 0}
 @media(max-width:700px){.hero .hero-minimum-note{font-size:14px;line-height:1.85;max-width:100%}}
+
+
+/* Cross-Android/mobile-browser hardening: responsive sizing, touch targets and safe-area support.
+   Keep these overrides last so older legacy rules cannot undo the mobile fixes. */
+:root {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 84px;
+}
+html {
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+body {
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(0, 61, 165, .12);
+}
+img, video, canvas, svg {
+  max-width: 100%;
+}
+button, input, select, textarea {
+  font: inherit;
+}
+button, a, summary, input, select, textarea {
+  touch-action: manipulation;
+}
+button, .btn, .capsule-select, .copy-email-btn {
+  min-height: 44px;
+}
+input, select, textarea {
+  max-width: 100%;
+}
+@supports (padding: max(0px)) {
+  .header {
+    padding-left: max(18px, env(safe-area-inset-left));
+    padding-right: max(18px, env(safe-area-inset-right));
+  }
+  footer, .footer-main {
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  #ponuda .machine-select:hover,
+  #kapsule .blue-capsule-card:hover {
+    transform: none;
+  }
+  #ponuda .machine-specs summary:hover {
+    padding-left: 14px;
+  }
+  #ponuda .machine-select,
+  #kapsule .blue-capsule-card {
+    -webkit-tap-highlight-color: rgba(0, 61, 165, .12);
+  }
+}
+@media (max-width: 760px) {
+  html { scroll-padding-top: 72px; }
+  .header {
+    min-height: 64px;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .brand { min-width: 0; max-width: calc(100% - 54px); }
+  .brand-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .menu {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  .hero, .section, .capsule-section, .order-section {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hero-copy, .section-heading, .machine-details, #order-form {
+    overflow-wrap: anywhere;
+  }
+  .hero .actions {
+    width: 100%;
+    gap: 10px;
+  }
+  .hero .actions .btn {
+    min-height: 48px;
+    max-width: 100%;
+  }
+  #ponuda .model-image-columns {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 560px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #ponuda .model-image-gallery {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+  #ponuda .model-image-gallery .model-image-main {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #ponuda .machine-specs dl,
+  #ponuda .machine-specs dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  #kapsule {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    min-width: 0;
+    column-gap: 12px;
+    row-gap: 22px;
+  }
+  #kapsule .blue-capsule-gallery {
+    width: 100%;
+    min-width: 0;
+  }
+  #kapsule .blue-capsule-title {
+    font-size: clamp(14px, 3.8vw, 18px);
+    overflow-wrap: anywhere;
+  }
+  #kapsule .blue-capsule-card {
+    padding: 8px;
+  }
+  #kapsule .capsule-select {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 8px;
+    font-size: 14px;
+    line-height: 1.35;
+    white-space: normal;
+  }
+  #order-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #order-form .field,
+  #order-form .full,
+  #order-form .consent {
+    min-width: 0;
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+  #order-form input:not([type="checkbox"]):not([type="radio"]),
+  #order-form select,
+  #order-form textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    font-size: 16px; /* Prevents Android/iOS browsers from zooming on focus. */
+    line-height: 1.4;
+  }
+  #order-form textarea { min-height: 88px; }
+  #order-form input[type="checkbox"],
+  #order-form input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+  #order-form .consent {
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.6;
+  }
+  .email-copy-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .email-copy-row a {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .email-copy-row button {
+    min-height: 44px;
+  }
+}
+@media (max-width: 420px) {
+  #kapsule {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #kapsule .blue-capsule-title {
+    font-size: 17px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(34px, 9.4vw, 42px);
+    overflow-wrap: normal;
+  }
+  .hero .actions {
+    align-items: stretch;
+  }
+  .hero .actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  #ponuda .machine-specs summary {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+  .header { position: relative; }
+  .hero { padding-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
