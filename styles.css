@@ -3834,3 +3834,31 @@ main > section{
   #vodic .finder-options legend{font-size:17px}
   #vodic .finder-option{padding:13px 11px}
 }
+
+
+/* Mobile: keep the updated appliance names and recommendation controls readable. */
+@media(max-width:760px){
+  #vodic .finder-result h3{
+    max-width:100%;
+    overflow-wrap:anywhere;
+    hyphens:auto;
+  }
+  #vodic .finder-result-copy{
+    overflow-wrap:break-word;
+  }
+  #vodic .finder-result-facts{
+    grid-template-columns:minmax(0,1fr);
+  }
+  #vodic .finder-result-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+  }
+  #vodic .finder-result-actions .btn{
+    width:100%;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    text-align:center;
+    justify-content:center;
+  }
+}
