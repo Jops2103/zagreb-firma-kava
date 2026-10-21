@@ -584,8 +584,8 @@ if (capsuleFromDetail && capsuleField && topicField) {
 
   const models = {
     mini: {
-      name: 'LF Inovy Mini',
-      modelValue: 'Lavazza Firma LF Inovy Mini',
+      name: 'LB 300 mini',
+      modelValue: 'Lavazza LB 300',
       quantity: 'Min. količina: 1 kutija',
       tag: 'Najkompaktniji izbor',
       facts: ['2 izbora napitaka', 'Spremnik vode 0,7 l', 'Ladica do 6 kapsula']
@@ -598,8 +598,8 @@ if (capsuleFromDetail && capsuleField && topicField) {
       facts: ['3 izbora napitaka', 'Spremnik vode 0,9 l', 'Ladica do 10 kapsula']
     },
     milk: {
-      name: 'LF Inovy & Milk',
-      modelValue: 'Lavazza Firma LF Inovy & Milk',
+      name: 'LB 1200 Classy & Milk',
+      modelValue: 'Lavazza LB 1200',
       quantity: 'Min. količina: 4 kutije',
       tag: 'Za napitke s mlijekom',
       facts: ['6 izbora napitaka', 'Spremnik vode 1,8 l', 'Ladica do 19 kapsula']
@@ -637,13 +637,13 @@ if (capsuleFromDetail && capsuleField && topicField) {
 
   function getReason(key, use) {
     if (key === 'mini') {
-      return `Budući da vam je najvažniji manji format, LF Inovy Mini dobar je kandidat ${use}. Od četiri modela na ovoj stranici zauzima najmanje prostora.`;
+      return `Budući da vam je najvažniji manji format, LB 300 mini dobar je kandidat ${use}. Od četiri modela na ovoj stranici zauzima najmanje prostora.`;
     }
     if (key === 'milk' && answer('finder-drinks') === 'milk') {
-      return `Budući da želite napitke s mlijekom, LF Inovy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
+      return `Budući da želite napitke s mlijekom, LB 1200 Classy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
     }
     if (key === 'milk') {
-      return `Ako želite širi izbor napitaka, LF Inovy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
+      return `Ako želite širi izbor napitaka, LB 1200 Classy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
     }
     if (answer('finder-drinks') === 'black') {
       return `Za vaš odabir crne kave, LF 900 nudi kompaktan format i tri izbora napitaka ${use}, uz veći spremnik i ladicu od modela Mini.`;
