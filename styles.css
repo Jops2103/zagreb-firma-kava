@@ -3794,3 +3794,43 @@ main > section{
 
 /* Keep the selected DA option for additional capsules in Lavazza blue. */
 .capsule-choice-fieldset label:has(input[name="Dodatne kapsule"][value="Da"]:checked){background-color:#003da5!important;border-color:#003da5!important;color:#fff!important;box-shadow:0 4px 12px #003da526}
+
+
+/* Refined mobile layout for the three-question appliance finder. */
+@media(max-width:760px){
+  #vodic.finder-section{padding:46px 16px 52px}
+  #vodic .section-heading{max-width:520px;margin:0 auto 23px;text-align:left}
+  #vodic .section-heading .eyebrow{margin-bottom:10px;font-size:11px;letter-spacing:.14em}
+  #vodic .section-heading h2{max-width:360px;font-size:clamp(30px,8vw,38px);line-height:1.08;letter-spacing:-1.2px}
+  #vodic .section-heading>p:last-child{max-width:390px;margin-top:12px;font-size:14px;line-height:1.7}
+  #vodic .finder-panel{max-width:520px;margin:0 auto;padding:19px 15px 17px;border:1px solid #d7dbe0;border-radius:12px;background:rgba(248,249,250,.97);box-shadow:0 10px 28px rgba(28,38,50,.08)}
+  #vodic .finder-progress{display:grid;grid-template-columns:1fr;gap:9px;margin-bottom:23px;font-size:10px;letter-spacing:.09em}
+  #vodic .finder-progress-track{width:100%;height:4px}
+  #vodic .finder-options legend{gap:10px;margin-bottom:16px;font-size:18px;line-height:1.35;letter-spacing:-.35px}
+  #vodic .finder-question-number{flex-basis:32px;width:32px;height:32px;font-size:11px}
+  #vodic .finder-option-grid{grid-template-columns:minmax(0,1fr);gap:9px}
+  #vodic .finder-option{align-items:center;gap:12px;min-height:0;padding:14px 13px;border-radius:8px;background:#fff}
+  #vodic .finder-option input{width:18px;height:18px;margin:0;flex-shrink:0}
+  #vodic .finder-option-content{gap:3px}
+  #vodic .finder-option-content strong{font-size:14px;line-height:1.35}
+  #vodic .finder-option-content small{font-size:12px;line-height:1.45}
+  #vodic .finder-option:has(input:checked){background:#f0f5ff;border-color:#003da5;box-shadow:inset 0 0 0 1px #003da5}
+  #vodic .finder-actions{margin-top:19px;gap:9px}
+  #vodic .finder-actions .btn{min-height:48px;padding:12px 17px;border-radius:5px;font-size:13px}
+  #vodic .finder-actions-split .btn{flex:1}
+  #vodic .finder-status:not(:empty){padding:10px 12px;border-radius:6px;background:#fff1f2;font-size:12px;line-height:1.5}
+  #vodic .finder-result{padding-top:5px}
+  #vodic .finder-recommendation-tag{font-size:9px;line-height:1.5}
+  #vodic .finder-result h3{font-size:28px;line-height:1.15;letter-spacing:-.8px}
+  #vodic .finder-result-copy{font-size:13px;line-height:1.75}
+  #vodic .finder-result-facts{gap:7px;margin:15px 0}
+  #vodic .finder-result-facts li{padding:11px 12px;border-radius:7px;font-size:12px}
+  #vodic .finder-result-actions{gap:9px;margin-top:17px}
+  #vodic .finder-result-actions .btn{min-height:48px;border-radius:5px;font-size:13px}
+}
+@media(max-width:380px){
+  #vodic.finder-section{padding-right:12px;padding-left:12px}
+  #vodic .finder-panel{padding:17px 12px 14px}
+  #vodic .finder-options legend{font-size:17px}
+  #vodic .finder-option{padding:13px 11px}
+}
