@@ -586,23 +586,16 @@ if (capsuleFromDetail && capsuleField && topicField) {
     mini: {
       name: 'LB 300 mini',
       modelValue: 'Lavazza LB 300 mini',
-      quantity: 'Min. količina: 1 kutija',
-      tag: 'Najkompaktniji izbor',
-      facts: ['2 izbora napitaka', 'Spremnik vode 0,7 l', 'Ladica do 6 kapsula']
-    },
-    compact: {
-      name: 'LF 900',
-      modelValue: 'Lavazza Firma LF 900',
-      quantity: 'Min. količina: 4 kutije',
-      tag: 'Uravnotežen izbor',
-      facts: ['3 izbora napitaka', 'Spremnik vode 0,9 l', 'Ladica do 10 kapsula']
+      quantity: 'Min. količina: 100 kapsula mjesečno',
+      tag: 'Kompaktan izbor',
+      facts: ['Kompaktan format', 'Za dom i apartman', 'Min. 100 kapsula mjesečno']
     },
     milk: {
       name: 'LB 1200 Classy & Milk',
-      modelValue: 'Lavazza LB 1200',
-      quantity: 'Min. količina: 4 kutije',
-      tag: 'Za napitke s mlijekom',
-      facts: ['6 izbora napitaka', 'Spremnik vode 1,8 l', 'Ladica do 19 kapsula']
+      modelValue: 'Lavazza LB 1200 Classy & Milk',
+      quantity: 'Min. količina: 200 kapsula mjesečno',
+      tag: 'Za raznolike napitke',
+      facts: ['Integrirani sustav za mliječne napitke', 'Za dom i poslovni prostor', 'Min. 200 kapsula mjesečno']
     }
   };
 
@@ -627,28 +620,15 @@ if (capsuleFromDetail && capsuleField && topicField) {
   function getRecommendation() {
     const drinks = answer('finder-drinks');
     const priority = answer('finder-priority');
-
-    if (drinks === 'milk') return 'milk';
-    if (priority === 'compact') return 'mini';
-    if (drinks === 'black') return 'compact';
-    if (priority === 'variety') return 'milk';
-    return 'compact';
+    if (drinks === 'milk' || priority === 'variety') return 'milk';
+    return 'mini';
   }
 
   function getReason(key, use) {
-    if (key === 'mini') {
-      return `Budući da vam je najvažniji manji format, LB 300 mini dobar je kandidat ${use}. Od četiri modela na ovoj stranici zauzima najmanje prostora.`;
-    }
-    if (key === 'milk' && answer('finder-drinks') === 'milk') {
-      return `Budući da želite napitke s mlijekom, LB 1200 Classy & Milk najbolje odgovara tom izboru ${use}. Ima integrirani sustav za pripremu mliječnih napitaka.`;
-    }
     if (key === 'milk') {
-      return `Ako želite širi izbor napitaka, LB 1200 Classy & Milk nudi šest mogućnosti, uključujući crnu kavu i napitke s mlijekom. Može biti dobar izbor ${use}.`;
+      return `Budući da želite više mogućnosti napitaka, LB 1200 Classy & Milk može biti dobar izbor ${use}. Ima integrirani sustav za pripremu mliječnih napitaka i preporučuje se uz najmanje 200 kapsula mjesečno.`;
     }
-    if (answer('finder-drinks') === 'black') {
-      return `Za vaš odabir crne kave, LF 900 nudi kompaktan format i tri izbora napitaka ${use}, uz veći spremnik i ladicu od modela Mini.`;
-    }
-    return `Ako još istražujete mogućnosti, LF 900 praktičan je početni izbor ${use}: kompaktan je, a nudi tri izbora napitaka.`;
+    return `LB 300 mini je kompaktan izbor ${use}, osobito ako želite jednostavan aparat koji zauzima manje prostora. Preporučena je mjesečna kupnja najmanje 100 kapsula.`;
   }
 
   function showRecommendation() {
