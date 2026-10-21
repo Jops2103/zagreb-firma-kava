@@ -3689,12 +3689,14 @@ main > section{
 .hero-copy .actions{justify-content:flex-start;}
 .hero-copy .btn{font-size:13px;}
 @media(max-width:700px){
-  .hero-copy{max-width:none;}
-  .hero-copy h1{font-size:clamp(38px,10vw,46px);}
-  .hero-copy .lead{font-size:15px;}
-  .hero .hero-price-note{font-size:14px;}
-  .hero .hero-location-note{font-size:13px;}
-  .hero-copy .actions{justify-content:flex-start;}
+  /* Keep the full hero copy aligned to the image edge on phones, with easier-to-read type. */
+  .hero-copy{width:100%;max-width:none;margin-inline:0;text-align:left;}
+  .hero-copy h1{font-size:clamp(38px,10vw,46px);text-align:left;}
+  .hero-copy .lead{font-size:16px;line-height:1.75;max-width:100%;text-align:left;}
+  .hero .hero-price-note{font-size:15px;max-width:100%;text-align:left;}
+  .hero .hero-location-note{font-size:14px;max-width:100%;text-align:left;}
+  .hero-copy .actions{justify-content:flex-start;align-items:flex-start;flex-wrap:wrap;}
+  .hero-copy .btn{font-size:14px;}
 }
 
 
