@@ -510,11 +510,19 @@ if (capsuleModelField) {
   });
 }
 
-restoreCapsuleSelections();
+// Do not revive a stale capsule quantity from an earlier visit. Keep saved choices
+// only when returning from a capsule detail page, where the query parameter records
+// the user's explicit add-to-order action.
+const capsuleFromDetail = params.get('odaberiKapsulu');
+if (capsuleFromDetail) {
+  restoreCapsuleSelections();
+} else {
+  selectedCapsules.clear();
+  try { localStorage.removeItem(capsuleSelectionStorageKey); } catch (error) { /* Storage may be unavailable. */ }
+}
 updateSelectedCapsuleField();
 
 // A capsule chosen on its detail page adds one box without clearing earlier choices.
-const capsuleFromDetail = params.get('odaberiKapsulu');
 if (capsuleFromDetail && capsuleField && topicField) {
   const matchingCapsuleButton = Array.from(document.querySelectorAll('.capsule-select'))
     .find(button => button.dataset.capsule === capsuleFromDetail);
