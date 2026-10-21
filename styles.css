@@ -3696,3 +3696,18 @@ main > section{
   .hero .hero-location-note{font-size:13px;}
   .hero-copy .actions{justify-content:flex-start;}
 }
+
+
+/* Required capsule selection feedback when an appliance is selected. */
+#order-form .capsule-selection-invalid textarea,
+#order-form .capsule-selection-invalid input {
+  border: 2px solid #c62828 !important;
+  background: #fff5f5 !important;
+}
+#order-form .capsule-selection-invalid > label {
+  color: #b71c1c !important;
+}
+#order-form .capsule-error-note {
+  color: #b71c1c !important;
+  font-weight: 700;
+}

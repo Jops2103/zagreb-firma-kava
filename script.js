@@ -5,11 +5,36 @@ const status = document.getElementById('status');
 // The required email field is validated by the browser before this submit handler runs.
 if (form) {
   form.addEventListener('submit', (event) => {
-    // Final safeguard: do not send unless every required field is valid.
+    // Validate standard required fields first.
     if (!form.checkValidity()) {
       event.preventDefault();
       form.reportValidity();
       if (status) status.textContent = 'Ispunite sva obavezna polja označena zvjezdicom (*) i potvrdite suglasnost.';
+      return;
+    }
+
+    // When an appliance is selected, the required minimum capsule boxes must also be selected.
+    const selectedModel = document.getElementById('model');
+    const selectedTopic = document.getElementById('topic');
+    const capsuleInput = document.getElementById('capsules');
+    const capsuleWrap = capsuleInput && capsuleInput.closest('.capsule-selection-field');
+    const capsuleNote = document.getElementById('capsule-selection-note');
+    const selectedCount = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
+    const minimum = capsulePackageLimit();
+    const applianceOrder = selectedTopic && selectedTopic.value === 'Želim aparat uz mjesečnu kupnju kapsula';
+    if (applianceOrder && selectedModel && selectedModel.value && minimum > 0 && selectedCount < minimum) {
+      event.preventDefault();
+      if (capsuleWrap) capsuleWrap.classList.add('capsule-selection-invalid');
+      if (capsuleInput) capsuleInput.setAttribute('aria-invalid', 'true');
+      if (capsuleNote) {
+        capsuleNote.textContent = `Obavezno: odaberite najmanje ${minimum} ${minimum === 1 ? 'kutiju kapsula' : 'kutije kapsula'} za odabrani aparat. Kliknite kapsule u galeriji iznad.`;
+        capsuleNote.classList.add('capsule-error-note');
+      }
+      if (status) status.textContent = 'Upit nije poslan. Obavezno odaberite minimalnu količinu kapsula za odabrani aparat.';
+      if (capsuleWrap) {
+        capsuleWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        capsuleInput?.focus({ preventScroll: true });
+      }
       return;
     }
 
@@ -259,6 +284,16 @@ function updateSelectedCapsuleField() {
   const selectedBoxes = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
   const minimum = isCapsuleOnlyOrder() ? 0 : capsulePackageLimit();
   capsuleField.value = `${selectedBoxes} kutija`;
+
+  // Clear the visible validation state as soon as the required capsule quantity is selected.
+  const capsuleSelectionWrap = capsuleField.closest('.capsule-selection-field');
+  const capsuleSelectionNote = document.getElementById('capsule-selection-note');
+  if (capsuleSelectionWrap && selectedBoxes >= minimum && minimum > 0) {
+    capsuleSelectionWrap.classList.remove('capsule-selection-invalid');
+    capsuleField.removeAttribute('aria-invalid');
+    if (capsuleSelectionNote) capsuleSelectionNote.classList.remove('capsule-error-note');
+    if (status && status.textContent.startsWith('Upit nije poslan. Obavezno odaberite')) status.textContent = '';
+  }
 
   if (additionalCapsulesField) {
     const extraBoxes = Math.max(0, selectedBoxes - (isCapsuleOnlyOrder() ? 0 : minimum));
