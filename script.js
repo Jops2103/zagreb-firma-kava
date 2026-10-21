@@ -1,12 +1,21 @@
-/* On a page refresh, start at the top instead of restoring a previously scrolled position or URL hash. */
+/* On refresh, remove any section hash and return to the top, including on mobile browsers that restore scroll late. */
 (function resetScrollPositionOnRefresh(){
   const navigation = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
   if (!navigation || navigation.type !== 'reload') return;
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
-  window.addEventListener('load', () => {
-    window.scrollTo(0, 0);
-    window.requestAnimationFrame(() => window.scrollTo(0, 0));
+
+  // A saved URL hash can make mobile browsers jump back to a section after the initial scroll.
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  const returnToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  returnToTop();
+  window.addEventListener('load', returnToTop, { once: true });
+  window.addEventListener('pageshow', () => {
+    returnToTop();
+    window.setTimeout(returnToTop, 100);
+    window.setTimeout(returnToTop, 400);
   }, { once: true });
 })();
 
