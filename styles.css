@@ -3722,12 +3722,38 @@ main > section{
 
 
 /* ZFK: first Lavazza BLUE capsule box gallery — product description lives on its own detail page. */
+/* Raspored kapsula: tri proizvoda u retku, a sljedeći proizvodi prelaze u novi redak. */
+#kapsule {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  column-gap: clamp(14px, 2.5vw, 30px);
+  row-gap: 30px;
+}
+#kapsule > .capsule-heading {
+  grid-column: 1 / -1;
+  width: 100%;
+}
 #kapsule .blue-capsule-gallery {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
-  width: min(100%, 360px);
+  width: 100%;
+  max-width: 360px;
+  min-width: 0;
   margin: 0 auto;
+}
+@media (max-width: 760px) {
+  #kapsule {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 14px;
+    row-gap: 24px;
+  }
+}
+@media (max-width: 420px) {
+  #kapsule {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 #kapsule .blue-capsule-card {
   display: block;
