@@ -3814,7 +3814,7 @@ main > section{
   #vodic .finder-option-content{gap:3px}
   #vodic .finder-option-content strong{font-size:14px;line-height:1.35}
   #vodic .finder-option-content small{font-size:12px;line-height:1.45}
-  #vodic .finder-option:has(input:checked){background:#f0f5ff;border-color:#003da5;box-shadow:inset 0 0 0 1px #003da5}
+  #vodic .finder-option:has(input:checked){background:#f0f2f4;border-color:#d7dbe0;box-shadow:none}
   #vodic .finder-actions{margin-top:19px;gap:9px}
   #vodic .finder-actions .btn{min-height:48px;padding:12px 17px;border-radius:5px;font-size:13px}
   #vodic .finder-actions-split .btn{flex:1}
