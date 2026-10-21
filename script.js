@@ -585,7 +585,7 @@ if (capsuleFromDetail && capsuleField && topicField) {
   const models = {
     mini: {
       name: 'LB 300 mini',
-      modelValue: 'Lavazza LB 300',
+      modelValue: 'Lavazza LB 300 mini',
       quantity: 'Min. količina: 1 kutija',
       tag: 'Najkompaktniji izbor',
       facts: ['2 izbora napitaka', 'Spremnik vode 0,7 l', 'Ladica do 6 kapsula']
