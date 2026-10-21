@@ -3862,3 +3862,27 @@ main > section{
     justify-content:center;
   }
 }
+
+
+/* Mobile finder: remove persistent blue focus frames from the first step. */
+@media(max-width:760px){
+  #vodic .finder-panel{
+    border:0!important;
+    box-shadow:none!important;
+    background:transparent!important;
+  }
+  #vodic .finder-option:focus-within{
+    outline:none!important;
+    box-shadow:none!important;
+  }
+  #vodic .finder-option,
+  #vodic .finder-option:has(input:checked){
+    border-color:#d7dbe0!important;
+    box-shadow:none!important;
+    background:#fff!important;
+  }
+  #vodic .finder-question-number{
+    background:#e3e5e7!important;
+    color:#34373b!important;
+  }
+}
