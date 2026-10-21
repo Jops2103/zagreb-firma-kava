@@ -13,7 +13,8 @@
 .capsule-detail-wrap{max-width:1080px;margin:0 auto}
 .capsule-detail-back{display:inline-block;color:#003da5;font-weight:700;text-decoration:none;margin-bottom:26px}
 .capsule-detail-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:start}
-.capsule-detail-photo-heading{margin:0 0 12px;color:#003da5;font-size:clamp(1.15rem,2.5vw,1.65rem);font-weight:800;line-height:1.25;text-align:center}
+.capsule-detail-photo-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}
+.capsule-detail-photo-heading{display:block;margin:0 0 12px;color:#003da5;font-size:clamp(1.15rem,2.5vw,1.65rem);font-weight:800;line-height:1.25;text-align:center}
 .capsule-detail-photo{display:block;width:100%;max-height:620px;object-fit:contain;background:#fff;padding:10px}
 .capsule-detail-copy .eyebrow{font-size:.78rem;letter-spacing:.14em;font-weight:800;color:#003da5}
 .capsule-detail-copy h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;margin:.5rem 0 1.2rem}
@@ -24,7 +25,7 @@
 .capsule-facts dt{font-weight:700}.capsule-facts dd{margin:0;text-align:right}
 .capsule-detail-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .capsule-detail-actions a{display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:6px;font-weight:700;text-decoration:none}
-.capsule-detail-primary{background:#003da5;color:#fff}.capsule-detail-secondary{border:1px solid #003da5;color:#003da5}
+.capsule-detail-primary{background:#003da5;color:#fff}.capsule-detail-select-under-photo{margin-top:16px;text-align:center;min-height:48px}.capsule-detail-secondary{border:1px solid #003da5;color:#003da5}
 @media(max-width:700px){.capsule-detail-card{grid-template-columns:1fr;gap:20px}.capsule-detail-photo{max-height:420px}.capsule-detail-copy h1{font-size:2.3rem}}
 </style>
 </head>
@@ -32,8 +33,11 @@
 <main class="capsule-detail-page"><div class="capsule-detail-wrap">
 <a class="capsule-detail-back" href="../index.html#kapsule">← Natrag na izbor kapsula</a>
 <article class="capsule-detail-card">
+<div class="capsule-detail-photo-column">
 <h2 class="capsule-detail-photo-heading">Lavazza Blue Milano Espresso 100 kom</h2>
 <img class="capsule-detail-photo" src="../Lavazza%20Blue%20Milano%20Espresso%20100%20kom.webp" alt="Kutija Lavazza Blue Milano Espresso 100 kom">
+<a class="capsule-detail-primary capsule-detail-select-under-photo" href="../index.html?odaberiKapsulu=Lavazza%20Blue%20Milano%20Espresso%20100%20kom#narudzba">Odaberite ove kapsule</a>
+</div>
 <div class="capsule-detail-copy">
 <p class="eyebrow">LAVAZZA BLUE · IZBOR KAPSULA</p>
 <h1>Lavazza Blue Milano Espresso 100 kom</h1>
@@ -49,7 +53,6 @@
 <div><dt>Preporučena doza</dt><dd>Espresso (30 ml)</dd></div>
 </dl>
 <div class="capsule-detail-actions">
-<a class="capsule-detail-primary" href="../index.html?odaberiKapsulu=Lavazza%20Blue%20Milano%20Espresso%20100%20kom#narudzba">Odaberi ove kapsule ↗</a>
 <a class="capsule-detail-secondary" href="../index.html#kapsule">Natrag na izbor kapsula</a>
 </div>
 </div>
