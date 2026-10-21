@@ -236,8 +236,8 @@ body.lightbox-open{overflow:hidden}
 /* Ensure hidden form rows stay hidden despite the .field display rule. */
 .field[hidden]{display:none!important}
 
-/* Red Lavazza Firma label above the capsule selection heading. */
-.capsule-heading > .eyebrow{color:#c8102e}
+/* Lavazza Blue label above the capsule selection heading. */
+.capsule-heading > .eyebrow{font-size:14px;color:#003da5;font-weight:800}
 
 /* Lavazza blue for the main hero call-to-action only. */
 .hero .actions a.btn.primary[href="#ponuda"]{background-color:#003da5!important;border-color:#003da5!important;color:#fff!important}
