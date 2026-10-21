@@ -50,6 +50,17 @@ if (form) {
       return;
     }
 
+    // Give every submission a distinct subject so mail clients are less likely to group inquiries into one conversation.
+    const subjectInput = form.querySelector('input[name="_subject"]');
+    const topicForSubject = (selectedTopic && selectedTopic.value || 'Novi upit').trim();
+    const modelForSubject = (selectedModel && selectedModel.value || '').trim();
+    const subjectDetails = [topicForSubject, modelForSubject && modelForSubject !== 'Nisam još odabrao/la' ? modelForSubject : 'bez odabranog aparata']
+      .filter(Boolean)
+      .join(' — ');
+    const submittedAt = new Date();
+    const readableTime = submittedAt.toLocaleString('hr-HR', { dateStyle: 'short', timeStyle: 'medium' });
+    if (subjectInput) subjectInput.value = `ZFK — ${subjectDetails} — ${readableTime} — #${Date.now()}`;
+
     const emailInput = document.getElementById('email');
     const emailCopy = document.getElementById('sender-email-copy');
     if (emailInput && emailCopy) emailCopy.value = emailInput.value.trim();
