@@ -616,7 +616,7 @@ if (capsuleFromDetail && capsuleField && topicField) {
     let key='',showBoth=false,tag='',copy='';
     if(drinks==='black'){key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Veća potrošnja kapsula ne isključuje ovaj model ako ne trebate mliječne napitke.`;}
     else if(drinks==='milk'){key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}.`;}
-    else if(e.monthly>=300){key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Od 300 kapsula naviše savjetujemo LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Ipak, konačan izbor je vaš.`;}
+    else if(e.count>3||e.monthly>=300){key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Za više od 3 osobe praktičniji može biti LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Od 300 kapsula mjesečno naviše posebno ga preporučujemo. Ipak, konačan izbor je vaš.`;}
     else {showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata i odaberite onaj koji vam više odgovara.`;}
     const model=key?models[key]:null;
     resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
