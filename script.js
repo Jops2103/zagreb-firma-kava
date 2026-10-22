@@ -638,19 +638,38 @@ if (capsuleFromDetail && capsuleField && topicField) {
     const use=answer('finder-use'),drinks=answer('finder-drinks');
     if(!use||!drinks){statusMessage.textContent='Odaberite odgovor prije prikaza preporuke.';return;}
     const e=estimate();
-    let key='',showBoth=false,tag='',copy='';
-    if(drinks==='black'){key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Veća potrošnja kapsula ne isključuje ovaj model ako ne trebate mliječne napitke.`;}
-    else if(drinks==='milk'){key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}.`;}
-    else if(e.count>3||e.monthly>=300){key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Za više od 3 osobe praktičniji može biti LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Od 300 kapsula mjesečno naviše posebno ga preporučujemo. Ipak, konačan izbor je vaš.`;}
-    else {showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata i odaberite onaj koji vam više odgovara.`;}
+    const miniEligible=e.boxes>=2;
+    const milkEligible=e.boxes>=3;
+    let key='',showBoth=false,tag='',copy='',noEligible=false;
+    if(drinks==='black'){
+      if(miniEligible){key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Veća potrošnja kapsula ne isključuje ovaj model ako ne trebate mliječne napitke.`;}
+      else {noEligible=true;tag='Količina ispod minimuma';copy=`Vodič preporučuje ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':'kutije'}) mjesečno. Za LB 300 mini potrebno je najmanje 200 kapsula mjesečno (2 kutije), pa se aparat još ne može odabrati.`;}
+    } else if(drinks==='milk'){
+      if(milkEligible){key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}.`;}
+      else {noEligible=true;tag='Količina ispod minimuma';copy=`Vodič preporučuje ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':'kutije'}) mjesečno. Za LB 1200 Classy & Milk potrebno je najmanje 300 kapsula mjesečno (3 kutije), pa se aparat još ne može odabrati.`;}
+    } else if(!miniEligible){
+      noEligible=true;tag='Količina ispod minimuma';copy=`Vodič preporučuje ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':'kutije'}) mjesečno. Za LB 300 mini potrebno je najmanje 200 kapsula (2 kutije), a za LB 1200 Classy & Milk najmanje 300 kapsula (3 kutije). Trenutačna preporuka ne zadovoljava minimum nijednog aparata.`;
+    } else if(!milkEligible){
+      key='mini';tag='Dostupan model prema preporučenoj količini';copy=`Uz ${e.count} osoba vodič preporučuje ${e.total} kapsula mjesečno. Ta količina zadovoljava minimum za LB 300 mini (2 kutije), ali još ne zadovoljava minimum za LB 1200 Classy & Milk (3 kutije). Budući da niste odabrali vrstu napitka, možete odabrati LB 300 mini.`;
+    } else if(e.count>3||e.monthly>=300){
+      key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Za više od 3 osobe praktičniji može biti LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Od 300 kapsula mjesečno naviše posebno ga preporučujemo. Ipak, konačan izbor je vaš.`;
+    } else {showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata i odaberite onaj koji vam više odgovara.`;}
     const model=key?models[key]:null;
-    resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
+    resultTag.textContent=tag;
+    resultTitle.textContent=noEligible?'Još nije moguće odabrati aparat':showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;
+    resultCopy.textContent=copy;
     resultFacts.replaceChildren();
     [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`,`Preporučena količina: ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':e.boxes>=2&&e.boxes<=4?'kutije':'kutija'})`].concat(model?model.facts:['Minimalna količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
-    resultModels.hidden=!showBoth;resultButton.hidden=showBoth;
-    const quantityFor=(m)=>{const minimumBoxes=m===models.milk?3:2;const boxes=Math.max(e.boxes,minimumBoxes);return `${boxes*100} kapsula mjesečno (${boxes} ${boxes===1?'kutija':boxes>=2&&boxes<=4?'kutije':'kutija'})`;};
+    resultModels.hidden=!showBoth||noEligible;
+    resultButton.hidden=showBoth||noEligible;
+    const quantityFor=(m)=>`${e.total} kapsula mjesečno (${e.boxes} ${e.boxes===1?'kutija':e.boxes>=2&&e.boxes<=4?'kutije':'kutija'})`;
     if(model)setModelButton(resultButton,model,quantityFor(model));
-    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,quantityFor(m));});
+    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{
+      const m=button.dataset.model.includes('1200')?models.milk:models.mini;
+      const eligible=m===models.milk?milkEligible:miniEligible;
+      button.closest('.finder-model-choice').hidden=!eligible;
+      setModelButton(button,m,quantityFor(m));
+    });
     steps.forEach(item=>{item.hidden=true;});result.hidden=false;statusMessage.textContent='';progressLabel.textContent='Preporuka je spremna';progressFill.style.width='100%';resultTitle.focus({preventScroll:true});
   }
   finder.querySelectorAll('[data-finder-next]').forEach(button=>button.addEventListener('click',()=>{const current=steps.find(item=>Number(item.dataset.finderStep)===activeStep);if(!current||!current.querySelector('input[type="radio"]:checked')){statusMessage.textContent='Odaberite jednu opciju za nastavak.';return;}showStep(Number(button.dataset.finderNext));}));
