@@ -257,6 +257,8 @@ const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const topicField = document.getElementById('topic');
+const contractEmailFieldWrap = document.getElementById('contract-email-field');
+const contractEmailField = document.getElementById('contract-email');
 const modelFieldWrap = capsuleModelField ? capsuleModelField.closest('.field') : null;
 const capsuleVarietiesWrap = capsuleVarietiesField ? capsuleVarietiesField.closest('.field') : null;
 const capsuleQuantityWrap = capsuleField ? capsuleField.closest('.field') : null;
@@ -514,8 +516,19 @@ if (extraCapsulesDoneButton) {
   });
 }
 
+function updateContractEmailField() {
+  const required = isCapsuleOnlyOrder();
+  if (contractEmailFieldWrap) contractEmailFieldWrap.hidden = !required;
+  if (contractEmailField) {
+    contractEmailField.required = required;
+    if (!required) contractEmailField.value = '';
+  }
+}
+
 if (topicField) {
+  updateContractEmailField();
   topicField.addEventListener('change', () => {
+    updateContractEmailField();
     if ((isCapsuleOnlyOrder() || isOfferQuestion()) && capsuleModelField) {
       // Do not include a previously selected appliance with a capsule-only order or a general question.
       capsuleModelField.selectedIndex = 0;
