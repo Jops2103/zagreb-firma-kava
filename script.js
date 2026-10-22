@@ -631,41 +631,26 @@ if (capsuleFromDetail && capsuleField && topicField) {
   };
   function answer(name){const chosen=finder.querySelector(`input[name="${name}"]:checked`);return chosen?chosen.value:'';}
   function people(){const n=Number.parseInt(peopleInput.value,10);return Number.isFinite(n)?Math.min(500,Math.max(1,n)):1;}
-  function estimate(){const count=people();const monthly=count*40;const boxes=Math.max(1,Math.ceil(monthly/100));monthlyEstimate.textContent=`${monthly} kapsula mjesečno`;boxEstimate.textContent=`${boxes*100} kapsula (${boxes} ${boxes===1?'kutija':boxes>=2&&boxes<=4?'kutije':'kutija'})`;return {count,monthly,boxes,total:boxes*100};}
+  function estimate(){const count=people();const monthly=count*40;const boxes=Math.floor(monthly/100)+1;monthlyEstimate.textContent=`${monthly} kapsula mjesečno`;boxEstimate.textContent=`${boxes*100} kapsula (${boxes} ${boxes===1?'kutija':'kutija'})`;return {count,monthly,boxes,total:boxes*100};}
   function showStep(step){activeStep=step;steps.forEach(item=>{item.hidden=Number(item.dataset.finderStep)!==step;});result.hidden=true;statusMessage.textContent='';progressLabel.textContent=`Korak ${step} od ${steps.length}`;progressFill.style.width=`${(step/steps.length)*100}%`;const fieldset=steps.find(item=>Number(item.dataset.finderStep)===step)?.querySelector('fieldset');if(fieldset)fieldset.focus({preventScroll:true});}
   function setModelButton(button,model,quantity){button.dataset.model=model.modelValue;button.dataset.quantity=quantity;button.setAttribute('aria-label',`Odaberi aparat ${model.name}`);}
   function showRecommendation(){
     const use=answer('finder-use'),drinks=answer('finder-drinks');
     if(!use||!drinks){statusMessage.textContent='Odaberite odgovor prije prikaza preporuke.';return;}
     const e=estimate();
-    const quantityText=`${e.total} kapsula mjesečno (${e.boxes} ${e.boxes===1?'kutija':e.boxes>=2&&e.boxes<=4?'kutije':'kutija'})`;
-    const noMachine=e.total<300;
     let key='',showBoth=false,tag='',copy='';
-    if(noMachine){
-      tag='Preporučena količina još nije dovoljna';
-      copy=`Za ${e.count} ${e.count===1?'osobu':'osoba'} procjenjujemo ${e.monthly} kapsula mjesečno, odnosno preporučujemo ${quantityText}. Za dobivanje aparata potrebno je odabrati najmanje 300 kapsula (3 kutije) mjesečno. Zato vam zasad nećemo preporučiti aparat.`;
-    } else if(drinks==='black'){
-      key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Prema vašoj procjeni preporučena je količina ${quantityText}.`;
-    } else if(drinks==='milk'){
-      key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}. Prema vašoj procjeni preporučena je količina ${quantityText}.`;
-    } else if(e.total>=300){
-      key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno, a preporučena količina iznosi ${quantityText}. Za veće potrebe praktičniji može biti LB 1200 Classy & Milk. Ipak, konačan izbor je vaš.`;
-    } else {
-      showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata.`;
-    }
+    if(drinks==='black'){key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Veća potrošnja kapsula ne isključuje ovaj model ako ne trebate mliječne napitke.`;}
+    else if(drinks==='milk'){key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}.`;}
+    else if(e.count>3||e.monthly>=300){key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Za više od 3 osobe praktičniji može biti LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Od 300 kapsula mjesečno naviše posebno ga preporučujemo. Ipak, konačan izbor je vaš.`;}
+    else {showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata i odaberite onaj koji vam više odgovara.`;}
     const model=key?models[key]:null;
-    resultTag.textContent=tag;
-    resultTitle.textContent=noMachine?'Za aparat je potrebna veća mjesečna količina':showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;
-    resultCopy.textContent=copy;
+    resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
     resultFacts.replaceChildren();
-    const facts=[`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`,`Preporučena količina: ${quantityText}`];
-    if(noMachine) facts.push('Uvjet za aparat: najmanje 300 kapsula (3 kutije) mjesečno.');
-    else facts.push(...(model?model.facts:['Min. količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']));
-    facts.forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
-    resultModels.hidden=noMachine||!showBoth;
-    resultButton.hidden=noMachine||showBoth;
-    if(model)setModelButton(resultButton,model,quantityText);
-    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,quantityText);});
+    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`,`Preporučena količina: ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':e.boxes>=2&&e.boxes<=4?'kutije':'kutija'})`].concat(model?model.facts:['Minimalna količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
+    resultModels.hidden=!showBoth;resultButton.hidden=showBoth;
+    const quantityFor=(m)=>{const minimumBoxes=m===models.milk?3:2;const boxes=Math.max(e.boxes,minimumBoxes);return `${boxes*100} kapsula mjesečno (${boxes} ${boxes===1?'kutija':boxes>=2&&boxes<=4?'kutije':'kutija'})`;};
+    if(model)setModelButton(resultButton,model,quantityFor(model));
+    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,quantityFor(m));});
     steps.forEach(item=>{item.hidden=true;});result.hidden=false;statusMessage.textContent='';progressLabel.textContent='Preporuka je spremna';progressFill.style.width='100%';resultTitle.focus({preventScroll:true});
   }
   finder.querySelectorAll('[data-finder-next]').forEach(button=>button.addEventListener('click',()=>{const current=steps.find(item=>Number(item.dataset.finderStep)===activeStep);if(!current||!current.querySelector('input[type="radio"]:checked')){statusMessage.textContent='Odaberite jednu opciju za nastavak.';return;}showStep(Number(button.dataset.finderNext));}));
