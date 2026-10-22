@@ -285,7 +285,12 @@ function restoreCapsuleSelections() {
   } catch (error) { /* Ignore invalid or unavailable saved selections. */ }
 }
 
+// When a visitor chooses a model from the finder, use its calculated quantity
+// as the package target instead of falling back to the model's ordinary minimum.
+let finderPackageLimit = 0;
+
 function capsulePackageLimit() {
+  if (finderPackageLimit > 0) return finderPackageLimit;
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
   if (/LB\s*300/i.test(selectedModel)) return 1;
   if (/LB\s*1200/i.test(selectedModel)) return 2;
@@ -427,6 +432,10 @@ document.querySelectorAll('.model-select').forEach(button => {
     // option by model family so longer display names (e.g. "LB 1200 Classy & Milk")
     // still select the corresponding inquiry-form option ("Lavazza LB 1200").
     const modelName = button.dataset.model || '';
+    const quantityMatch = (button.dataset.quantity || '').match(/(\d+)\s*kapsula/i);
+    // A finder recommendation like "300 kapsula mjesečno" means three 100-capsule
+    // boxes in the inquiry. Regular machine-card selections keep their usual minimum.
+    finderPackageLimit = quantityMatch ? Math.max(1, Math.ceil(Number(quantityMatch[1]) / 100)) : 0;
     const modelPattern = /LB\s*300/i.test(modelName)
       ? /LB\s*300/i
       : /LB\s*1200/i.test(modelName)
@@ -528,6 +537,7 @@ function updateContractEmailField() {
 if (topicField) {
   updateContractEmailField();
   topicField.addEventListener('change', () => {
+    finderPackageLimit = 0;
     updateContractEmailField();
     if ((isCapsuleOnlyOrder() || isOfferQuestion()) && capsuleModelField) {
       // Do not include a previously selected appliance with a capsule-only order or a general question.
@@ -544,6 +554,7 @@ if (topicField) {
 
 if (capsuleModelField) {
   capsuleModelField.addEventListener('change', () => {
+    finderPackageLimit = 0;
     selectedCapsules.clear();
     saveCapsuleSelections();
     if (status) status.textContent = '';
