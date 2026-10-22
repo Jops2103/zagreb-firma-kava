@@ -40,7 +40,7 @@
     <div class="section-heading">
       <p class="eyebrow">VODIČ ZA ODABIR</p>
       <h2>Pronađite aparat <span>za sebe</span></h2>
-      <p>Odgovorite na tri kratka pitanja i saznajte koji od dva modela najbolje odgovara vašim potrebama.</p>
+      <p>Odgovorite na nekoliko kratkih pitanja. Izračunat ćemo okvirnu mjesečnu potrošnju i pomoći vam odabrati aparat.</p>
     </div>
     <div class="finder-panel">
       <div class="finder-progress" aria-live="polite">
@@ -59,49 +59,60 @@
           </fieldset>
           <div class="finder-actions"><button class="btn primary finder-next" type="button" data-finder-next="2">Nastavi <span aria-hidden="true">↗</span></button></div>
         </div>
-
         <div class="finder-step" data-finder-step="2" hidden>
           <fieldset class="finder-options" tabindex="-1">
             <legend><span class="finder-question-number">02</span> Kakve napitke najviše želite?</legend>
             <div class="finder-option-grid">
-              <label class="finder-option"><input type="radio" name="finder-drinks" value="black"><span class="finder-option-content"><strong>Crna kava</strong><small>Espresso i druge varijante crne kave.</small></span></label>
-              <label class="finder-option"><input type="radio" name="finder-drinks" value="milk"><span class="finder-option-content"><strong>Napitci s mlijekom</strong><small>Cappuccino, latte i slični napitci.</small></span></label>
-              <label class="finder-option"><input type="radio" name="finder-drinks" value="unsure"><span class="finder-option-content"><strong>Još istražujem</strong><small>Želim prvo usporediti mogućnosti.</small></span></label>
+              <label class="finder-option"><input type="radio" name="finder-drinks" value="black"><span class="finder-option-content"><strong>Samo crna kava / espresso</strong><small>Bez mliječnih napitaka.</small></span></label>
+              <label class="finder-option"><input type="radio" name="finder-drinks" value="milk"><span class="finder-option-content"><strong>Želim i mliječne napitke</strong><small>Cappuccino, latte i slične napitke.</small></span></label>
+              <label class="finder-option"><input type="radio" name="finder-drinks" value="unsure"><span class="finder-option-content"><strong>Još nisam odlučio/la</strong><small>Pomoći će mi preporuka prema potrošnji i praktičnosti.</small></span></label>
             </div>
           </fieldset>
-          <div class="finder-actions finder-actions-split"><button class="btn secondary" type="button" data-finder-prev="1"><span aria-hidden="true">↖</span> Natrag</button><button class="btn primary finder-next" type="button" data-finder-next="3">Nastavi <span aria-hidden="true">↗</span></button></div>
+          <div class="finder-actions finder-actions-split"><button class="btn secondary" type="button" data-finder-prev="1">↖ Natrag</button><button class="btn primary finder-next" type="button" data-finder-next="3">Nastavi ↗</button></div>
         </div>
-
         <div class="finder-step" data-finder-step="3" hidden>
-          <fieldset class="finder-options" tabindex="-1">
-            <legend><span class="finder-question-number">03</span> Što vam je najvažnije?</legend>
-            <div class="finder-option-grid">
-              <label class="finder-option"><input type="radio" name="finder-priority" value="compact"><span class="finder-option-content"><strong>Što manji format</strong><small>Aparat koji zauzima što manje mjesta.</small></span></label>
-              <label class="finder-option"><input type="radio" name="finder-priority" value="variety"><span class="finder-option-content"><strong>Širi izbor napitaka</strong><small>Više mogućnosti pripreme kave.</small></span></label>
-              <label class="finder-option"><input type="radio" name="finder-priority" value="balanced"><span class="finder-option-content"><strong>Uravnotežen izbor</strong><small>Kompaktan aparat uz praktične mogućnosti.</small></span></label>
+          <fieldset class="finder-options finder-people-options" tabindex="-1">
+            <legend><span class="finder-question-number">03</span> Koliko osoba pije kavu?</legend>
+            <p class="finder-people-help">Za procjenu računamo 2 kave po osobi dnevno i 20 radnih dana mjesečno.</p>
+            <div class="finder-people-counter">
+              <button type="button" id="finder-people-minus" class="finder-counter-button" aria-label="Smanji broj osoba">−</button>
+              <label for="finder-people-count" class="finder-people-input-label"><input id="finder-people-count" type="number" min="1" max="500" value="1" inputmode="numeric"><span>osoba</span></label>
+              <button type="button" id="finder-people-plus" class="finder-counter-button" aria-label="Povećaj broj osoba">+</button>
             </div>
+            <div class="finder-consumption-preview" aria-live="polite">
+              <div><span>Procijenjena potrošnja</span><strong id="finder-monthly-estimate">40 kapsula mjesečno</strong></div>
+              <div><span>Preporučena količina</span><strong id="finder-box-estimate">100 kapsula (1 kutija)</strong></div>
+            </div>
+            <p class="finder-quantity-note">Preporuka je orijentacijska: količina se zaokružuje na sljedeću kutiju od 100 kapsula, čak i kada je procjena točno višekratnik od 100.</p>
           </fieldset>
-          <div class="finder-actions finder-actions-split"><button class="btn secondary" type="button" data-finder-prev="2"><span aria-hidden="true">↖</span> Natrag</button><button class="btn primary finder-next" id="finder-show-result" type="button">Prikaži preporuku <span aria-hidden="true">↗</span></button></div>
+          <div class="finder-actions finder-actions-split"><button class="btn secondary" type="button" data-finder-prev="2">↖ Natrag</button><button class="btn primary" id="finder-show-result" type="button">Prikaži preporuku ↗</button></div>
         </div>
         <p id="finder-status" class="finder-status" role="status" aria-live="polite"></p>
       </div>
-
       <section class="finder-result" id="finder-result" hidden aria-live="polite" aria-labelledby="finder-result-title">
         <p class="eyebrow">PREPORUKA ZA VAS</p>
         <span class="finder-recommendation-tag" id="finder-result-tag">Preporučeni model</span>
-        <h3 id="finder-result-title" tabindex="-1">LB 300 mini</h3>
+        <h3 id="finder-result-title" tabindex="-1">Lavazza LB 300 mini</h3>
         <p id="finder-result-copy" class="finder-result-copy"></p>
         <ul class="finder-result-facts" id="finder-result-facts"></ul>
-        <p class="finder-disclaimer">Ovo je orijentacijska preporuka. Dostupnost i uvjeti potvrđuju se nakon slanja upita.</p>
+        <div class="finder-result-models" id="finder-result-models" hidden>
+          <article class="finder-model-choice">
+            <h4>Lavazza LB 300 mini</h4><p>Za espresso i crnu kavu; kompaktan format.</p>
+            <button class="btn secondary model-select finder-model-button" type="button" data-model="Lavazza LB 300 mini" data-quantity="Preporučena količina prema vodiču">Odaberite LB 300 mini</button>
+          </article>
+          <article class="finder-model-choice">
+            <h4>Lavazza LB 1200 Classy &amp; Milk</h4><p>Za crnu kavu i napitke s mlijekom; veći spremnici za vodu i iskorištene kapsule.</p>
+            <button class="btn primary model-select finder-model-button" type="button" data-model="Lavazza LB 1200 Classy &amp; Milk" data-quantity="Preporučena količina prema vodiču">Odaberite LB 1200</button>
+          </article>
+        </div>
+        <p class="finder-disclaimer">Ovo je orijentacijska preporuka. Konačna količina, dostupnost i uvjeti potvrđuju se nakon slanja upita.</p>
         <div class="finder-result-actions">
-          <button class="btn primary model-select finder-result-button" type="button" data-model="Lavazza LB 300 mini" data-quantity="Min. količina: 1 kutija">Odaberi ovaj aparat <span aria-hidden="true">↗</span></button>
+          <button class="btn primary model-select finder-result-button" type="button" data-model="Lavazza LB 300 mini" data-quantity="Preporučena količina prema vodiču">Odaberi ovaj aparat <span aria-hidden="true">↗</span></button>
           <button class="btn secondary finder-restart" id="finder-restart" type="button">Ponovi vodič</button>
         </div>
       </section>
     </div>
   </section>
-
-
 
   <section class="section" id="ponuda">
     <div class="section-heading"><p class="eyebrow">ODABERITE SVOJ MODEL</p><h2>Odaberite svoj <span>aparat</span></h2><p>U nastavku su opisi i tehnički podaci za usporedbu.</p></div>
@@ -256,6 +267,7 @@
       <input type="hidden" id="sender-email-copy" name="_replyto" value="">
       <div class="field"><label for="customer-type">Ponuda za *</label><select id="customer-type" name="Namjena ponude" required><option value="">Odaberite</option><option>Dom / kućanstvo</option><option>Tvrtka / ured</option><option>Apartman</option><option>Drugi poslovni prostor</option></select></div>
       <div class="field"><label for="topic">Vrsta upita *</label><select id="topic" name="Vrsta upita" required><option value="">Odaberite</option><option>Želim aparat uz mjesečnu kupnju kapsula</option><option>Želim naručiti kapsule</option><option>Imam pitanje o ponudi</option></select></div>
+      <div class="field full" id="contract-email-field" hidden><label for="contract-email"><strong>E-mail korišten pri ugovaranju *</strong></label><input id="contract-email" name="E-mail korišten pri ugovaranju" type="email" autocomplete="email" placeholder="E-mail naveden u postojećem ugovoru" aria-describedby="contract-email-note"><span id="contract-email-note" class="form-note">Za povezivanje dodatne narudžbe s vašim postojećim dogovorom. Unesite e-mail koji ste koristili pri ugovaranju.</span></div>
       <div class="field full"><label for="model">Odabrani aparat</label><select id="model" name="Odabrani aparat"><option value="Nisam još odabrao/la">Nisam još odabrao/la</option><option>Lavazza LB 300</option><option>Lavazza LB 1200</option></select></div>
       <div class="field full"><label for="capsule-varieties"><strong>Odabrane kapsule *</strong></label><textarea id="capsule-varieties" name="Odabrane kapsule" rows="2" readonly aria-describedby="capsule-varieties-note">Nijedna vrsta još nije odabrana</textarea><span id="capsule-varieties-note" class="form-note">Obavezno za odabrani aparat — kliknite željene kapsule u galeriji iznad. Bez odabira minimalne količine upit se ne može poslati.</span></div>
       <div class="field full" id="additional-capsules-field" hidden><fieldset class="capsule-choice-fieldset"><legend><strong>Dodatne kapsule</strong></legend><label><input type="radio" name="Dodatne kapsule" value="Da"> DA</label><label><input type="radio" name="Dodatne kapsule" value="Ne" checked> NE</label></fieldset><div id="additional-capsules-details" hidden><label for="additional-capsule-varieties"><strong>Odabrane dodatne kutije kapsula</strong></label><textarea id="additional-capsule-varieties" name="Odabrane dodatne kapsule" rows="2" readonly>Nijedna dodatna vrsta još nije odabrana</textarea><span id="additional-capsules-note" class="form-note">Ako odaberete DA, kliknite željene vrste kapsula u galeriji iznad; svaki odabir dodaje jednu kutiju.</span></div></div>

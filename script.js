@@ -257,6 +257,8 @@ const capsuleField = document.getElementById('capsules');
 const capsuleVarietiesField = document.getElementById('capsule-varieties');
 const capsuleModelField = document.getElementById('model');
 const topicField = document.getElementById('topic');
+const contractEmailFieldWrap = document.getElementById('contract-email-field');
+const contractEmailField = document.getElementById('contract-email');
 const modelFieldWrap = capsuleModelField ? capsuleModelField.closest('.field') : null;
 const capsuleVarietiesWrap = capsuleVarietiesField ? capsuleVarietiesField.closest('.field') : null;
 const capsuleQuantityWrap = capsuleField ? capsuleField.closest('.field') : null;
@@ -514,8 +516,19 @@ if (extraCapsulesDoneButton) {
   });
 }
 
+function updateContractEmailField() {
+  const required = isCapsuleOnlyOrder();
+  if (contractEmailFieldWrap) contractEmailFieldWrap.hidden = !required;
+  if (contractEmailField) {
+    contractEmailField.required = required;
+    if (!required) contractEmailField.value = '';
+  }
+}
+
 if (topicField) {
+  updateContractEmailField();
   topicField.addEventListener('change', () => {
+    updateContractEmailField();
     if ((isCapsuleOnlyOrder() || isOfferQuestion()) && capsuleModelField) {
       // Do not include a previously selected appliance with a capsule-only order or a general question.
       capsuleModelField.selectedIndex = 0;
@@ -567,11 +580,10 @@ if (capsuleFromDetail && capsuleField && topicField) {
   }
 }
 
-/* Interactive appliance finder. The final choice reuses the existing model-selection flow. */
+/* Interactive appliance finder with capsule-use estimate and recommendation rules. */
 (function setupApplianceFinder(){
   const finder = document.getElementById('appliance-finder');
   if (!finder) return;
-
   const steps = Array.from(finder.querySelectorAll('[data-finder-step]'));
   const result = document.getElementById('finder-result');
   const progressLabel = document.getElementById('finder-progress-label');
@@ -582,126 +594,50 @@ if (capsuleFromDetail && capsuleField && topicField) {
   const resultTag = document.getElementById('finder-result-tag');
   const resultFacts = document.getElementById('finder-result-facts');
   const resultButton = result.querySelector('.finder-result-button');
+  const resultModels = document.getElementById('finder-result-models');
+  const peopleInput = document.getElementById('finder-people-count');
+  const monthlyEstimate = document.getElementById('finder-monthly-estimate');
+  const boxEstimate = document.getElementById('finder-box-estimate');
   let activeStep = 1;
-
-  const useLabels = {
-    home: 'za dom',
-    apartment: 'za apartman',
-    office: 'za ured ili poslovni prostor'
-  };
-
+  const useLabels = {home:'za dom', apartment:'za apartman', office:'za ured ili poslovni prostor'};
   const models = {
-    mini: {
-      name: 'LB 300 mini',
-      modelValue: 'Lavazza LB 300 mini',
-      quantity: 'Min. količina: 100 kapsula mjesečno',
-      tag: 'Kompaktan izbor',
-      facts: ['Kompaktan format', 'Za dom i apartman', 'Min. 100 kapsula mjesečno']
-    },
-    milk: {
-      name: 'LB 1200 Classy & Milk',
-      modelValue: 'Lavazza LB 1200 Classy & Milk',
-      quantity: 'Min. količina: 200 kapsula mjesečno',
-      tag: 'Za raznolike napitke',
-      facts: ['Integrirani sustav za mliječne napitke', 'Za dom i poslovni prostor', 'Min. 200 kapsula mjesečno']
-    }
+    mini:{name:'LB 300 mini',modelValue:'Lavazza LB 300 mini',quantity:'Preporučena količina prema vodiču',tag:'Za espresso i crnu kavu',facts:['Kompaktan format','Za espresso i crnu kavu','Bez sustava za mliječne napitke']},
+    milk:{name:'LB 1200 Classy & Milk',modelValue:'Lavazza LB 1200 Classy & Milk',quantity:'Preporučena količina prema vodiču',tag:'Za mliječne napitke i veće potrebe',facts:['Sustav za mliječne napitke','Spremnik za vodu od 1,8 l','Spremnik za iskorištene kapsule do 15 kapsula']}
   };
-
-  function answer(name) {
-    const chosen = finder.querySelector(`input[name="${name}"]:checked`);
-    return chosen ? chosen.value : '';
-  }
-
-  function showStep(step) {
-    activeStep = step;
-    steps.forEach(item => {
-      item.hidden = Number(item.dataset.finderStep) !== step;
-    });
-    result.hidden = true;
-    statusMessage.textContent = '';
-    progressLabel.textContent = `Korak ${step} od ${steps.length}`;
-    progressFill.style.width = `${(step / steps.length) * 100}%`;
-    const fieldset = steps.find(item => Number(item.dataset.finderStep) === step)?.querySelector('fieldset');
-    if (fieldset) fieldset.focus({ preventScroll: true });
-  }
-
-  function getRecommendation() {
-    const drinks = answer('finder-drinks');
-    const priority = answer('finder-priority');
-    if (drinks === 'milk' || priority === 'variety') return 'milk';
-    return 'mini';
-  }
-
-  function getReason(key, use) {
-    if (key === 'milk') {
-      return `Budući da želite više mogućnosti napitaka, LB 1200 Classy & Milk može biti dobar izbor ${use}. Ima integrirani sustav za pripremu mliječnih napitaka i preporučuje se uz najmanje 200 kapsula mjesečno.`;
-    }
-    return `LB 300 mini je kompaktan izbor ${use}, osobito ako želite jednostavan aparat koji zauzima manje prostora. Preporučena je mjesečna kupnja najmanje 100 kapsula.`;
-  }
-
-  function showRecommendation() {
-    const use = answer('finder-use');
-    const drinks = answer('finder-drinks');
-    const priority = answer('finder-priority');
-    if (!use || !drinks || !priority) {
-      statusMessage.textContent = 'Odaberite jednu opciju prije nego što prikažemo preporuku.';
-      return;
-    }
-
-    const key = getRecommendation();
-    const model = models[key];
-    resultTag.textContent = model.tag;
-    resultTitle.textContent = model.name;
-    resultCopy.textContent = getReason(key, useLabels[use] || 'za vaš prostor');
+  function answer(name){const chosen=finder.querySelector(`input[name="${name}"]:checked`);return chosen?chosen.value:'';}
+  function people(){const n=Number.parseInt(peopleInput.value,10);return Number.isFinite(n)?Math.min(500,Math.max(1,n)):1;}
+  function estimate(){const count=people();const monthly=count*40;const boxes=Math.floor(monthly/100)+1;monthlyEstimate.textContent=`${monthly} kapsula mjesečno`;boxEstimate.textContent=`${boxes*100} kapsula (${boxes} ${boxes===1?'kutija':'kutija'})`;return {count,monthly,boxes,total:boxes*100};}
+  function showStep(step){activeStep=step;steps.forEach(item=>{item.hidden=Number(item.dataset.finderStep)!==step;});result.hidden=true;statusMessage.textContent='';progressLabel.textContent=`Korak ${step} od ${steps.length}`;progressFill.style.width=`${(step/steps.length)*100}%`;const fieldset=steps.find(item=>Number(item.dataset.finderStep)===step)?.querySelector('fieldset');if(fieldset)fieldset.focus({preventScroll:true});}
+  function setModelButton(button,model,quantity){button.dataset.model=model.modelValue;button.dataset.quantity=quantity;button.setAttribute('aria-label',`Odaberi aparat ${model.name}`);}
+  function showRecommendation(){
+    const use=answer('finder-use'),drinks=answer('finder-drinks');
+    if(!use||!drinks){statusMessage.textContent='Odaberite odgovor prije prikaza preporuke.';return;}
+    const e=estimate();
+    let key='',showBoth=false,tag='',copy='';
+    if(drinks==='black'){key='mini';tag='Preporuka prema vašim željama';copy=`Budući da želite samo espresso i crnu kavu, preporučujemo LB 300 mini ${useLabels[use]}. Veća potrošnja kapsula ne isključuje ovaj model ako ne trebate mliječne napitke.`;}
+    else if(drinks==='milk'){key='milk';tag='Preporuka prema vašim željama';copy=`Budući da želite i mliječne napitke, preporučujemo LB 1200 Classy & Milk ${useLabels[use]}.`;}
+    else if(e.count>3||e.monthly>=300){key='milk';showBoth=true;tag='Naš savjet: LB 1200 Classy & Milk';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Za više od 3 osobe praktičniji može biti LB 1200 Classy & Milk zbog većeg spremnika za vodu i kapaciteta za iskorištene kapsule. Od 300 kapsula mjesečno naviše posebno ga preporučujemo. Ipak, konačan izbor je vaš.`;}
+    else {showBoth=true;tag='Usporedite oba modela';copy=`Uz ${e.count} osoba procijenjena je potrošnja ${e.monthly} kapsula mjesečno. Budući da još niste odlučili koje napitke želite, usporedite oba aparata i odaberite onaj koji vam više odgovara.`;}
+    const model=key?models[key]:null;
+    resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
     resultFacts.replaceChildren();
-    model.facts.forEach(fact => {
-      const item = document.createElement('li');
-      item.textContent = fact;
-      resultFacts.append(item);
-    });
-
-    resultButton.dataset.model = model.modelValue;
-    resultButton.dataset.quantity = model.quantity;
-    resultButton.setAttribute('aria-label', `Odaberi aparat ${model.name}`);
-    steps.forEach(item => { item.hidden = true; });
-    result.hidden = false;
-    statusMessage.textContent = '';
-    progressLabel.textContent = 'Preporuka je spremna';
-    progressFill.style.width = '100%';
-    resultTitle.focus({ preventScroll: true });
+    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Preporučena ugovorena količina: ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':'kutija'})`,`Broj osoba: ${e.count}`].concat(model?model.facts:[]).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
+    resultModels.hidden=!showBoth;resultButton.hidden=showBoth;
+    if(model)setModelButton(resultButton,model,`${e.total} kapsula mjesečno (preporuka vodiča)`);
+    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,`${e.total} kapsula mjesečno (preporuka vodiča)`);});
+    steps.forEach(item=>{item.hidden=true;});result.hidden=false;statusMessage.textContent='';progressLabel.textContent='Preporuka je spremna';progressFill.style.width='100%';resultTitle.focus({preventScroll:true});
   }
-
-  finder.querySelectorAll('[data-finder-next]').forEach(button => {
-    button.addEventListener('click', () => {
-      const current = steps.find(item => Number(item.dataset.finderStep) === activeStep);
-      if (!current || !current.querySelector('input[type="radio"]:checked')) {
-        statusMessage.textContent = 'Odaberite jednu opciju za nastavak.';
-        return;
-      }
-      showStep(Number(button.dataset.finderNext));
-    });
-  });
-
-  finder.querySelectorAll('[data-finder-prev]').forEach(button => {
-    button.addEventListener('click', () => showStep(Number(button.dataset.finderPrev)));
-  });
-
-  const showResultButton = document.getElementById('finder-show-result');
-  if (showResultButton) showResultButton.addEventListener('click', showRecommendation);
-
-  const restartButton = document.getElementById('finder-restart');
-  if (restartButton) {
-    restartButton.addEventListener('click', () => {
-      finder.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
-      showStep(1);
-    });
-  }
-
-  showStep(1);
+  finder.querySelectorAll('[data-finder-next]').forEach(button=>button.addEventListener('click',()=>{const current=steps.find(item=>Number(item.dataset.finderStep)===activeStep);if(!current||!current.querySelector('input[type="radio"]:checked')){statusMessage.textContent='Odaberite jednu opciju za nastavak.';return;}showStep(Number(button.dataset.finderNext));}));
+  finder.querySelectorAll('[data-finder-prev]').forEach(button=>button.addEventListener('click',()=>showStep(Number(button.dataset.finderPrev))));
+  document.getElementById('finder-show-result')?.addEventListener('click',showRecommendation);
+  document.getElementById('finder-people-minus')?.addEventListener('click',()=>{peopleInput.value=String(Math.max(1,people()-1));estimate();});
+  document.getElementById('finder-people-plus')?.addEventListener('click',()=>{peopleInput.value=String(Math.min(500,people()+1));estimate();});
+  peopleInput?.addEventListener('input',estimate);
+  document.getElementById('finder-restart')?.addEventListener('click',()=>{finder.querySelectorAll('input[type="radio"]').forEach(input=>{input.checked=false;});peopleInput.value='1';estimate();resultModels.hidden=true;resultButton.hidden=false;showStep(1);});
+  estimate();showStep(1);
 })();
-
-
-
+ 
+ 
 /* Native page scrolling; only in-page actions use the browser's gentle smooth-scroll behavior. */
 
 

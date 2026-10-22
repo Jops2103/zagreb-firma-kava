@@ -4166,3 +4166,25 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Person-count calculator and final appliance recommendation */
+.finder-people-help{margin:0 0 18px;color:#62666c;font-size:13px;line-height:1.7}
+.finder-people-counter{display:flex;align-items:center;justify-content:center;gap:22px;margin:20px auto 24px}
+.finder-counter-button{display:grid;place-items:center;width:48px;height:48px;border:1px solid #003da5;border-radius:50%;background:#fff;color:#003da5;font-size:27px;line-height:1;cursor:pointer}
+.finder-counter-button:hover{background:#eef3ff}
+.finder-people-input-label{display:flex;align-items:center;gap:10px}
+.finder-people-input-label input{width:100px;padding:9px;border:0;border-bottom:2px solid #003da5;background:transparent;color:#171717;font-size:34px;font-weight:800;text-align:center}
+.finder-people-input-label span{color:#62666c;font-size:13px}
+.finder-consumption-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.finder-consumption-preview>div{display:flex;flex-direction:column;gap:6px;padding:17px;border:1px solid #d9dce1;border-radius:6px;background:#f5f7fb}
+.finder-consumption-preview span{color:#62666c;font-size:11px}
+.finder-consumption-preview strong{color:#003da5;font-size:17px;line-height:1.4}
+.finder-quantity-note{color:#74716b;font-size:10px;line-height:1.7;margin:13px 0 0}
+.finder-result-models{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.finder-result-models[hidden]{display:none!important}
+.finder-model-choice{display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid #d4d7dc;border-radius:6px;background:#fff}
+.finder-model-choice h4{margin:0;font-size:17px;line-height:1.35}
+.finder-model-choice p{margin:0 0 6px;color:#5e6268;font-size:12px;line-height:1.7;flex:1}
+.finder-model-choice .btn{width:100%;min-height:46px}
+.finder-result-button[hidden]{display:none!important}
+@media(max-width:760px){.finder-consumption-preview,.finder-result-models{grid-template-columns:1fr}.finder-people-counter{gap:16px}.finder-counter-button{width:44px;height:44px}}
