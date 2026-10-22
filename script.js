@@ -292,8 +292,8 @@ let finderPackageLimit = 0;
 function capsulePackageLimit() {
   if (finderPackageLimit > 0) return finderPackageLimit;
   const selectedModel = capsuleModelField ? capsuleModelField.value : '';
-  if (/LB\s*300/i.test(selectedModel)) return 1;
-  if (/LB\s*1200/i.test(selectedModel)) return 2;
+  if (/LB\s*300/i.test(selectedModel)) return 2;
+  if (/LB\s*1200/i.test(selectedModel)) return 3;
   return 0;
 }
 
@@ -612,8 +612,8 @@ if (capsuleFromDetail && capsuleField && topicField) {
   let activeStep = 1;
   const useLabels = {home:'za dom', apartment:'za apartman', office:'za ured ili poslovni prostor'};
   const models = {
-    mini:{name:'LB 300 mini',modelValue:'Lavazza LB 300 mini',quantity:'Preporučena količina prema vodiču',tag:'Za espresso i crnu kavu',facts:['Kompaktan format','Za espresso i crnu kavu','Bez sustava za mliječne napitke']},
-    milk:{name:'LB 1200 Classy & Milk',modelValue:'Lavazza LB 1200 Classy & Milk',quantity:'Preporučena količina prema vodiču',tag:'Za mliječne napitke i veće potrebe',facts:['Sustav za mliječne napitke','Spremnik za vodu od 1,8 l','Spremnik za iskorištene kapsule do 15 kapsula']}
+    mini:{name:'LB 300 mini',modelValue:'Lavazza LB 300 mini',quantity:'200 kapsula mjesečno (2 kutije)',tag:'Za espresso i crnu kavu',facts:['Min. količina: 200 kapsula (2 kutije)','Kompaktan format','Za espresso i crnu kavu','Bez sustava za mliječne napitke']},
+    milk:{name:'LB 1200 Classy & Milk',modelValue:'Lavazza LB 1200 Classy & Milk',quantity:'300 kapsula mjesečno (3 kutije)',tag:'Za mliječne napitke i veće potrebe',facts:['Min. količina: 300 kapsula (3 kutije)','Sustav za mliječne napitke','Spremnik za vodu od 1,8 l','Spremnik za iskorištene kapsule do 15 kapsula']}
   };
   function answer(name){const chosen=finder.querySelector(`input[name="${name}"]:checked`);return chosen?chosen.value:'';}
   function people(){const n=Number.parseInt(peopleInput.value,10);return Number.isFinite(n)?Math.min(500,Math.max(1,n)):1;}
@@ -632,10 +632,10 @@ if (capsuleFromDetail && capsuleField && topicField) {
     const model=key?models[key]:null;
     resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
     resultFacts.replaceChildren();
-    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Preporučena ugovorena količina: ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':'kutija'})`,`Broj osoba: ${e.count}`].concat(model?model.facts:[]).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
+    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`].concat(model?model.facts:['Minimalna količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
     resultModels.hidden=!showBoth;resultButton.hidden=showBoth;
-    if(model)setModelButton(resultButton,model,`${e.total} kapsula mjesečno (preporuka vodiča)`);
-    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,`${e.total} kapsula mjesečno (preporuka vodiča)`);});
+    if(model)setModelButton(resultButton,model,model.quantity);
+    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,m.quantity);});
     steps.forEach(item=>{item.hidden=true;});result.hidden=false;statusMessage.textContent='';progressLabel.textContent='Preporuka je spremna';progressFill.style.width='100%';resultTitle.focus({preventScroll:true});
   }
   finder.querySelectorAll('[data-finder-next]').forEach(button=>button.addEventListener('click',()=>{const current=steps.find(item=>Number(item.dataset.finderStep)===activeStep);if(!current||!current.querySelector('input[type="radio"]:checked')){statusMessage.textContent='Odaberite jednu opciju za nastavak.';return;}showStep(Number(button.dataset.finderNext));}));
