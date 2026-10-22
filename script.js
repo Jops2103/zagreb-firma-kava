@@ -552,13 +552,27 @@ if (topicField) {
   });
 }
 
+function updateModelMinimumNote() {
+  const note = document.getElementById('model-minimum-note');
+  if (!note || !capsuleModelField) return;
+  if (/LB\\s*300/i.test(capsuleModelField.value)) {
+    note.textContent = 'LB300 mini: potrebno je odabrati najmanje 2 kutije (200 kapsula).';
+  } else if (/LB\\s*1200/i.test(capsuleModelField.value)) {
+    note.textContent = 'LB1200 Classy & Milk: potrebno je odabrati najmanje 3 kutije (300 kapsula).';
+  } else {
+    note.textContent = 'Odaberite aparat kako bi se prikazala minimalna količina kapsula.';
+  }
+}
+
 if (capsuleModelField) {
+  updateModelMinimumNote();
   capsuleModelField.addEventListener('change', () => {
     finderPackageLimit = 0;
     selectedCapsules.clear();
     saveCapsuleSelections();
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
+    updateModelMinimumNote();
   });
 }
 
