@@ -646,10 +646,11 @@ if (capsuleFromDetail && capsuleField && topicField) {
     const model=key?models[key]:null;
     resultTag.textContent=tag;resultTitle.textContent=showBoth?'Koji aparat vam više odgovara?':`Lavazza ${model.name}`;resultCopy.textContent=copy;
     resultFacts.replaceChildren();
-    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`].concat(model?model.facts:['Minimalna količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
+    [`Procijenjena potrošnja: ${e.monthly} kapsula mjesečno`,`Broj osoba: ${e.count}`,`Preporučena količina: ${e.total} kapsula (${e.boxes} ${e.boxes===1?'kutija':e.boxes>=2&&e.boxes<=4?'kutije':'kutija'})`].concat(model?model.facts:['Minimalna količina: LB 300 mini — 200 kapsula (2 kutije); LB 1200 Classy & Milk — 300 kapsula (3 kutije)']).forEach(fact=>{const li=document.createElement('li');li.textContent=fact;resultFacts.append(li);});
     resultModels.hidden=!showBoth;resultButton.hidden=showBoth;
-    if(model)setModelButton(resultButton,model,model.quantity);
-    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,m.quantity);});
+    const quantityFor=(m)=>{const minimumBoxes=m===models.milk?3:2;const boxes=Math.max(e.boxes,minimumBoxes);return `${boxes*100} kapsula mjesečno (${boxes} ${boxes===1?'kutija':boxes>=2&&boxes<=4?'kutije':'kutija'})`;};
+    if(model)setModelButton(resultButton,model,quantityFor(model));
+    resultModels.querySelectorAll('.finder-model-button').forEach(button=>{const m=button.dataset.model.includes('1200')?models.milk:models.mini;setModelButton(button,m,quantityFor(m));});
     steps.forEach(item=>{item.hidden=true;});result.hidden=false;statusMessage.textContent='';progressLabel.textContent='Preporuka je spremna';progressFill.style.width='100%';resultTitle.focus({preventScroll:true});
   }
   finder.querySelectorAll('[data-finder-next]').forEach(button=>button.addEventListener('click',()=>{const current=steps.find(item=>Number(item.dataset.finderStep)===activeStep);if(!current||!current.querySelector('input[type="radio"]:checked')){statusMessage.textContent='Odaberite jednu opciju za nastavak.';return;}showStep(Number(button.dataset.finderNext));}));
