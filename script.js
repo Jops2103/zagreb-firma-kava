@@ -48,10 +48,10 @@ if (form) {
       if (capsuleWrap) capsuleWrap.classList.add('capsule-selection-invalid');
       if (capsuleInput) capsuleInput.setAttribute('aria-invalid', 'true');
       if (capsuleNote) {
-        capsuleNote.textContent = `Obavezno: odaberite najmanje ${minimum} ${minimum === 1 ? 'kutiju kapsula' : 'kutije kapsula'} za odabrani aparat. Kliknite kapsule u galeriji iznad.`;
+        capsuleNote.textContent = `Obavezno: odaberite ${minimum * 100} kapsula prema željenoj mjesečnoj količini. Kliknite vrste kapsula u galeriji iznad.`;
         capsuleNote.classList.add('capsule-error-note');
       }
-      if (status) status.textContent = 'Upit nije poslan. Obavezno odaberite minimalnu količinu kapsula za odabrani aparat.';
+      if (status) status.textContent = 'Upit nije poslan. Odaberite vrste kapsula koje ukupno odgovaraju željenoj mjesečnoj količini.';
       if (capsuleWrap) {
         capsuleWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
         capsuleInput?.focus({ preventScroll: true });
@@ -285,16 +285,51 @@ function restoreCapsuleSelections() {
   } catch (error) { /* Ignore invalid or unavailable saved selections. */ }
 }
 
-// When a visitor chooses a model from the finder, use its calculated quantity
-// as the package target instead of falling back to the model's ordinary minimum.
+// The visitor can choose a monthly target above the model's minimum.
+const monthlyQuantityField = document.getElementById('monthly-quantity');
+const monthlyQuantityWrap = document.getElementById('monthly-quantity-field');
+const chooseCapsulesAction = document.getElementById('choose-capsules-action');
 let finderPackageLimit = 0;
 
-function capsulePackageLimit() {
-  if (finderPackageLimit > 0) return finderPackageLimit;
-  const selectedModel = capsuleModelField ? capsuleModelField.value : '';
-  if (/LB\s*300/i.test(selectedModel)) return 2;
-  if (/LB\s*1200/i.test(selectedModel)) return 3;
+function minimumPackageLimit(modelValue) {
+  if (/LB\s*300/i.test(modelValue || '')) return 2;
+  if (/LB\s*1200/i.test(modelValue || '')) return 3;
   return 0;
+}
+
+function configureMonthlyQuantity(preferredCapsules = 0) {
+  if (!monthlyQuantityField || !capsuleModelField) return;
+  const modelValue = capsuleModelField.value;
+  const minimum = minimumPackageLimit(modelValue);
+  monthlyQuantityField.replaceChildren();
+  if (!minimum) {
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = 'Najprije odaberite aparat';
+    monthlyQuantityField.append(option);
+    monthlyQuantityField.value = '';
+    return;
+  }
+  const preferredBoxes = preferredCapsules > 0 ? Math.ceil(preferredCapsules / 100) : 0;
+  const start = Math.max(minimum, preferredBoxes || minimum);
+  const maxBoxes = Math.max(start + 4, minimum + 4);
+  for (let boxes = minimum; boxes <= maxBoxes; boxes++) {
+    const option = document.createElement('option');
+    option.value = String(boxes * 100);
+    option.textContent = `${boxes * 100} kapsula mjesečno (${boxes} ${boxes === 1 ? 'kutija' : boxes >= 2 && boxes <= 4 ? 'kutije' : 'kutija'})`;
+    monthlyQuantityField.append(option);
+  }
+  const desired = preferredBoxes ? preferredBoxes * 100 : minimum * 100;
+  monthlyQuantityField.value = String(Math.max(minimum * 100, desired));
+  monthlyQuantityField.disabled = false;
+}
+
+function capsulePackageLimit() {
+  if (monthlyQuantityField && !monthlyQuantityField.disabled && Number(monthlyQuantityField.value) > 0) {
+    return Math.ceil(Number(monthlyQuantityField.value) / 100);
+  }
+  if (finderPackageLimit > 0) return finderPackageLimit;
+  return minimumPackageLimit(capsuleModelField ? capsuleModelField.value : '');
 }
 
 function isCapsuleOnlyOrder() {
@@ -385,12 +420,12 @@ function updateSelectedCapsuleField() {
   const note = document.getElementById('capsule-selection-note');
   if (note) {
     if (isCapsuleOnlyOrder()) {
-      note.textContent = 'Svaki klik na „Odaberi ove kapsule” dodaje jednu kutiju.';
+      note.textContent = 'Svaki klik dodaje jednu kutiju od 100 kapsula. Odaberite vrste dok ne popunite željenu mjesečnu količinu.';
     } else if (minimum > 0) {
       const selectedCount = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
       note.textContent = selectedCount < minimum
-        ? `Za odabrani aparat obavezno odaberite najmanje ${minimum} ${minimum === 1 ? 'kutiju kapsula' : 'kutije kapsula'}. Nakon odabira vratit ćemo vas na upit, gdje možete izabrati želite li odmah naručiti još kutija.`
-        : 'Minimalna količina je odabrana. Nastavite na upit i odaberite DA ako želite dodati još kutija.';
+        ? `Odaberite ${minimum} kutije kapsula prema željenoj mjesečnoj količini. Možete promijeniti količinu u obrascu prije odabira vrsta.`
+        : 'Odabrana mjesečna količina je popunjena. Nastavite na upit ili odaberite DA ako želite dodati još kutija.';
     } else {
       note.textContent = 'Najprije odaberite aparat ili vrstu upita, a zatim izaberite kapsule.';
     }
@@ -407,6 +442,13 @@ function updateSelectedCapsuleField() {
   if (capsuleQuantityWrap) {
     capsuleQuantityWrap.hidden = offerQuestionOnly;
   }
+
+  const applianceOrder = topicField && topicField.value === 'Želim aparat uz mjesečnu kupnju kapsula';
+  if (monthlyQuantityWrap) {
+    monthlyQuantityWrap.hidden = offerQuestionOnly || isCapsuleOnlyOrder() || !applianceOrder || !minimum;
+    monthlyQuantityField.disabled = monthlyQuantityWrap.hidden;
+  }
+  if (chooseCapsulesAction) chooseCapsulesAction.hidden = monthlyQuantityWrap ? monthlyQuantityWrap.hidden : true;
 
   if (additionalCapsulesWrap) {
     additionalCapsulesWrap.hidden = offerQuestionOnly || isCapsuleOnlyOrder() || !minimum;
@@ -446,6 +488,7 @@ document.querySelectorAll('.model-select').forEach(button => {
       : null;
     if (modelOption) capsuleModelField.value = modelOption.value || modelOption.textContent;
     topicField.value = 'Želim aparat uz mjesečnu kupnju kapsula';
+    configureMonthlyQuantity(quantityMatch ? Number(quantityMatch[1]) : 0);
     selectedCapsules.clear();
     saveCapsuleSelections();
     const noExtra = document.querySelector('input[name="Dodatne kapsule"][value="Ne"]');
@@ -472,7 +515,7 @@ document.querySelectorAll('.capsule-select').forEach(button => {
       return;
     }
     if (!isCapsuleOnlyOrder() && selectedBoxes >= minimum && !addingExtras) {
-      if (status) status.textContent = `Za ovaj aparat odaberite ukupno ${minimum} ${minimum === 1 ? 'kutiju' : 'kutije'}. Već ste odabrali tu količinu.`;
+      if (status) status.textContent = `Već ste odabrali željenu mjesečnu količinu od ${minimum * 100} kapsula. Ako želite još, u obrascu odaberite DA za dodatne kutije.`;
       return;
     }
 
@@ -560,7 +603,7 @@ function updateModelMinimumNote() {
   } else if (/LB\\s*1200/i.test(capsuleModelField.value)) {
     note.textContent = 'LB1200 Classy & Milk: potrebno je odabrati najmanje 3 kutije (300 kapsula).';
   } else {
-    note.textContent = 'Odaberite aparat kako bi se prikazala minimalna količina kapsula.';
+    note.textContent = 'Odaberite aparat i željenu mjesečnu količinu kapsula.';
   }
 }
 
@@ -568,6 +611,7 @@ if (capsuleModelField) {
   updateModelMinimumNote();
   capsuleModelField.addEventListener('change', () => {
     finderPackageLimit = 0;
+    configureMonthlyQuantity();
     selectedCapsules.clear();
     saveCapsuleSelections();
     if (status) status.textContent = '';
@@ -575,6 +619,21 @@ if (capsuleModelField) {
     updateModelMinimumNote();
   });
 }
+
+if (monthlyQuantityField) {
+  monthlyQuantityField.addEventListener('change', () => {
+    finderPackageLimit = 0;
+    selectedCapsules.clear();
+    saveCapsuleSelections();
+    if (status) status.textContent = '';
+    updateSelectedCapsuleField();
+  });
+}
+
+document.getElementById('choose-capsules-button')?.addEventListener('click', () => {
+  const capsuleSection = document.getElementById('kapsule');
+  if (capsuleSection) capsuleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
 // Do not revive a stale capsule quantity from an earlier visit. Keep saved choices
 // only when returning from a capsule detail page, where the query parameter records
