@@ -424,7 +424,7 @@ function updateSelectedCapsuleField() {
     } else if (minimum > 0) {
       const selectedCount = Array.from(selectedCapsules.values()).reduce((sum, qty) => sum + qty, 0);
       note.textContent = selectedCount < minimum
-        ? `Odaberite ${minimum} kutije kapsula prema željenoj mjesečnoj količini. Možete promijeniti količinu u obrascu prije odabira vrsta.`
+        ? `Odaberite vrste kapsula dok ne dosegnete ukupno ${minimum * 100} kapsula mjesečno. Količinu možete promijeniti u obrascu prije odabira vrsta.`
         : 'Odabrana mjesečna količina je popunjena. Nastavite na upit ili odaberite DA ako želite dodati još kutija.';
     } else {
       note.textContent = 'Najprije odaberite aparat ili vrstu upita, a zatim izaberite kapsule.';
@@ -495,10 +495,9 @@ document.querySelectorAll('.model-select').forEach(button => {
     if (noExtra) noExtra.checked = true;
     if (status) status.textContent = '';
     updateSelectedCapsuleField();
-    const capsuleSection = document.getElementById('kapsule');
-    if (capsuleSection) capsuleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    const note = document.getElementById('capsule-selection-note');
-    if (note) note.focus?.({ preventScroll: true });
+    const enquirySection = document.getElementById('narudzba');
+    if (enquirySection) enquirySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (monthlyQuantityField && !monthlyQuantityField.disabled) monthlyQuantityField.focus({ preventScroll: true });
   });
 });
 
