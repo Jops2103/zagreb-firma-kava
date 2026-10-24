@@ -950,3 +950,53 @@ if (capsuleFromDetail && capsuleField && topicField) {
   if (typeof portrait.addEventListener === 'function') portrait.addEventListener('change', scheduleParallax);
   updateParallax();
 })();
+
+
+/* Existing customers can request a monthly capsule quantity change. */
+(function setupCustomerQuantityChange(){
+  const form = document.getElementById('customer-change-form');
+  const model = document.getElementById('change-model');
+  const quantity = document.getElementById('change-quantity');
+  const note = document.getElementById('change-quantity-note');
+  const status = document.getElementById('customer-change-status');
+  if (!form || !model || !quantity) return;
+  const minimums = {
+    'Lavazza LB 300 mini': 200,
+    'Lavazza LB 1200 Classy & Milk': 300
+  };
+  function configure(){
+    const minimum = minimums[model.value];
+    quantity.replaceChildren();
+    if (!minimum) {
+      quantity.add(new Option('Najprije odaberite aparat', ''));
+      quantity.disabled = true;
+      if (note) note.textContent = 'Odaberite aparat kako bi se prikazale dostupne količine.';
+      return;
+    }
+    quantity.add(new Option('Odaberite novu količinu', ''));
+    for (let amount = minimum; amount <= minimum + 1000; amount += 100) {
+      quantity.add(new Option(amount + ' kapsula mjesečno (' + amount / 100 + (amount === 100 ? ' kutija)' : ' kutija)'), String(amount));
+    }
+    quantity.disabled = false;
+    if (note) note.textContent = 'Minimalno ' + minimum + ' kapsula mjesečno za odabrani aparat. Odabir je u koracima od 100 kapsula.';
+  }
+  model.addEventListener('change', configure);
+  form.addEventListener('submit', event => {
+    const minimum = minimums[model.value];
+    const amount = Number(quantity.value);
+    if (!minimum || !Number.isFinite(amount) || amount < minimum || amount % 100 !== 0) {
+      event.preventDefault();
+      if (status) status.textContent = 'Odaberite aparat i valjanu mjesečnu količinu prije slanja zahtjeva.';
+      quantity.focus();
+      return;
+    }
+    if (status) status.textContent = 'Zahtjev se šalje…';
+  });
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('promjena-poslana') === '1' || params.has('promjena-poslana')) {
+    if (status) status.textContent = 'Hvala! Zahtjev je poslan. Potvrdit ćemo promjenu e-mailom.';
+    params.delete('promjena-poslana');
+    const query = params.toString();
+    window.history.replaceState({}, document.title, window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+  }
+})();
