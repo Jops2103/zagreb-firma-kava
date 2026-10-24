@@ -18,7 +18,7 @@
 <header class="header">
   <a class="brand" href="#pocetna" aria-label="ZFK — Zagreb Fina Kava, početna"><span class="mark">ZFK</span><span class="brand-name">ZAGREB FINA KAVA</span></a>
   <button class="menu" aria-expanded="false" aria-label="Otvori izbornik">☰</button>
-  <nav aria-label="Glavni izbornik"><a href="#ponuda">Aparati</a><a href="#vodic">Vodič</a><a href="#kapsule">Kapsule</a><a href="#kako-radi">Kako funkcionira</a><a href="#narudzba" class="navbtn">Pošalji upit</a></nav>
+  <nav aria-label="Glavni izbornik"><a href="#ponuda">Aparati</a><a href="#vodic">Vodič</a><a href="#kapsule">Kapsule</a><a href="#kako-radi">Kako funkcionira</a><a href="#promjena-kolicine">Postojeći korisnici</a><a href="#narudzba" class="navbtn">Pošalji upit</a></nav>
 </header>
 <main>
   <section class="hero" id="pocetna">
@@ -248,6 +248,30 @@
       </a>
       <button class="capsule-select" type="button" data-capsule="Lavazza Blue Espresso Decaffeinato Soave kapsule (bez kofeina) 100% Arabica 100 kom">Odaberite kapsule</button>
     </div>
+  </section>
+
+  <section class="section customer-change-section" id="promjena-kolicine">
+    <div class="section-heading">
+      <p class="eyebrow">ZA POSTOJEĆE KORISNIKE</p>
+      <h2>Promijenite mjesečnu <span>količinu kapsula</span></h2>
+      <p>Želite povećati ili smanjiti svoju redovitu mjesečnu narudžbu? Pošaljite nam zahtjev. Promjena stupa na snagu nakon što potvrdimo nove uvjete s vama.</p>
+    </div>
+    <form id="customer-change-form" action="https://formsubmit.co/zagrebfinakava@proton.me" method="POST" class="customer-change-form">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" style="position:absolute;left:-5000px">
+      <input type="hidden" name="_subject" value="Zahtjev postojećeg korisnika — promjena mjesečne količine kapsula">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://jops2103.github.io/zagreb-firma-kava/?promjena-poslana#promjena-kolicine">
+      <div class="field"><label for="change-name">Ime i prezime / naziv firme *</label><input id="change-name" name="Ime i prezime / naziv firme" required autocomplete="name" placeholder="Ime ili naziv firme"></div>
+      <div class="field"><label for="change-email">E-mail povezan s postojećom narudžbom *</label><input id="change-email" name="E-mail korisnika" type="email" required autocomplete="email" placeholder="ime@primjer.hr"></div>
+      <div class="field full"><label for="change-model">Vaš aparat *</label><select id="change-model" name="Postojeći aparat" required><option value="">Odaberite aparat</option><option value="Lavazza LB 300 mini">Lavazza LB 300 mini — minimum 200 kapsula mjesečno</option><option value="Lavazza LB 1200 Classy & Milk">Lavazza LB 1200 Classy &amp; Milk — minimum 300 kapsula mjesečno</option></select></div>
+      <div class="field full"><label for="change-quantity">Nova željena mjesečna količina *</label><select id="change-quantity" name="Nova željena mjesečna količina" required disabled><option value="">Najprije odaberite aparat</option></select><span id="change-quantity-note" class="form-note">Količine se biraju u koracima od 100 kapsula. Primjenjuje se minimalna količina za odabrani aparat.</span></div>
+      <div class="field full"><label for="change-direction">Vrsta promjene *</label><select id="change-direction" name="Vrsta promjene" required><option value="">Odaberite</option><option>Povećanje mjesečne količine</option><option>Smanjenje mjesečne količine</option><option>Želim razgovarati o promjeni</option></select></div>
+      <div class="field full"><label for="change-reference">Broj postojeće narudžbe (ako ga imate)</label><input id="change-reference" name="Broj postojeće narudžbe" placeholder="Nije obavezno"></div>
+      <div class="field full"><label for="change-message">Dodatna napomena</label><textarea id="change-message" name="Dodatna napomena" rows="3" placeholder="Primjerice, od kojeg mjeseca želite promjenu."></textarea></div>
+      <label class="consent full"><input id="change-consent" type="checkbox" name="Obavijest o privatnosti" value="Pročitao/la sam obavijest o obradi osobnih podataka" required> Pročitao/la sam <a href="privatnost.html">Izjavu o privatnosti i korištenju osobnih podataka ZFK-a</a> te razumijem da će se podaci koristiti za obradu ovog zahtjeva. *</label>
+      <p class="form-note full">Slanje zahtjeva ne mijenja automatski postojeći dogovor. Potvrdit ćemo vam novu količinu i datum početka promjene.</p>
+      <div class="full form-actions"><button class="btn primary" type="submit">Zatraži promjenu količine <span aria-hidden="true">↗</span></button><p id="customer-change-status" class="status" role="status" aria-live="polite"></p></div>
+    </form>
   </section>
 
   <section class="section order-section" id="narudzba"><div class="section-heading"><p class="eyebrow">KONTAKT I UPIT</p><h2>Pošaljite <span>upit</span></h2><p>Ispunite obrazac kako bismo vas mogli kontaktirati i potvrditi detalje ponude.</p></div>
